@@ -1,0 +1,26 @@
+---
+
+- block:
+    - when: funkwhale_enabled | bool
+      ansible.builtin.include_tasks: "{{ role_path }}/tasks/validate_config.yml"
+  tags:
+    - setup-all
+    - setup-funkwhale
+    - install-all
+    - install-funkwhale
+
+- block:
+    - when: funkwhale_enabled | bool
+      ansible.builtin.include_tasks: "{{ role_path }}/tasks/install.yml"
+  tags:
+    - setup-all
+    - setup-funkwhale
+    - install-all
+    - install-funkwhale
+
+- block:
+    - when: not funkwhale_enabled | bool
+      ansible.builtin.include_tasks: "{{ role_path }}/tasks/uninstall.yml"
+  tags:
+    - setup-all
+    - setup-funkwhale
