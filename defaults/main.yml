@@ -25,7 +25,7 @@ funkwhale_music_path: "{{ funkwhale_base_path }}/music"
 funkwhale_database_hostname: ''
 funkwhale_database_port: 5432
 funkwhale_database_name: funkwhale
-funkwhale_database_username: funkwhale
+funkwhale_database_username: ''
 funkwhale_database_password: ''
 # Use this to set the sslmode parameter of the SSL connection
 # By default, we expect a local container (without SSL), so attempting SSL connections is not necessary.
@@ -48,6 +48,9 @@ funkwhale_container_network: '{{ funkwhale_identifier }}'
 funkwhale_container_image_registry_prefix: docker.io/
 
 funkwhale_django_secret_key: ''
+
+# Must be one of debug, info, warning, error, critical
+funkwhale_loglevel: error
 
 #########
 ## API ##
