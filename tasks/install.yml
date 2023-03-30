@@ -75,4 +75,3 @@
     - {src: "{{ role_path }}/templates/systemd/funkwhale-api.service.j2", dest: "{{ devture_systemd_docker_base_systemd_path }}/{{ funkwhale_api_identifier }}.service"}
     - {src: "{{ role_path }}/templates/systemd/funkwhale-celery-beat.service.j2", dest: "{{ devture_systemd_docker_base_systemd_path }}/{{ funkwhale_celery_beat_identifier }}.service"}
     - {src: "{{ role_path }}/templates/systemd/funkwhale-celery-worker.service.j2", dest: "{{ devture_systemd_docker_base_systemd_path }}/{{ funkwhale_celery_worker_identifier }}.service"}
-    

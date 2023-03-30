@@ -3,6 +3,8 @@
 funkwhale_enabled: true
 funkwhale_identifier: funkwhale
 
+funkwhale_version: "1.3.0-rc5"
+
 funkwhale_hostname: ''
 
 funkwhale_uid: ''
@@ -16,6 +18,10 @@ funkwhale_api_base_path: "{{ funkwhale_base_path }}/api"
 funkwhale_celery_beat_base_path: "{{ funkwhale_base_path }}/celery-beat"
 funkwhale_celery_worker_base_path: "{{ funkwhale_base_path }}celery-worker"
 
+funkwhale_data_path: "{{ funkwhale_base_path }}/data"
+funkwhale_static_path: "{{ funkwhale_base_path }}/static"
+funkwhale_music_path: "{{ funkwhale_base_path }}/music"
+
 funkwhale_database_hostname: ''
 funkwhale_database_port: 5432
 funkwhale_database_name: funkwhale
@@ -25,20 +31,33 @@ funkwhale_database_password: ''
 # By default, we expect a local container (without SSL), so attempting SSL connections is not necessary.
 funkwhale_database_sslmode: disable
 
-funkwhale_version: "1.3.0-rc5"
+# Can be one of `consolemail://`, `dummymail://`, `smtp://`, `smtp+ssl://` and `smtp+tls://`
+# the default outputs e-mail in the console (journalctl -fu mash-funkwhale-api)
+funkwhale_email_protocol: "consolemail://"
+funkwhale_email_host: ''
+funkwhale_email_port: ''
+funkwhale_email_username: ''
+funkwhale_email_password: ''
+funkwhale_email_from: "noreply@{{ funkwhale_hostname }}"
+
+funkwhale_account_email_verification_enforce: false
+
 
 funkwhale_container_network: '{{ funkwhale_identifier }}'
 
 funkwhale_container_image_registry_prefix: docker.io/
 
+funkwhale_django_secret_key: ''
+
 #########
 ## API ##
 #########
 
+funkwhale_api_identifier: "{{ funkwhale_identifier }}-api"
 
 funkwhale_api_systemd_required_services_list: ['docker.service']
 
-funkwhale_api_version: {{ funkwhale_version }}
+funkwhale_api_version: "{{ funkwhale_version }}"
 
 funkwhale_api_container_image: "{{ funkwhale_api_container_image_registry_prefix }}funkwhale/api:{{ funkwhale_api_container_image_tag }}"
 funkwhale_api_container_image_registry_prefix: "{{ funkwhale_container_image_registry_prefix }}"
@@ -46,6 +65,8 @@ funkwhale_api_container_image_tag: "{{ funkwhale_api_version }}"
 funkwhale_api_container_image_force_pull: "{{ funkwhale_api_container_image.endswith(':latest') }}"
 
 funkwhale_api_container_network: '{{ funkwhale_container_network }}'
+
+funkwhale_api_container_port: 5000
 
 # Controls whether the funkwhale container exposes its HTTP port (as defined by `funkwhale_container_http_port`).
 #
@@ -56,7 +77,6 @@ funkwhale_api_container_http_host_bind_port: ""
 # The role does not create these networks, so make sure they already exist.
 # Use this to expose this container to a reverse proxy, which runs in a different container network.
 funkwhale_api_container_additional_networks: []
-
 
 
 # funkwhale_container_labels_traefik_enabled controls whether labels to assist a Traefik reverse-proxy will be attached to the container.
@@ -157,8 +177,13 @@ funkwhale_api_container_labels_additional_labels: ''
 ## FRONTEND ##
 ##############
 
+funkwhale_frontend_identifier: "{{ funkwhale_identifier }}-frontend"
 
-funkwhale_frontend_version: {{ funkwhale_version }}
+funkwhale_frontend_version: "{{ funkwhale_version }}"
+
+# The number of web workers to start in parallel. Higher means you can handle
+# more concurrent requests, but also leads to higher CPU/Memory usage
+funkwhale_frontend_web_workers: 2
 
 funkwhale_frontend_container_image: "{{ funkwhale_frontend_container_image_registry_prefix }}funkwhale/api:{{ funkwhale_frontend_container_image_tag }}"
 funkwhale_frontend_container_image_registry_prefix: "{{ funkwhale_container_image_registry_prefix }}"
@@ -177,7 +202,7 @@ funkwhale_frontend_container_http_host_bind_port: ""
 # Use this to expose this container to a reverse proxy, which runs in a different container network.
 funkwhale_frontend_container_additional_networks: []
 
-
+funkwhale_frontend_max_body_size: 100M
 
 # funkwhale_container_labels_traefik_enabled controls whether labels to assist a Traefik reverse-proxy will be attached to the container.
 # See `roles/custom/funkwhale_funkwhale/templates/labels.j2` for details.
@@ -273,33 +298,11 @@ funkwhale_frontend_hsts_preload_enabled: false
 #   another.label="here"
 funkwhale_frontend_container_labels_additional_labels: ''
 
-###################
-## CELERY-WORKER ##
-###################
-
-funkwhale_celery_worker_version: {{ funkwhale_version }}
-
-funkwhale_celery_worker_container_image: "{{ funkwhale_celery_worker_container_image_registry_prefix }}funkwhale/api:{{ funkwhale_celery_worker_container_image_tag }}"
-funkwhale_celery_worker_container_image_registry_prefix: "{{ funkwhale_container_image_registry_prefix }}"
-funkwhale_celery_worker_container_image_tag: "{{ funkwhale_celery_worker_version }}"
-funkwhale_celery_worker_container_image_force_pull: "{{ funkwhale_celery_worker_container_image.endswith(':latest') }}"
-
-funkwhale_celery_worker_container_network: '{{ funkwhale_container_network }}'
-
-# Controls whether the funkwhale container exposes its HTTP port (as defined by `funkwhale_container_http_port`).
-#
-# Takes an "<ip>:<port>" or "<port>" value (e.g. "127.0.0.1:8731"), or empty string to not expose.
-funkwhale_celery_worker_container_http_host_bind_port: ""
-
-# A list of additional container networks that the container would be connected to.
-# The role does not create these networks, so make sure they already exist.
-# Use this to expose this container to a reverse proxy, which runs in a different container network.
-funkwhale_celery_worker_container_additional_networks: []
-
-
 #################
 ## CELERY-BEAT ##
 #################
+
+funkwhale_celery_beat_identifier: "{{ funkwhale_identifier }}-celery-beat"
 
 funkwhale_celery_beat_version: {{ funkwhale_version }}
 
@@ -319,3 +322,35 @@ funkwhale_celery_beat_container_http_host_bind_port: ""
 # The role does not create these networks, so make sure they already exist.
 # Use this to expose this container to a reverse proxy, which runs in a different container network.
 funkwhale_celery_beat_container_additional_networks: []
+
+###################
+## CELERY-WORKER ##
+###################
+
+funkwhale_celery_worker_identifier: "{{ funkwhale_identifier }}-celery-worker"
+
+funkwhale_celery_worker_version: {{ funkwhale_version }}
+
+# Number of worker processes to execute. Defaults to 0, in which case it uses your number of CPUs
+# Celery workers handle background tasks (such file imports or federation
+# messaging). The more processes a worker gets, the more tasks
+# can be processed in parallel. However, more processes also means
+# a bigger memory footprint.
+funkwhale_celery_worker_concurrency: 0
+
+funkwhale_celery_worker_container_image: "{{ funkwhale_celery_worker_container_image_registry_prefix }}funkwhale/api:{{ funkwhale_celery_worker_container_image_tag }}"
+funkwhale_celery_worker_container_image_registry_prefix: "{{ funkwhale_container_image_registry_prefix }}"
+funkwhale_celery_worker_container_image_tag: "{{ funkwhale_celery_worker_version }}"
+funkwhale_celery_worker_container_image_force_pull: "{{ funkwhale_celery_worker_container_image.endswith(':latest') }}"
+
+funkwhale_celery_worker_container_network: '{{ funkwhale_container_network }}'
+
+# Controls whether the funkwhale container exposes its HTTP port (as defined by `funkwhale_container_http_port`).
+#
+# Takes an "<ip>:<port>" or "<port>" value (e.g. "127.0.0.1:8731"), or empty string to not expose.
+funkwhale_celery_worker_container_http_host_bind_port: ""
+
+# A list of additional container networks that the container would be connected to.
+# The role does not create these networks, so make sure they already exist.
+# Use this to expose this container to a reverse proxy, which runs in a different container network.
+funkwhale_celery_worker_container_additional_networks: []

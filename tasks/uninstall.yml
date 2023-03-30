@@ -22,7 +22,7 @@
     - {service: "{{{ funkwhale_api_identifier }}.service", path: "{{ devture_systemd_docker_base_systemd_path }}/{{ funkwhale_api_identifier }}.service"}
     - {service: "{{ funkwhale_celery_beat_identifier }}.service", path: "{{ devture_systemd_docker_base_systemd_path }}/{{ funkwhale_celery_beat_identifier }}.service"}
     - {service: "{{ funkwhale_celery_worker_identifier }}.service", path: "{{ devture_systemd_docker_base_systemd_path }}/{{ funkwhale_celery_worker_identifier }}.service"}
-    
+
 
 - name: Ensure funkwhale base path is files deleted
   ansible.builtin.file:
