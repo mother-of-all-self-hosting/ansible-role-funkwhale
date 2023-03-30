@@ -5,17 +5,6 @@ funkwhale_identifier: funkwhale
 
 funkwhale_hostname: ''
 
-# String. Domain to use when federating profiles. This is useful when you want your server to be at
-# eg., "music.example.org", but you want the domain on accounts to be "example.org" because it looks better
-# or is just shorter/easier to remember.
-
-# DO NOT change this after your server has already run once, or you will break things!
-#
-# Please read the appropriate section of the installation guide before you go messing around with this setting. You most likely have to use
-# `funkwhale_container_labels_additional_labels` to set appropriate labels on the parent domain. Docs:
-# https://docs.funkwhale.org/en/latest/installation_guide/advanced/#can-i-host-my-instance-at-fediexampleorg-but-have-just-exampleorg-in-my-username
-funkwhale_account_domain: "{{ funkwhale_hostname }}"
-
 funkwhale_uid: ''
 funkwhale_gid: ''
 
