@@ -20,7 +20,13 @@ funkwhale_celery_worker_base_path: "{{ funkwhale_base_path }}celery-worker"
 
 funkwhale_data_path: "{{ funkwhale_base_path }}/data"
 funkwhale_static_path: "{{ funkwhale_base_path }}/static"
+# The `funkwhale_media_path` defines where the media is stored
+funkwhale_media_path: "{{ funkwhale_base_path }}/media"
+# The `funkwhale_music_path` defines a place where you can put music that can then be imported into funkwhale.
 funkwhale_music_path: "{{ funkwhale_base_path }}/music"
+
+funkwhale_env_path: "{{ funkwhale_base_path }}/env"
+funkwhale_celery_worker_env_path: "{{ funkwhale_celery_worker_base_path }}/env"
 
 funkwhale_database_hostname: ''
 funkwhale_database_port: 5432
@@ -176,6 +182,8 @@ funkwhale_api_hsts_preload_enabled: false
 #   another.label="here"
 funkwhale_api_container_labels_additional_labels: ''
 
+funkwhale_api_variables_additional_variables: ''
+
 ##############
 ## FRONTEND ##
 ##############
@@ -301,6 +309,8 @@ funkwhale_frontend_hsts_preload_enabled: false
 #   another.label="here"
 funkwhale_frontend_container_labels_additional_labels: ''
 
+funkwhale_frontend_variables_additional_variables: ''
+
 #################
 ## CELERY-BEAT ##
 #################
@@ -325,6 +335,8 @@ funkwhale_celery_beat_container_http_host_bind_port: ""
 # The role does not create these networks, so make sure they already exist.
 # Use this to expose this container to a reverse proxy, which runs in a different container network.
 funkwhale_celery_beat_container_additional_networks: []
+
+funkwhale_celery_beat_variables_additional_variables: ''
 
 ###################
 ## CELERY-WORKER ##
@@ -357,3 +369,5 @@ funkwhale_celery_worker_container_http_host_bind_port: ""
 # The role does not create these networks, so make sure they already exist.
 # Use this to expose this container to a reverse proxy, which runs in a different container network.
 funkwhale_celery_worker_container_additional_networks: []
+
+funkwhale_celery_worker_variables_additional_variables: ''
