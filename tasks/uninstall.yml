@@ -1,0 +1,30 @@
+---
+
+- block:
+  - name: Check existence of funkwhale systemd service
+    ansible.builtin.stat:
+      path: "{{ item.path }}"
+    register: funkwhale_service_stat
+
+  - when: funkwhale_service_stat.stat.exists | bool
+    block:
+      - name: Ensure funkwhale service is stopped
+        ansible.builtin.service:
+          name: "{{ item.service }}"
+          state: stopped
+          daemon_reload: true
+      - name: Ensure funkwhale service doesn't exist
+        ansible.builtin.file:
+          dest: "{{ item.path }}"
+          state: absent
+  with_items:
+    - {service: "{{ funkwhale_frontend_identifier }}.service", path: "{{ devture_systemd_docker_base_systemd_path }}/{{ funkwhale_frontend_identifier }}.service"}
+    - {service: "{{{ funkwhale_api_identifier }}.service", path: "{{ devture_systemd_docker_base_systemd_path }}/{{ funkwhale_api_identifier }}.service"}
+    - {service: "{{ funkwhale_celery_beat_identifier }}.service", path: "{{ devture_systemd_docker_base_systemd_path }}/{{ funkwhale_celery_beat_identifier }}.service"}
+    - {service: "{{ funkwhale_celery_worker_identifier }}.service", path: "{{ devture_systemd_docker_base_systemd_path }}/{{ funkwhale_celery_worker_identifier }}.service"}
+    
+
+- name: Ensure funkwhale base path is files deleted
+  ansible.builtin.file:
+    path: "{{ funkwhale_base_path }}"
+    state: absent
