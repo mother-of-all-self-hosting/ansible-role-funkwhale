@@ -34,7 +34,6 @@ ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} create \
                 --mount type=bind,src={{ funkwhale_static_path }},dst=/srv/funkwhale/data/static,readonly \
                 --mount type=bind,src={{ funkwhale_music_path }},dst=/srv/funkwhale/data/music \
                 --read-only \
-                --env-file={{ funkwhale_env_path }} \
                 --env-file={{ funkwhale_frontend_env_path }} \
                 {{ funkwhale_frontend_container_image }}
 

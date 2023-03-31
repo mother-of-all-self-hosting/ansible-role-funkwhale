@@ -25,10 +25,10 @@ funkwhale_media_path: "{{ funkwhale_base_path }}/media"
 # The `funkwhale_music_path` defines a place where you can put music that can then be imported into funkwhale.
 funkwhale_music_path: "{{ funkwhale_base_path }}/music"
 
-funkwhale_env_path: "{{ funkwhale_base_path }}/env"
-funkwhale_celery_worker_env_path: "{{ funkwhale_celery_worker_base_path }}/env"
+funkwhale_frontend_env_path: "{{ funkwhale_frontend_base_path }}/env"
+funkwhale_api_env_path: "{{ funkwhale_frontend_base_path }}/env"
 
-funkwhale_database_hostname: ''
+funkwhale_database_host: ''
 funkwhale_database_port: 5432
 funkwhale_database_name: funkwhale
 funkwhale_database_username: ''
@@ -61,6 +61,8 @@ funkwhale_loglevel: error
 #########
 ## API ##
 #########
+
+funkwhale_api_hostname: "{{ funkwhale_hostname }}"
 
 funkwhale_api_identifier: "{{ funkwhale_identifier }}-api"
 
@@ -96,28 +98,28 @@ funkwhale_api_container_labels_traefik_enabled: false
 funkwhale_api_container_labels_traefik_docker_network: ""
 funkwhale_api_container_labels_traefik_entrypoints: web-secure
 funkwhale_api_container_labels_traefik_priority: 0
-funkwhale_api_container_labels_traefik_tls: "{{ funkwhale_container_labels_traefik_entrypoints != 'web' }}"
+funkwhale_api_container_labels_traefik_tls: "{{ funkwhale_api_container_labels_traefik_entrypoints != 'web' }}"
 funkwhale_api_container_labels_traefik_tls_certResolver: default  # noqa var-naming
 
 # Controls which additional headers to attach to all HTTP requests.
 # To add your own custom request headers, use `funkwhale_container_labels_traefik_additional_response_headers_custom`
-funkwhale_api_container_labels_traefik_additional_request_headers: "{{ funkwhale_container_labels_traefik_additional_request_headers_auto | combine(funkwhale_container_labels_traefik_additional_request_headers_custom) }}"
+funkwhale_api_container_labels_traefik_additional_request_headers: "{{ funkwhale_api_container_labels_traefik_additional_request_headers_auto | combine(funkwhale_api_container_labels_traefik_additional_request_headers_custom) }}"
 funkwhale_api_container_labels_traefik_additional_request_headers_auto: {}
 funkwhale_api_container_labels_traefik_additional_request_headers_custom: {}
 
 
 # Controls which additional headers to attach to all HTTP responses.
 # To add your own custom response headers, use `funkwhale_container_labels_traefik_additional_response_headers_custom`
-funkwhale_api_container_labels_traefik_additional_response_headers: "{{ funkwhale_container_labels_traefik_additional_response_headers_auto | combine(funkwhale_container_labels_traefik_additional_response_headers_custom) }}"
+funkwhale_api_container_labels_traefik_additional_response_headers: "{{ funkwhale_api_container_labels_traefik_additional_response_headers_auto | combine(funkwhale_api_container_labels_traefik_additional_response_headers_custom) }}"
 funkwhale_api_container_labels_traefik_additional_response_headers_auto: |
   {{
     {}
-    | combine ({'X-XSS-Protection': funkwhale_http_header_xss_protection} if funkwhale_http_header_xss_protection else {})
-    | combine ({'X-Frame-Options': funkwhale_http_header_frame_options} if funkwhale_http_header_frame_options else {})
-    | combine ({'X-Content-Type-Options': funkwhale_http_header_content_type_options} if funkwhale_http_header_content_type_options else {})
-    | combine ({'Content-Security-Policy': funkwhale_http_header_content_security_policy} if funkwhale_http_header_content_security_policy else {})
-    | combine ({'Permission-Policy': funkwhale_http_header_content_permission_policy} if funkwhale_http_header_content_permission_policy else {})
-    | combine ({'Strict-Transport-Security': funkwhale_http_header_strict_transport_security} if funkwhale_http_header_strict_transport_security and funkwhale_container_labels_traefik_tls else {})
+    | combine ({'X-XSS-Protection': funkwhale_api_http_header_xss_protection} if funkwhale_api_http_header_xss_protection else {})
+    | combine ({'X-Frame-Options': funkwhale_api_http_header_frame_options} if funkwhale_api_http_header_frame_options else {})
+    | combine ({'X-Content-Type-Options': funkwhale_api_http_header_content_type_options} if funkwhale_api_http_header_content_type_options else {})
+    | combine ({'Content-Security-Policy': funkwhale_api_http_header_content_security_policy} if funkwhale_api_http_header_content_security_policy else {})
+    | combine ({'Permission-Policy': funkwhale_api_http_header_content_permission_policy} if funkwhale_api_http_header_content_permission_policy else {})
+    | combine ({'Strict-Transport-Security': funkwhale_api_http_header_strict_transport_security} if funkwhale_api_http_header_strict_transport_security and funkwhale_api_container_labels_traefik_tls else {})
   }}
 funkwhale_api_container_labels_traefik_additional_response_headers_custom: {}
 
@@ -143,11 +145,11 @@ funkwhale_api_http_header_content_security_policy: frame-ancestors 'self'
 
 # Specifies the value of the `Permission-Policy` header.
 # See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Permission-Policy
-funkwhale_api_http_header_content_permission_policy: "{{ 'interest-cohort=()' if funkwhale_floc_optout_enabled else '' }}"
+funkwhale_api_http_header_content_permission_policy: "{{ 'interest-cohort=()' if funkwhale_api_floc_optout_enabled else '' }}"
 
 # Specifies the value of the `Strict-Transport-Security` header.
 # See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security
-funkwhale_api_http_header_strict_transport_security: "max-age=31536000; includeSubDomains{{ '; preload' if funkwhale_hsts_preload_enabled else '' }}"
+funkwhale_api_http_header_strict_transport_security: "max-age=31536000; includeSubDomains{{ '; preload' if funkwhale_api_hsts_preload_enabled else '' }}"
 
 # Controls whether to send a "Permissions-Policy interest-cohort=();" header along with all responses
 #
@@ -188,6 +190,8 @@ funkwhale_api_variables_additional_variables: ''
 ## FRONTEND ##
 ##############
 
+funkwhale_frontend_hostname: "{{ funkwhale_hostname }}"
+
 funkwhale_frontend_identifier: "{{ funkwhale_identifier }}-frontend"
 
 funkwhale_frontend_version: "{{ funkwhale_version }}"
@@ -196,12 +200,16 @@ funkwhale_frontend_version: "{{ funkwhale_version }}"
 # more concurrent requests, but also leads to higher CPU/Memory usage
 funkwhale_frontend_web_workers: 2
 
+funkwhale_frontend_systemd_required_services_list: ['docker.service', '{{ funkwhale_api_identifier }}.service']
+
 funkwhale_frontend_container_image: "{{ funkwhale_frontend_container_image_registry_prefix }}funkwhale/api:{{ funkwhale_frontend_container_image_tag }}"
 funkwhale_frontend_container_image_registry_prefix: "{{ funkwhale_container_image_registry_prefix }}"
 funkwhale_frontend_container_image_tag: "{{ funkwhale_frontend_version }}"
 funkwhale_frontend_container_image_force_pull: "{{ funkwhale_frontend_container_image.endswith(':latest') }}"
 
 funkwhale_frontend_container_network: '{{ funkwhale_container_network }}'
+
+funkwhale_frontend_container_http_port: 80
 
 # Controls whether the funkwhale container exposes its HTTP port (as defined by `funkwhale_container_http_port`).
 #
@@ -223,28 +231,28 @@ funkwhale_frontend_container_labels_traefik_enabled: false
 funkwhale_frontend_container_labels_traefik_docker_network: ""
 funkwhale_frontend_container_labels_traefik_entrypoints: web-secure
 funkwhale_frontend_container_labels_traefik_priority: 0
-funkwhale_frontend_container_labels_traefik_tls: "{{ funkwhale_container_labels_traefik_entrypoints != 'web' }}"
+funkwhale_frontend_container_labels_traefik_tls: "{{ funkwhale_api_container_labels_traefik_entrypoints != 'web' }}"
 funkwhale_frontend_container_labels_traefik_tls_certResolver: default  # noqa var-naming
 
 # Controls which additional headers to attach to all HTTP requests.
 # To add your own custom request headers, use `funkwhale_container_labels_traefik_additional_response_headers_custom`
-funkwhale_frontend_container_labels_traefik_additional_request_headers: "{{ funkwhale_container_labels_traefik_additional_request_headers_auto | combine(funkwhale_container_labels_traefik_additional_request_headers_custom) }}"
+funkwhale_frontend_container_labels_traefik_additional_request_headers: "{{ funkwhale_frontend_container_labels_traefik_additional_request_headers_auto | combine(funkwhale_frontend_container_labels_traefik_additional_request_headers_custom) }}"
 funkwhale_frontend_container_labels_traefik_additional_request_headers_auto: {}
 funkwhale_frontend_container_labels_traefik_additional_request_headers_custom: {}
 
 
 # Controls which additional headers to attach to all HTTP responses.
 # To add your own custom response headers, use `funkwhale_container_labels_traefik_additional_response_headers_custom`
-funkwhale_frontend_container_labels_traefik_additional_response_headers: "{{ funkwhale_container_labels_traefik_additional_response_headers_auto | combine(funkwhale_container_labels_traefik_additional_response_headers_custom) }}"
+funkwhale_frontend_container_labels_traefik_additional_response_headers: "{{ funkwhale_frontend_container_labels_traefik_additional_response_headers_auto | combine(funkwhale_frontend_container_labels_traefik_additional_response_headers_custom) }}"
 funkwhale_frontend_container_labels_traefik_additional_response_headers_auto: |
   {{
     {}
-    | combine ({'X-XSS-Protection': funkwhale_http_header_xss_protection} if funkwhale_http_header_xss_protection else {})
-    | combine ({'X-Frame-Options': funkwhale_http_header_frame_options} if funkwhale_http_header_frame_options else {})
-    | combine ({'X-Content-Type-Options': funkwhale_http_header_content_type_options} if funkwhale_http_header_content_type_options else {})
-    | combine ({'Content-Security-Policy': funkwhale_http_header_content_security_policy} if funkwhale_http_header_content_security_policy else {})
-    | combine ({'Permission-Policy': funkwhale_http_header_content_permission_policy} if funkwhale_http_header_content_permission_policy else {})
-    | combine ({'Strict-Transport-Security': funkwhale_http_header_strict_transport_security} if funkwhale_http_header_strict_transport_security and funkwhale_container_labels_traefik_tls else {})
+    | combine ({'X-XSS-Protection': funkwhale_frontend_http_header_xss_protection} if funkwhale_frontend_http_header_xss_protection else {})
+    | combine ({'X-Frame-Options': funkwhale_frontend_http_header_frame_options} if funkwhale_frontend_http_header_frame_options else {})
+    | combine ({'X-Content-Type-Options': funkwhale_frontend_http_header_content_type_options} if funkwhale_frontend_http_header_content_type_options else {})
+    | combine ({'Content-Security-Policy': funkwhale_frontend_http_header_content_security_policy} if funkwhale_frontend_http_header_content_security_policy else {})
+    | combine ({'Permission-Policy': funkwhale_frontend_http_header_content_permission_policy} if funkwhale_frontend_http_header_content_permission_policy else {})
+    | combine ({'Strict-Transport-Security': funkwhale_frontend_http_header_strict_transport_security} if funkwhale_frontend_http_header_strict_transport_security and funkwhale_frontend_container_labels_traefik_tls else {})
   }}
 funkwhale_frontend_container_labels_traefik_additional_response_headers_custom: {}
 
@@ -270,11 +278,11 @@ funkwhale_frontend_http_header_content_security_policy: frame-ancestors 'self'
 
 # Specifies the value of the `Permission-Policy` header.
 # See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Permission-Policy
-funkwhale_frontend_http_header_content_permission_policy: "{{ 'interest-cohort=()' if funkwhale_floc_optout_enabled else '' }}"
+funkwhale_frontend_http_header_content_permission_policy: "{{ 'interest-cohort=()' if funkwhale_frontend_floc_optout_enabled else '' }}"
 
 # Specifies the value of the `Strict-Transport-Security` header.
 # See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security
-funkwhale_frontend_http_header_strict_transport_security: "max-age=31536000; includeSubDomains{{ '; preload' if funkwhale_hsts_preload_enabled else '' }}"
+funkwhale_frontend_http_header_strict_transport_security: "max-age=31536000; includeSubDomains{{ '; preload' if funkwhale_frontend_hsts_preload_enabled else '' }}"
 
 # Controls whether to send a "Permissions-Policy interest-cohort=();" header along with all responses
 #
@@ -317,19 +325,13 @@ funkwhale_frontend_variables_additional_variables: ''
 
 funkwhale_celery_beat_identifier: "{{ funkwhale_identifier }}-celery-beat"
 
-funkwhale_celery_beat_version: {{ funkwhale_version }}
+funkwhale_celery_beat_version: "{{ funkwhale_version }}"
 
-funkwhale_celery_beat_container_image: "{{ funkwhale_celery_beat_container_image_registry_prefix }}funkwhale/api:{{ funkwhale_celery_beat_container_image_tag }}"
-funkwhale_celery_beat_container_image_registry_prefix: "{{ funkwhale_container_image_registry_prefix }}"
-funkwhale_celery_beat_container_image_tag: "{{ funkwhale_celery_beat_version }}"
-funkwhale_celery_beat_container_image_force_pull: "{{ funkwhale_celery_beat_container_image.endswith(':latest') }}"
+funkwhale_celery_beat_concurrency: 0
 
 funkwhale_celery_beat_container_network: '{{ funkwhale_container_network }}'
 
-# Controls whether the funkwhale container exposes its HTTP port (as defined by `funkwhale_container_http_port`).
-#
-# Takes an "<ip>:<port>" or "<port>" value (e.g. "127.0.0.1:8731"), or empty string to not expose.
-funkwhale_celery_beat_container_http_host_bind_port: ""
+funkwhale_celery_beat_systemd_required_services_list: ['docker.service', '{{ funkwhale_api_identifier }}.service']
 
 # A list of additional container networks that the container would be connected to.
 # The role does not create these networks, so make sure they already exist.
@@ -344,7 +346,9 @@ funkwhale_celery_beat_variables_additional_variables: ''
 
 funkwhale_celery_worker_identifier: "{{ funkwhale_identifier }}-celery-worker"
 
-funkwhale_celery_worker_version: {{ funkwhale_version }}
+funkwhale_celery_worker_version: "{{ funkwhale_version }}"
+
+funkwhale_celery_worker_systemd_required_services_list: ['docker.service', '{{ funkwhale_api_identifier }}.service']
 
 # Number of worker processes to execute. Defaults to 0, in which case it uses your number of CPUs
 # Celery workers handle background tasks (such file imports or federation
@@ -353,17 +357,7 @@ funkwhale_celery_worker_version: {{ funkwhale_version }}
 # a bigger memory footprint.
 funkwhale_celery_worker_concurrency: 0
 
-funkwhale_celery_worker_container_image: "{{ funkwhale_celery_worker_container_image_registry_prefix }}funkwhale/api:{{ funkwhale_celery_worker_container_image_tag }}"
-funkwhale_celery_worker_container_image_registry_prefix: "{{ funkwhale_container_image_registry_prefix }}"
-funkwhale_celery_worker_container_image_tag: "{{ funkwhale_celery_worker_version }}"
-funkwhale_celery_worker_container_image_force_pull: "{{ funkwhale_celery_worker_container_image.endswith(':latest') }}"
-
 funkwhale_celery_worker_container_network: '{{ funkwhale_container_network }}'
-
-# Controls whether the funkwhale container exposes its HTTP port (as defined by `funkwhale_container_http_port`).
-#
-# Takes an "<ip>:<port>" or "<port>" value (e.g. "127.0.0.1:8731"), or empty string to not expose.
-funkwhale_celery_worker_container_http_host_bind_port: ""
 
 # A list of additional container networks that the container would be connected to.
 # The role does not create these networks, so make sure they already exist.
