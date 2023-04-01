@@ -97,8 +97,10 @@ funkwhale_api_container_http_host_bind_port: ""
 
 # A list of additional container networks that the container would be connected to.
 # The role does not create these networks, so make sure they already exist.
-# Use this to expose this container to a reverse proxy, which runs in a different container network.
-funkwhale_api_container_additional_networks: []
+# Use this to expose this container to another reverse proxy, which runs in a different container network.
+funkwhale_api_container_additional_networks: "{{ funkwhale_api_container_additional_networks_auto + funkwhale_api_container_additional_networks_custom }}"
+funkwhale_api_container_additional_networks_auto: []
+funkwhale_api_container_additional_networks_custom: []
 
 
 # funkwhale_container_labels_traefik_enabled controls whether labels to assist a Traefik reverse-proxy will be attached to the container.
@@ -233,8 +235,10 @@ funkwhale_frontend_container_http_host_bind_port: ""
 
 # A list of additional container networks that the container would be connected to.
 # The role does not create these networks, so make sure they already exist.
-# Use this to expose this container to a reverse proxy, which runs in a different container network.
-funkwhale_frontend_container_additional_networks: []
+# Use this to expose this container to another reverse proxy, which runs in a different container network.
+funkwhale_frontend_container_additional_networks: "{{ funkwhale_frontend_container_additional_networks_auto + funkwhale_frontend_container_additional_networks_custom }}"
+funkwhale_frontend_container_additional_networks_auto: []
+funkwhale_frontend_container_additional_networks_custom: []
 
 funkwhale_frontend_max_body_size: 100M
 
