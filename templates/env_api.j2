@@ -43,6 +43,7 @@ DATABASE_URL=postgresql://{{ funkwhale_database_username }}:{{ funkwhale_databas
 
 
 CACHE_URL=redis:/{{ funkwhale_config_redis_hostname }}:{{ funkwhale_config_redis_port }}/{{ funkwhale_config_redis_database }}
+CELERY_BROKER_URL={{ CACHE_URL }}
 
 # Media root inside the container
 MEDIA_ROOT=/srv/funkwhale/data/media
