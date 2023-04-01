@@ -7,7 +7,7 @@
   when: "vars[item] == ''"
   with_items:
     - funkwhale_hostname
-    - funkwhale_database_host
+    - funkwhale_database_hostname
     - funkwhale_database_username
     - funkwhale_database_password
     - funkwhale_django_secret_key

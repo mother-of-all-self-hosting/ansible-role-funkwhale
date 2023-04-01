@@ -1,3 +1,5 @@
+FUNKWHALE_HOSTNAME={{ funkwhale_hostname }}
+
 # Log level (debug, info, warning, error, critical)
 LOGLEVEL={{ funkwhale_loglevel }}
 
@@ -37,25 +39,10 @@ REVERSE_PROXY_TYPE=nginx
 #  DATABASE_URL=postgresql://<user>:<password>@<host>:<port>/<database>
 #  DATABASE_URL=postgresql://funkwhale:passw0rd@localhost:5432/funkwhale_database
 # Use the next one if you followed Debian installation guide
-DATABASE_URL=postgresql://{{ funkwhale_database_username }}:{{ funkwhale_database_password }}@{{ funkwhale_database_host }}:{{ funkwhale_database_port }}/{{ funkwhale_database_name }}
+DATABASE_URL=postgresql://{{ funkwhale_database_username }}:{{ funkwhale_database_password }}@{{ funkwhale_database_hostname }}:{{ funkwhale_database_port }}/{{ funkwhale_database_name }}
 
-# Cache configuration
-# Examples:
-#  CACHE_URL=redis://<host>:<port>/<database>
-#  CACHE_URL=redis://localhost:6379/0c
-#  With a password:
-#  CACHE_URL=redis://:password@localhost:6379/0
-#  (the extra semicolon is important)
-# Use the next one if you followed Debian installation guide
-#
-# CACHE_URL=redis://127.0.0.1:6379/0
-#
-# If you want to use Redis over unix sockets, you'll actually need two variables:
-# For the cache part:
-#  CACHE_URL=redis:///run/redis/redis.sock?db=0
-# For the Celery/asynchronous tasks part:
-#  CELERY_BROKER_URL=redis+socket:///run/redis/redis.sock?virtual_host=0
 
+CACHE_URL=redis:/{{ funkwhale_config_redis_hostname }}:{{ funkwhale_config_redis_port }}/{{ funkwhale_config_redis_database }}
 
 # Media root inside the container
 MEDIA_ROOT=/srv/funkwhale/data/media

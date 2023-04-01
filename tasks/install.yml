@@ -29,6 +29,9 @@
     group: "{{ funkwhale_gid }}"
   with_items:
     - {path: "{{ funkwhale_data_path }}", when: true}
+    - {path: "{{ funkwhale_music_path }}", when: true}
+    - {path: "{{ funkwhale_media_path }}", when: true}
+    - {path: "{{ funkwhale_static_path }}", when: true}
 
 
 - name: Ensure funkwhale traefik labels are installed
