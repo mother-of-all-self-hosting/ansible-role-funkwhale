@@ -42,8 +42,8 @@ REVERSE_PROXY_TYPE=nginx
 DATABASE_URL=postgresql://{{ funkwhale_database_username }}:{{ funkwhale_database_password }}@{{ funkwhale_database_hostname }}:{{ funkwhale_database_port }}/{{ funkwhale_database_name }}
 
 
-CACHE_URL=redis:/{{ funkwhale_config_redis_hostname }}:{{ funkwhale_config_redis_port }}/{{ funkwhale_config_redis_database }}
-CELERY_BROKER_URL={{ CACHE_URL }}
+CACHE_URL={{ funkwhale_config_redis_url }}
+CELERY_BROKER_URL={{ funkwhale_config_redis_url }}
 
 # Media root inside the container
 MEDIA_ROOT=/srv/funkwhale/data/media
