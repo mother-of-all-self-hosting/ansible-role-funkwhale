@@ -32,6 +32,7 @@
     - {path: "{{ funkwhale_music_path }}", when: true}
     - {path: "{{ funkwhale_media_path }}", when: true}
     - {path: "{{ funkwhale_static_path }}", when: true}
+    - {path: "{{ funkwhale_frontend_static_path }}", when: true}
 
 
 - name: Ensure funkwhale traefik labels are installed
