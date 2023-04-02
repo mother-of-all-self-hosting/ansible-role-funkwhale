@@ -16,7 +16,7 @@ funkwhale_base_path: "/{{ funkwhale_identifier }}"
 funkwhale_frontend_base_path: "{{ funkwhale_base_path }}/frontend"
 funkwhale_api_base_path: "{{ funkwhale_base_path }}/api"
 funkwhale_celery_beat_base_path: "{{ funkwhale_base_path }}/celery-beat"
-funkwhale_celery_worker_base_path: "{{ funkwhale_base_path }}celery-worker"
+funkwhale_celery_worker_base_path: "{{ funkwhale_base_path }}/celery-worker"
 
 funkwhale_data_path: "{{ funkwhale_base_path }}/data"
 funkwhale_static_path: "{{ funkwhale_data_path }}/static"
