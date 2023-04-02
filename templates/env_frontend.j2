@@ -7,6 +7,9 @@ FUNKWHALE_PROTOCOL=https
 FUNKWHALE_API_HOST={{ funkwhale_api_identifier }}
 FUNKWHALE_API_PORT={{ funkwhale_api_container_port }}
 
+MEDIA_ROOT=/srv/funkwhale/data/media
+MUSIC_DIRECTORY_PATH=/src/funkwhale/data/music
+
 FUNKWHALE_WEB_WORKERS={{ funkwhale_frontend_web_workers }}
 
 NGINX_MAX_BODY_SIZE={{ funkwhale_frontend_max_body_size}}

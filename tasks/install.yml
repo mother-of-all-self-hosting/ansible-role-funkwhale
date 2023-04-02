@@ -35,6 +35,7 @@
     - {path: "{{ funkwhale_frontend_static_path }}", when: true}
     - {path: "{{ funkwhale_frontend_nginx_run_path }}", when: true}
     - {path: "{{ funkwhale_frontend_nginx_cache_path }}", when: true}
+    - {path: "{{ funkwhale_frontend_nginx_etc_path }}", when: true}
 
 
 - name: Ensure funkwhale traefik labels are installed

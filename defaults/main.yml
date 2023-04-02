@@ -70,6 +70,7 @@ funkwhale_loglevel: error
 #########
 
 funkwhale_api_hostname: "{{ funkwhale_hostname }}"
+funkwhale_api_container_labels_traefik_path_prefix: "/api"
 
 funkwhale_api_identifier: "{{ funkwhale_identifier }}-api"
 
@@ -114,6 +115,9 @@ funkwhale_api_container_labels_traefik_entrypoints: web-secure
 funkwhale_api_container_labels_traefik_priority: 0
 funkwhale_api_container_labels_traefik_tls: "{{ funkwhale_api_container_labels_traefik_entrypoints != 'web' }}"
 funkwhale_api_container_labels_traefik_tls_certResolver: default  # noqa var-naming
+
+funkwhale_api_container_labels_traefik_hostname: "{{ funkwhale_hostname }}"
+funkwhale_api_container_labels_traefik_rule: "Host(`{{ funkwhale_api_container_labels_traefik_hostname }}`) && PathPrefix (`/api/`)"
 
 # Controls which additional headers to attach to all HTTP requests.
 # To add your own custom request headers, use `funkwhale_container_labels_traefik_additional_response_headers_custom`
@@ -216,6 +220,7 @@ funkwhale_frontend_web_workers: 2
 
 funkwhale_frontend_nginx_run_path: /mash/funkwhale/frontend/nginx-run
 funkwhale_frontend_nginx_cache_path: /mash/funkwhale/frontend/nginx-cache
+funkwhale_frontend_nginx_etc_path: /mash/funkwhale/frontend/nginx-etc
 
 # List of systemd services that funkwhale-frontend.service depends on
 funkwhale_frontend_systemd_required_services_list: "{{ funkwhale_frontend_systemd_required_services_list_default + funkwhale_frontend_systemd_required_services_list_auto + funkwhale_frontend_systemd_required_services_list_custom }}"
