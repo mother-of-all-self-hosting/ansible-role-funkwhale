@@ -220,7 +220,7 @@ funkwhale_frontend_systemd_required_services_list_default: ['docker.service', '{
 funkwhale_frontend_systemd_required_services_list_auto: []
 funkwhale_frontend_systemd_required_services_list_custom: []
 
-funkwhale_frontend_container_image: "{{ funkwhale_frontend_container_image_registry_prefix }}funkwhale/api:{{ funkwhale_frontend_container_image_tag }}"
+funkwhale_frontend_container_image: "{{ funkwhale_frontend_container_image_registry_prefix }}funkwhale/front:{{ funkwhale_frontend_container_image_tag }}"
 funkwhale_frontend_container_image_registry_prefix: "{{ funkwhale_container_image_registry_prefix }}"
 funkwhale_frontend_container_image_tag: "{{ funkwhale_frontend_version }}"
 funkwhale_frontend_container_image_force_pull: "{{ funkwhale_frontend_container_image.endswith(':latest') }}"
