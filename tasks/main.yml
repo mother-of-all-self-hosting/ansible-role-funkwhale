@@ -24,3 +24,9 @@
   tags:
     - setup-all
     - setup-funkwhale
+
+- block:
+    - when: funkwhale_enabled | bool
+      ansible.builtin.include_tasks: "{{ role_path }}/tasks/add-superuser.yml"
+  tags:
+    - funkwhale-add-superuser

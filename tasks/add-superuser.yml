@@ -1,0 +1,37 @@
+---
+
+- name: Fail if playbook called incorrectly
+  ansible.builtin.fail:
+    msg: "The `username` variable needs to be provided to this playbook, via --extra-vars"
+  when: "username is not defined or username == '<username>'"
+
+- name: Fail if playbook called incorrectly
+  ansible.builtin.fail:
+    msg: "The `email` variable needs to be provided to this playbook, via --extra-vars"
+  when: "email is not defined or email == '<email>'"
+
+- name: Fail if playbook called incorrectly
+  ansible.builtin.fail:
+    msg: "The `password` variable needs to be provided to this playbook, via --extra-vars"
+  when: "password is not defined or password == '<password>'"
+
+- name: Ensure Funkwhale API is started
+  ansible.builtin.service:
+    name: "{{ funkwhale_api_identifier }}"
+    state: started
+    daemon_reload: true
+  register: start_result
+
+- name: Wait a while, so that the Funkwhale API instance can manage to start
+  ansible.builtin.pause:
+    seconds: 7
+  when: "start_result.changed"
+
+- name: Create superuser
+  ansible.builtin.command:
+    cmd: "{{ devture_systemd_docker_base_host_command_docker }} exec {{ funkwhale_api_identifier }} bash -c 'export DJANGO_SUPERUSER_PASSWORD={{ password }} && funkwhale-manage createsuperuser --noinput --username {{ username | quote }} --email {{ email | quote }}'"
+  register: funkwhale_api_create_account_result
+  failed_when:
+    - '"Superuser created successfully" not in funkwhale_api_create_account_result.stdout and "That username is already taken" not in funkwhale_api_create_account_result.stderr'
+  changed_when:
+    - '"Superuser created successfully" in funkwhale_api_create_account_result.stdout'
