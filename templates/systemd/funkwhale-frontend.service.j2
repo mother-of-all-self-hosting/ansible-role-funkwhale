@@ -25,8 +25,8 @@ ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} create \
                 --mount type=bind,src={{ funkwhale_music_path }},dst=/srv/funkwhale/data/music,readonly \
                 --mount type=bind,src={{ funkwhale_media_path }},dst=/srv/funkwhale/data/media,readonly \
                 --mount type=bind,src={{ funkwhale_static_path }},dst=/srv/funkwhale/data/static,readonly \
-                --mount type=bind,src={{ funkwhale_frontend_static_path }},dst=/app/staticfiles \
-                --tmpfs=/tmp:rw,noexec,nosuid,size=100m \
+                --mount type=bind,src={{ funkwhale_frontend_nginx_run_path }}/mash/funkwhale/frontend/nginx-run,dst=/var/run/nginx \
+                --mount type=bind,src={{ funkwhale_frontend_nginx_cache_path }},dst=/var/cache/nginx \
                 --read-only \
                 --env-file={{ funkwhale_frontend_env_path }} \
                 {{ funkwhale_frontend_container_image }}

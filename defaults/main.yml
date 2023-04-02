@@ -214,6 +214,9 @@ funkwhale_frontend_version: "{{ funkwhale_version }}"
 # more concurrent requests, but also leads to higher CPU/Memory usage
 funkwhale_frontend_web_workers: 2
 
+funkwhale_frontend_nginx_run_path: /mash/funkwhale/frontend/nginx-run
+funkwhale_frontend_nginx_cache_path: /mash/funkwhale/frontend/nginx-cache
+
 # List of systemd services that funkwhale-frontend.service depends on
 funkwhale_frontend_systemd_required_services_list: "{{ funkwhale_frontend_systemd_required_services_list_default + funkwhale_frontend_systemd_required_services_list_auto + funkwhale_frontend_systemd_required_services_list_custom }}"
 funkwhale_frontend_systemd_required_services_list_default: ['docker.service', '{{ funkwhale_api_identifier }}.service']
