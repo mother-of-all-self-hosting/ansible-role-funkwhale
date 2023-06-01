@@ -90,6 +90,9 @@ funkwhale_api_container_image_force_pull: "{{ funkwhale_api_container_image.ends
 
 funkwhale_api_container_network: '{{ funkwhale_container_network }}'
 
+# Increase this if you want to upload a lot of audio files via the web GUI and get "Can' upload file, ensure it's not to big"
+funkwhale_api_tmpfs_size: 500m
+
 funkwhale_api_container_port: 5000
 
 # Controls whether the funkwhale container exposes its HTTP port (as defined by `funkwhale_container_http_port`).
