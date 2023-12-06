@@ -26,8 +26,10 @@ ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} create \
                 --tmpfs=/tmp:rw,noexec,nosuid,size={{ funkwhale_api_tmpfs_size }} \
                 --read-only \
                 --env-file={{ funkwhale_api_env_path }} \
-                {{ funkwhale_api_process_extra_arguments | join(' ') }} \
-                {{ funkwhale_api_container_image }}
+                {% if funkwhale_api_container_extra_arguments | length > 0 %}
+                {{ funkwhale_api_container_extra_arguments | join(' ') }} \
+                {% endif %}
+                {{ funkwhale_api_container_image }} {{ funkwhale_api_process_extra_arguments | join(' ') }}
 
 {% for network in funkwhale_api_container_additional_networks %}
 ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} network connect {{ network }} {{ funkwhale_api_identifier }}
