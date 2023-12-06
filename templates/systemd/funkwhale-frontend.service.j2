@@ -29,8 +29,10 @@ ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} create \
                 --mount type=bind,src={{ funkwhale_media_path }},dst=/srv/funkwhale/data/media,readonly \
                 --mount type=bind,src={{ funkwhale_static_path }},dst=/usr/share/nginx/html/staticfiles,readonly \
                 --env-file={{ funkwhale_frontend_env_path }} \
-                {{ funkwhale_frontend_process_extra_arguments | join(' ') }} \
-                {{ funkwhale_frontend_container_image }}
+                {% if funkwhale_frontend_container_extra_arguments | length > 0 %}
+                {{ funkwhale_frontend_container_extra_arguments | join(' ') }} \
+                {% endif %}
+                {{ funkwhale_frontend_container_image }} {{ funkwhale_frontend_process_extra_arguments | join(' ') }}
 
 {% for network in funkwhale_frontend_container_additional_networks %}
 ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} network connect {{ network }} {{ funkwhale_frontend_identifier }}
