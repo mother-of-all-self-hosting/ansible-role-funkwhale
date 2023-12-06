@@ -5,7 +5,7 @@
 funkwhale_enabled: true
 funkwhale_identifier: funkwhale
 
-funkwhale_version: "1.3.1"
+funkwhale_version: 1.3.4
 
 funkwhale_hostname: ''
 
