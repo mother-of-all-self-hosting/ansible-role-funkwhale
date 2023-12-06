@@ -207,6 +207,18 @@ funkwhale_api_container_labels_additional_labels: ''
 
 funkwhale_api_variables_additional_variables: ''
 
+# A list of extra arguments to pass to the Funkwhale API container (run) statement
+# To mount a library to the funkwhale/music directory use: ["--mount type=bind,src=LIBRARY_PATH,dst=/srv/funkwhale/data/music,ro"]
+funkwhale_api_container_extra_arguments: "{{ funkwhale_api_container_extra_arguments_auto + funkwhale_api_container_extra_arguments_custom }}"
+funkwhale_api_container_extra_arguments_auto: []
+funkwhale_api_container_extra_arguments_custom: []
+
+# A list of extra arguments to pass to the Funkwhale API process
+# Example: ['--SOME_ARGUMENT']
+funkwhale_api_process_extra_arguments: "{{ funkwhale_api_process_extra_arguments_auto + funkwhale_api_process_extra_arguments_custom }}"
+funkwhale_api_process_extra_arguments_auto: []
+funkwhale_api_process_extra_arguments_custom: []
+
 ##############
 ## FRONTEND ##
 ##############
@@ -350,6 +362,18 @@ funkwhale_frontend_container_labels_additional_labels: ''
 
 funkwhale_frontend_variables_additional_variables: ''
 
+# A list of extra arguments to pass to the Funkwhale frontend container (run) statement
+# To mount a library to the funkwhale/music directory use: ["--mount type=bind,src=LIBRARY_PATH,dst=/srv/funkwhale/data/music,ro"]
+funkwhale_frontend_container_extra_arguments: "{{ funkwhale_frontend_container_extra_arguments_auto + funkwhale_frontend_container_extra_arguments_custom }}"
+funkwhale_frontend_container_extra_arguments_auto: []
+funkwhale_frontend_container_extra_arguments_custom: []
+
+# A list of extra arguments to pass to the Funkwhale frontend process
+# Example: ['--SOME_ARGUMENT']
+funkwhale_frontend_process_extra_arguments: "{{ funkwhale_frontend_process_extra_arguments_auto + funkwhale_frontend_process_extra_arguments_custom }}"
+funkwhale_frontend_process_extra_arguments_auto: []
+funkwhale_frontend_process_extra_arguments_custom: []
+
 #################
 ## CELERY-BEAT ##
 #################
@@ -370,6 +394,13 @@ funkwhale_celery_beat_systemd_required_services_list: ['docker.service', '{{ fun
 funkwhale_celery_beat_container_additional_networks: []
 
 funkwhale_celery_beat_variables_additional_variables: ''
+
+# A list of extra arguments to pass to the Funkwhale celery beat process
+# Example: ['--SOME_ARGUMENT']
+funkwhale_celery_beat_process_extra_arguments: "{{ funkwhale_celery_beat_process_extra_arguments_auto + funkwhale_celery_beat_process_extra_arguments_custom }}"
+funkwhale_celery_beat_process_extra_arguments_auto: []
+funkwhale_celery_beat_process_extra_arguments_custom: []
+
 
 ###################
 ## CELERY-WORKER ##
@@ -396,3 +427,9 @@ funkwhale_celery_worker_container_network: '{{ funkwhale_container_network }}'
 funkwhale_celery_worker_container_additional_networks: []
 
 funkwhale_celery_worker_variables_additional_variables: ''
+
+# A list of extra arguments to pass to the Funkwhale celery worker process
+# Example: ['--SOME_ARGUMENT']
+funkwhale_celery_worker_process_extra_arguments: "{{ funkwhale_celery_worker_process_extra_arguments_auto + funkwhale_celery_worker_process_extra_arguments_custom }}"
+funkwhale_celery_worker_process_extra_arguments_auto: []
+funkwhale_celery_worker_process_extra_arguments_custom: []
