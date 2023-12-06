@@ -207,6 +207,12 @@ funkwhale_api_container_labels_additional_labels: ''
 
 funkwhale_api_variables_additional_variables: ''
 
+# A list of extra arguments to pass to the Funkwhale API container (run) statement
+# Example: ['--api']
+funkwhale_api_container_extra_arguments: "{{ funkwhale_api_container_extra_arguments_auto + funkwhale_api_container_extra_arguments_custom }}"
+funkwhale_api_container_extra_arguments_auto: []
+funkwhale_api_container_extra_arguments_custom: []
+
 # A list of extra arguments to pass to the Funkwhale API process
 # Example: ['--api']
 funkwhale_api_process_extra_arguments: "{{ funkwhale_api_process_extra_arguments_auto + funkwhale_api_process_extra_arguments_custom }}"
@@ -355,6 +361,12 @@ funkwhale_frontend_hsts_preload_enabled: false
 funkwhale_frontend_container_labels_additional_labels: ''
 
 funkwhale_frontend_variables_additional_variables: ''
+
+# A list of extra arguments to pass to the Funkwhale frontend container (run) statement
+# Example: ['--api']
+funkwhale_frontend_container_extra_arguments: "{{ funkwhale_frontend_container_extra_arguments_auto + funkwhale_frontend_container_extra_arguments_custom }}"
+funkwhale_frontend_container_extra_arguments_auto: []
+funkwhale_frontend_container_extra_arguments_custom: []
 
 # A list of extra arguments to pass to the Funkwhale frontend process
 # Example: ['--api']
