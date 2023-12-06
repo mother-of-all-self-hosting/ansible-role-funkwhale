@@ -1,5 +1,7 @@
 ---
 
+# Project source code URL: https://dev.funkwhale.audio/funkwhale/funkwhale
+
 funkwhale_enabled: true
 funkwhale_identifier: funkwhale
 
