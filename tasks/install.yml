@@ -81,8 +81,8 @@
     - {src: "{{ role_path }}/templates/systemd/funkwhale-watch-imports.service.j2", dest: "{{ devture_systemd_docker_base_systemd_path }}/{{ funkwhale_watch_imports_identifier }}.service", when: funkwhale_watch_imports_enabled}
 
 - name: Ensure disabled funkwhale services are stopped and removed
+  when: not funkwhale_watch_imports_enabled
   ansible.builtin.include_tasks: "{{ role_path }}/tasks/remove_service.yml"
   with_items:
     - service: "{{ funkwhale_watch_imports_identifier }}.service"
       path: "{{ devture_systemd_docker_base_systemd_path }}/{{ funkwhale_watch_imports_identifier }}.service"
-      when: not funkwhale_watch_imports_enabled
