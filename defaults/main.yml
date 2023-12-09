@@ -96,6 +96,10 @@ funkwhale_api_container_image_tag: "{{ funkwhale_api_version }}"
 funkwhale_api_container_image_force_pull: "{{ funkwhale_api_container_image.endswith(':latest') }}"
 
 funkwhale_api_container_data_path: "/srv/funkwhale/data"
+funkwhale_api_container_media_path: "{{ funkwhale_api_container_data_path }}/media"
+funkwhale_api_container_music_path: "{{ funkwhale_api_container_data_path }}/music"
+funkwhale_api_container_static_path: "{{ funkwhale_api_container_data_path }}/static"
+
 
 funkwhale_api_container_network: '{{ funkwhale_container_network }}'
 

@@ -22,7 +22,9 @@ ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} create \
                 {% endif %}
                 --label-file={{ funkwhale_api_base_path }}/labels \
                 --network={{ funkwhale_api_container_network }} \
-                --mount type=bind,src={{ funkwhale_data_path }},dst={{ funkwhale_api_container_data_path }} \
+                --mount type=bind,src={{ funkwhale_music_path }},dst={{ funkwhale_api_container_music_path }},readonly \
+                --mount type=bind,src={{ funkwhale_media_path }},dst={{ funkwhale_api_container_media_path }} \
+                --mount type=bind,src={{ funkwhale_static_path }},dst={{ funkwhale_api_container_static_path }} \
                 --tmpfs=/tmp:rw,noexec,nosuid,size={{ funkwhale_api_tmpfs_size }} \
                 --read-only \
                 --env-file={{ funkwhale_api_env_path }} \
