@@ -78,3 +78,12 @@
     - {src: "{{ role_path }}/templates/systemd/funkwhale-api.service.j2", dest: "{{ devture_systemd_docker_base_systemd_path }}/{{ funkwhale_api_identifier }}.service"}
     - {src: "{{ role_path }}/templates/systemd/funkwhale-celery-beat.service.j2", dest: "{{ devture_systemd_docker_base_systemd_path }}/{{ funkwhale_celery_beat_identifier }}.service"}
     - {src: "{{ role_path }}/templates/systemd/funkwhale-celery-worker.service.j2", dest: "{{ devture_systemd_docker_base_systemd_path }}/{{ funkwhale_celery_worker_identifier }}.service"}
+    - {src: "{{ role_path }}/templates/systemd/funkwhale-watch-imports.service.j2", dest: "{{ devture_systemd_docker_base_systemd_path }}/{{ funkwhale_watch_imports_identifier }}.service", when: funkwhale_watch_imports_enabled}
+
+- name: Ensure disabled funkwhale watch imports service is stopped and removed
+  when: not funkwhale_watch_imports_enabled
+  ansible.builtin.include_tasks: "{{ role_path }}/tasks/remove_service.yml"
+  with_items:
+    - service: "{{ funkwhale_watch_imports_identifier }}.service"
+      path: "{{ devture_systemd_docker_base_systemd_path }}/{{ funkwhale_watch_imports_identifier }}.service"
+

@@ -27,6 +27,11 @@ funkwhale_media_path: "{{ funkwhale_data_path }}/media"
 # The `funkwhale_music_path` defines a place where you can put music that can then be imported into funkwhale.
 funkwhale_music_path: "{{ funkwhale_data_path }}/music"
 
+# Enables automatic in-place import and watching file and metadata changes in the funkwhale_music_path directory.
+# Needs the first 8 characters of the library ID after creating a library in the web UI. If your library ID is "769a2bc3-eb1d-4aff-9f84-2c4d80d5c2d1", provide "769a2bc3".
+funkwhale_watch_imports_enabled: false
+funkwhale_watch_imports_library_id: ""  # add first 8 characters of library ID here
+
 funkwhale_frontend_static_path: "{{ funkwhale_frontend_base_path }}/appstatic"
 
 funkwhale_frontend_env_path: "{{ funkwhale_frontend_base_path }}/env"
@@ -90,9 +95,15 @@ funkwhale_api_container_image_registry_prefix: "{{ funkwhale_container_image_reg
 funkwhale_api_container_image_tag: "{{ funkwhale_api_version }}"
 funkwhale_api_container_image_force_pull: "{{ funkwhale_api_container_image.endswith(':latest') }}"
 
+funkwhale_api_container_data_path: "/srv/funkwhale/data"
+funkwhale_api_container_media_path: "{{ funkwhale_api_container_data_path }}/media"
+funkwhale_api_container_music_path: "{{ funkwhale_api_container_data_path }}/music"
+funkwhale_api_container_static_path: "{{ funkwhale_api_container_data_path }}/static"
+
+
 funkwhale_api_container_network: '{{ funkwhale_container_network }}'
 
-# Increase this if you want to upload a lot of audio files via the web GUI and get "Can' upload file, ensure it's not to big"
+# Increase this if you want to upload a lot of audio files via the web GUI and get "Can't upload file, ensure it's not to big"
 funkwhale_api_tmpfs_size: 5000m
 
 funkwhale_api_container_port: 5000
@@ -249,6 +260,10 @@ funkwhale_frontend_container_image: "{{ funkwhale_frontend_container_image_regis
 funkwhale_frontend_container_image_registry_prefix: "{{ funkwhale_container_image_registry_prefix }}"
 funkwhale_frontend_container_image_tag: "{{ funkwhale_frontend_version }}"
 funkwhale_frontend_container_image_force_pull: "{{ funkwhale_frontend_container_image.endswith(':latest') }}"
+
+funkwhale_frontend_container_media_path: "/srv/funkwhale/data/media"
+funkwhale_frontend_container_music_path: "/srv/funkwhale/data/music"
+funkwhale_frontend_container_static_path: "/usr/share/nginx/html/staticfiles"
 
 funkwhale_frontend_container_network: '{{ funkwhale_container_network }}'
 
@@ -435,3 +450,25 @@ funkwhale_celery_worker_variables_additional_variables: ''
 funkwhale_celery_worker_process_extra_arguments: "{{ funkwhale_celery_worker_process_extra_arguments_auto + funkwhale_celery_worker_process_extra_arguments_custom }}"
 funkwhale_celery_worker_process_extra_arguments_auto: []
 funkwhale_celery_worker_process_extra_arguments_custom: []
+
+
+###################
+## WATCH-IMPORTS ##
+###################
+
+funkwhale_watch_imports_identifier: "{{ funkwhale_identifier }}-watch-imports"
+
+funkwhale_watch_imports_systemd_required_services_list: ['docker.service', '{{ funkwhale_api_identifier }}.service']
+
+funkwhale_watch_imports_container_network: '{{ funkwhale_container_network }}'
+
+# A list of additional container networks that the container would be connected to.
+# The role does not create these networks, so make sure they already exist.
+# Use this to expose this container to a reverse proxy, which runs in a different container network.
+funkwhale_watch_imports_container_additional_networks: []
+
+# A list of extra arguments to pass to the Funkwhale watch imports process
+# Example: ['--prune', '--replace']
+funkwhale_watch_imports_process_extra_arguments: "{{ funkwhale_watch_imports_process_extra_arguments_auto + funkwhale_watch_imports_process_extra_arguments_custom }}"
+funkwhale_watch_imports_process_extra_arguments_auto: []
+funkwhale_watch_imports_process_extra_arguments_custom: []

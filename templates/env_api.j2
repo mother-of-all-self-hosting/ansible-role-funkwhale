@@ -46,13 +46,13 @@ CACHE_URL={{ funkwhale_config_redis_url }}
 CELERY_BROKER_URL={{ funkwhale_config_redis_url }}
 
 # Media root inside the container
-MEDIA_ROOT=/srv/funkwhale/data/media
+MEDIA_ROOT={{ funkwhale_api_container_media_path }}
 
 # Static root inside the container
-STATIC_ROOT=/srv/funkwhale/data/static
+STATIC_ROOT={{ funkwhale_api_container_static_path }}
 
 # Music directory inside the container
-MUSIC_DIRECTORY_PATH=/srv/funkwhale/data/music
+MUSIC_DIRECTORY_PATH={{ funkwhale_api_container_music_path }}
 
 # which settings module should django use?
 # You don't have to touch this unless you really know what you're doing
