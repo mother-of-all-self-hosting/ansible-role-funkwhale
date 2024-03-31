@@ -15,6 +15,24 @@
     msg: "The `password` variable needs to be provided to this playbook, via --extra-vars"
   when: "password is not defined or password == '<password>'"
 
+- ansible.builtin.set_fact:
+    initial_role: user
+  tags:
+    - funkwhale-add-user
+
+- ansible.builtin.set_fact:
+    initial_role: admin
+  tags:
+    - funkwhale-add-superuser
+    - funkwhale-add-admin
+
+- ansible.builtin.set_fact:
+    user:
+      username: "{{ username }}"
+      initial_email: "{{ email }}"
+      initial_password: "{{ password }}"
+      initial_type: "{{ initial_role }}"
+
 - name: Ensure Funkwhale API is started
   ansible.builtin.service:
     name: "{{ funkwhale_api_identifier }}"
@@ -27,11 +45,6 @@
     seconds: 7
   when: "start_result.changed"
 
-- name: Create superuser
-  ansible.builtin.command:
-    cmd: "{{ devture_systemd_docker_base_host_command_docker }} exec {{ funkwhale_api_identifier }} bash -c 'export DJANGO_SUPERUSER_PASSWORD={{ password }} && funkwhale-manage createsuperuser --noinput --username {{ username | quote }} --email {{ email | quote }}'"
-  register: funkwhale_api_create_account_result
-  failed_when:
-    - '"Superuser created successfully" not in funkwhale_api_create_account_result.stdout and "That username is already taken" not in funkwhale_api_create_account_result.stderr'
-  changed_when:
-    - '"Superuser created successfully" in funkwhale_api_create_account_result.stdout'
+- name: "Ensure Funkwhale user is created - {{ user.username }}"
+  ansible.builtin.include_tasks: "{{ role_path }}/tasks/util/ensure_user_registered.yml"
+  no_log: true

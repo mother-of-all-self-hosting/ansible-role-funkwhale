@@ -62,6 +62,27 @@ funkwhale_email_from: "noreply@{{ funkwhale_hostname }}"
 
 funkwhale_account_email_verification_enforce: false
 
+# This var holds the list of users that should be created automatically by playbooks/roles/group vars,
+# To add your own users for specific host, use `funkwhale_users_additional`
+# funkwhale_users_auto:
+# - username: admin
+#   initial_email: admin@example.com
+#   initial_password: password
+#   initial_type: admin
+# - username: user
+#   initial_email: admin@example.com
+#   initial_password: password
+#   initial_type: user
+funkwhale_users_auto: []
+# This var holds the list of users that should be created automatically by specific host (using host's vars.yml) instead of playbook/role/group vars
+# funkwhale_users_additional:
+# - username: rssbot
+#   initial_email: bots@example.com
+#   initial_password: password
+#   initial_type: user
+funkwhale_users_additional: []
+# Use funkwhale_users_auto and funkwhale_users_additional to define users that should be created automatically.
+funkwhale_users: "{{ funkwhale_users_auto + funkwhale_users_additional }}"
 
 funkwhale_container_network: '{{ funkwhale_identifier }}'
 
