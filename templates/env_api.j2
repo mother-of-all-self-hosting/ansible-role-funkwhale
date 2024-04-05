@@ -45,6 +45,13 @@ DATABASE_URL=postgresql://{{ funkwhale_database_username }}:{{ funkwhale_databas
 CACHE_URL={{ funkwhale_config_redis_url }}
 CELERY_BROKER_URL={{ funkwhale_config_redis_url }}
 
+AWS_ACCESS_KEY_ID={{ funkwhale_aws_access_key_id }}
+AWS_SECRET_ACCESS_KEY={{ funkwhale_aws_secret_access_key }}
+AWS_STORAGE_BUCKET_NAME={{ funkwhale_aws_storage_bucket_name }}
+AWS_S3_REGION_NAME={{ funkwhale_aws_s3_region_name }}
+AWS_S3_ENDPOINT_URL={{ funkwhale_aws_s3_endpoint_url }}
+AWS_LOCATION={{ funkwhale_aws_location }}
+
 # Media root inside the container
 MEDIA_ROOT={{ funkwhale_api_container_media_path }}
 
