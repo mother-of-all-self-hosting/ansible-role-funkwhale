@@ -40,7 +40,7 @@ funkwhale_api_env_path: "{{ funkwhale_api_base_path }}/env"
 funkwhale_aws_access_key_id: ''
 funkwhale_aws_secret_access_key: ''
 funkwhale_aws_storage_bucket_name: ''
-funkwhale_aws_region_name: ''
+funkwhale_aws_s3_region_name: ''
 funkwhale_aws_s3_endpoint_url: ''
 funkwhale_aws_location: 'funkwhale'
 
