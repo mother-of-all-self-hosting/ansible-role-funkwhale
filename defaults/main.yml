@@ -518,7 +518,9 @@ funkwhale_watch_imports_container_network: '{{ funkwhale_container_network }}'
 # A list of additional container networks that the container would be connected to.
 # The role does not create these networks, so make sure they already exist.
 # Use this to expose this container to a reverse proxy, which runs in a different container network.
-funkwhale_watch_imports_container_additional_networks: []
+funkwhale_watch_imports_container_additional_networks: "{{ funkwhale_watch_imports_container_additional_networks_auto + funkwhale_watch_imports_container_additional_networks_custom }}"
+funkwhale_watch_imports_container_additional_networks_auto: []
+funkwhale_watch_imports_container_additional_networks_custom: []
 
 # A list of extra arguments to pass to the Funkwhale watch imports process
 # Example: ['--prune', '--replace']
