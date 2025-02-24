@@ -94,7 +94,9 @@ funkwhale_users: "{{ funkwhale_users_auto + funkwhale_users_additional }}"
 
 funkwhale_container_network: '{{ funkwhale_identifier }}'
 
-funkwhale_container_image_registry_prefix: docker.io/
+funkwhale_container_image_registry_prefix: "{{ funkwhale_container_image_registry_prefix_upstream }}"
+funkwhale_container_image_registry_prefix_upstream: "{{ funkwhale_container_image_registry_prefix_upstream_default }}"
+funkwhale_container_image_registry_prefix_upstream_default: docker.io/
 
 funkwhale_django_secret_key: ''
 
