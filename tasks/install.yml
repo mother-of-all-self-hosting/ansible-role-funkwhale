@@ -1,43 +1,50 @@
+# SPDX-FileCopyrightText: 2023 Julian-Samuel Gebühr
+# SPDX-FileCopyrightText: 2023 MASH project contributors
+# SPDX-FileCopyrightText: 2025 Slavi Pantaleev
+# SPDX-FileCopyrightText: 2025 Suguru Hirahara
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
 ---
 
-- name: Ensure Funkwhale paths exists
+- name: Ensure Funkwhale paths exist
   ansible.builtin.file:
-    path: "{{ item.path }}"
+    path: "{{ item }}"
     state: directory
     mode: 0700
     owner: "{{ funkwhale_uid }}"
     group: "{{ funkwhale_gid }}"
   with_items:
-    - {path: "{{ funkwhale_base_path }}", when: true}
-    - {path: "{{ funkwhale_frontend_base_path }}", when: true}
-    - {path: "{{ funkwhale_api_base_path }}", when: true}
-    - {path: "{{ funkwhale_celery_worker_base_path }}", when: true}
-    - {path: "{{ funkwhale_celery_beat_base_path }}", when: true}
+    - "{{ funkwhale_base_path }}"
+    - "{{ funkwhale_frontend_base_path }}"
+    - "{{ funkwhale_api_base_path }}"
+    - "{{ funkwhale_celery_worker_base_path }}"
+    - "{{ funkwhale_celery_beat_base_path }}"
 
-- name: Ensure funkwhale data path exists
+- name: Ensure funkwhale data paths exist
   ansible.builtin.file:
-    path: "{{ item.path }}"
+    path: "{{ item }}"
     state: directory
     mode: 0755
     owner: "{{ funkwhale_uid }}"
     group: "{{ funkwhale_gid }}"
   with_items:
-    - {path: "{{ funkwhale_data_path }}", when: true}
-    - {path: "{{ funkwhale_music_path }}", when: true}
-    - {path: "{{ funkwhale_media_path }}", when: true}
-    - {path: "{{ funkwhale_static_path }}", when: true}
-    - {path: "{{ funkwhale_frontend_static_path }}", when: true}
-    - {path: "{{ funkwhale_frontend_nginx_run_path }}", when: true}
-    - {path: "{{ funkwhale_frontend_nginx_cache_path }}", when: true}
-    - {path: "{{ funkwhale_frontend_nginx_etc_path }}", when: true}
+    - "{{ funkwhale_data_path }}"
+    - "{{ funkwhale_music_path }}"
+    - "{{ funkwhale_media_path }}"
+    - "{{ funkwhale_static_path }}"
+    - "{{ funkwhale_frontend_static_path }}"
+    - "{{ funkwhale_frontend_nginx_run_path }}"
+    - "{{ funkwhale_frontend_nginx_cache_path }}"
+    - "{{ funkwhale_frontend_nginx_etc_path }}"
 
-- name: Ensure funkwhale traefik labels are installed
+- name: Ensure funkwhale Traefik labels are installed
   ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
+    mode: 0640
     owner: "{{ funkwhale_uid }}"
     group: "{{ funkwhale_gid }}"
-    mode: 0640
   with_items:
     - {src: "{{ role_path }}/templates/labels_frontend.j2", dest: "{{ funkwhale_frontend_base_path }}/labels"}
     - {src: "{{ role_path }}/templates/labels_api.j2", dest: "{{ funkwhale_api_base_path }}/labels"}
@@ -68,7 +75,7 @@
     driver: bridge
     driver_options: "{{ devture_systemd_docker_base_container_networks_driver_options }}"
 
-- name: Ensure funkwhale.service installed
+- name: Ensure Funkwhale systemd services are present
   ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
