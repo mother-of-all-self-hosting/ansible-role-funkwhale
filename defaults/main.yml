@@ -6,7 +6,7 @@ funkwhale_enabled: true
 funkwhale_identifier: funkwhale
 
 # renovate: datasource=docker depName=funkwhale/api
-funkwhale_version: 1.4.0
+funkwhale_version: 1.4.1
 
 funkwhale_hostname: ''
 
