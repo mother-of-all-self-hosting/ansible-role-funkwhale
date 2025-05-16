@@ -139,7 +139,7 @@ funkwhale_api_tmpfs_size: 5000m
 
 funkwhale_api_container_port: 5000
 
-# Controls whether the funkwhale container exposes its HTTP port (as defined by `funkwhale_container_http_port`).
+# Controls whether the Funkwhale container exposes its HTTP port (as defined by `funkwhale_container_http_port`).
 #
 # Takes an "<ip>:<port>" or "<port>" value (e.g. "127.0.0.1:8731"), or empty string to not expose.
 funkwhale_api_container_http_host_bind_port: ""
@@ -300,7 +300,7 @@ funkwhale_frontend_container_network: '{{ funkwhale_container_network }}'
 
 funkwhale_frontend_container_http_port: 80
 
-# Controls whether the funkwhale container exposes its HTTP port (as defined by `funkwhale_container_http_port`).
+# Controls whether the Funkwhale container exposes its HTTP port (as defined by `funkwhale_container_http_port`).
 #
 # Takes an "<ip>:<port>" or "<port>" value (e.g. "127.0.0.1:8731"), or empty string to not expose.
 funkwhale_frontend_container_http_host_bind_port: ""

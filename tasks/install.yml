@@ -21,7 +21,7 @@
     - "{{ funkwhale_celery_worker_base_path }}"
     - "{{ funkwhale_celery_beat_base_path }}"
 
-- name: Ensure funkwhale data paths exist
+- name: Ensure Funkwhale data paths exist
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
@@ -38,7 +38,7 @@
     - "{{ funkwhale_frontend_nginx_cache_path }}"
     - "{{ funkwhale_frontend_nginx_etc_path }}"
 
-- name: Ensure funkwhale Traefik labels are installed
+- name: Ensure Funkwhale Traefik labels are installed
   ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
@@ -49,7 +49,7 @@
     - {src: "{{ role_path }}/templates/labels_frontend.j2", dest: "{{ funkwhale_frontend_base_path }}/labels"}
     - {src: "{{ role_path }}/templates/labels_api.j2", dest: "{{ funkwhale_api_base_path }}/labels"}
 
-- name: Ensure funkwhale configuration is deployed
+- name: Ensure Funkwhale configuration is deployed
   ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
@@ -60,7 +60,7 @@
     - {src: "{{ role_path }}/templates/env_frontend.j2", dest: "{{ funkwhale_frontend_base_path }}/env"}
     - {src: "{{ role_path }}/templates/env_api.j2", dest: "{{ funkwhale_api_base_path }}/env"}
 
-- name: Ensure funkwhale container image is pulled
+- name: Ensure Funkwhale container image is pulled
   community.docker.docker_image:
     name: "{{ item.image }}"
     source: "{{ 'pull' if ansible_version.major > 2 or ansible_version.minor > 7 else omit }}"
@@ -87,7 +87,7 @@
     - {src: "{{ role_path }}/templates/systemd/funkwhale-celery-worker.service.j2", dest: "{{ devture_systemd_docker_base_systemd_path }}/{{ funkwhale_celery_worker_identifier }}.service"}
     - {src: "{{ role_path }}/templates/systemd/funkwhale-watch-imports.service.j2", dest: "{{ devture_systemd_docker_base_systemd_path }}/{{ funkwhale_watch_imports_identifier }}.service", when: funkwhale_watch_imports_enabled}
 
-- name: Ensure disabled funkwhale watch imports service is stopped and removed
+- name: Ensure disabled Funkwhale watch imports service is stopped and removed
   when: not funkwhale_watch_imports_enabled
   ansible.builtin.include_tasks: "{{ role_path }}/tasks/remove_service.yml"
   with_items:
