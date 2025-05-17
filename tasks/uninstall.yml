@@ -9,8 +9,7 @@
     - {service: "{{ funkwhale_celery_beat_identifier }}.service", path: "{{ devture_systemd_docker_base_systemd_path }}/{{ funkwhale_celery_beat_identifier }}.service"}
     - {service: "{{ funkwhale_watch_imports_identifier }}.service", path: "{{ devture_systemd_docker_base_systemd_path }}/{{ funkwhale_watch_imports_identifier }}.service"}
 
-
-- name: Ensure Funkwhale base path is files deleted
+- name: Ensure Funkwhale path does not exist
   ansible.builtin.file:
     path: "{{ funkwhale_base_path }}"
     state: absent
