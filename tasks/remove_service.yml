@@ -16,7 +16,8 @@
         name: "{{ item.service }}"
         state: stopped
         daemon_reload: true
-    - name: Ensure Funkwhale service doesn't exist
+
+    - name: Ensure Funkwhale service does not exist
       ansible.builtin.file:
         dest: "{{ item.path }}"
         state: absent
