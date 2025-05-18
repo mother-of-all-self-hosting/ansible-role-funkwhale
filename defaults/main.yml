@@ -181,7 +181,6 @@ funkwhale_api_container_labels_traefik_additional_response_headers_auto: |
   {{
     {}
     | combine ({'X-XSS-Protection': funkwhale_api_http_header_xss_protection} if funkwhale_api_http_header_xss_protection else {})
-    | combine ({'X-Frame-Options': funkwhale_api_http_header_frame_options} if funkwhale_api_http_header_frame_options else {})
     | combine ({'X-Content-Type-Options': funkwhale_api_http_header_content_type_options} if funkwhale_api_http_header_content_type_options else {})
     | combine ({'Content-Security-Policy': funkwhale_api_http_header_content_security_policy} if funkwhale_api_http_header_content_security_policy else {})
     | combine ({'Permission-Policy': funkwhale_api_http_header_content_permission_policy} if funkwhale_api_http_header_content_permission_policy else {})
@@ -196,10 +195,6 @@ funkwhale_api_container_labels_traefik_additional_response_headers_custom: {}
 # - https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-XSS-Protection
 # - https://portswigger.net/web-security/cross-site-scripting/reflected
 funkwhale_api_http_header_xss_protection: "1; mode=block"
-
-# Specifies the value of the `X-Frame-Options` header which controls whether framing can happen.
-# See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options
-funkwhale_api_http_header_frame_options: SAMEORIGIN
 
 # Specifies the value of the `X-Content-Type-Options` header.
 # See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options
@@ -340,7 +335,6 @@ funkwhale_frontend_container_labels_traefik_additional_response_headers_auto: |
   {{
     {}
     | combine ({'X-XSS-Protection': funkwhale_frontend_http_header_xss_protection} if funkwhale_frontend_http_header_xss_protection else {})
-    | combine ({'X-Frame-Options': funkwhale_frontend_http_header_frame_options} if funkwhale_frontend_http_header_frame_options else {})
     | combine ({'X-Content-Type-Options': funkwhale_frontend_http_header_content_type_options} if funkwhale_frontend_http_header_content_type_options else {})
     | combine ({'Content-Security-Policy': funkwhale_frontend_http_header_content_security_policy} if funkwhale_frontend_http_header_content_security_policy else {})
     | combine ({'Permission-Policy': funkwhale_frontend_http_header_content_permission_policy} if funkwhale_frontend_http_header_content_permission_policy else {})
@@ -355,10 +349,6 @@ funkwhale_frontend_container_labels_traefik_additional_response_headers_custom: 
 # - https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-XSS-Protection
 # - https://portswigger.net/web-security/cross-site-scripting/reflected
 funkwhale_frontend_http_header_xss_protection: "1; mode=block"
-
-# Specifies the value of the `X-Frame-Options` header which controls whether framing can happen.
-# See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options
-funkwhale_frontend_http_header_frame_options: SAMEORIGIN
 
 # Specifies the value of the `X-Content-Type-Options` header.
 # See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options
