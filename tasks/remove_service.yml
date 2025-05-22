@@ -11,7 +11,7 @@
 
 - when: funkwhale_service_stat.stat.exists | bool
   block:
-    - name: Ensure Funkwhale service is stopped
+    - name: Ensure Funkwhale systemd service is stopped
       ansible.builtin.service:
         name: "{{ item.service }}"
         state: stopped
