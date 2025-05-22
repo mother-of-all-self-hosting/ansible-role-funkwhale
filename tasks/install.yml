@@ -67,6 +67,10 @@
   with_items:
     - {image: "{{ funkwhale_frontend_container_image }}"}
     - {image: "{{ funkwhale_api_container_image }}"}
+  register: result
+  retries: "{{ devture_playbook_help_container_retries_count }}"
+  delay: "{{ devture_playbook_help_container_retries_delay }}"
+  until: result is not failed
 
 - name: Ensure Funkwhale container network is created
   community.docker.docker_network:
