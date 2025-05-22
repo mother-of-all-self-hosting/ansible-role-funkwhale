@@ -49,7 +49,7 @@
     - {src: "{{ role_path }}/templates/labels_frontend.j2", dest: "{{ funkwhale_frontend_base_path }}/labels"}
     - {src: "{{ role_path }}/templates/labels_api.j2", dest: "{{ funkwhale_api_base_path }}/labels"}
 
-- name: Ensure Funkwhale configuration is deployed
+- name: Ensure Funkwhale configuration file installed
   ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
@@ -87,7 +87,7 @@
     - {src: "{{ role_path }}/templates/systemd/funkwhale-celery-worker.service.j2", dest: "{{ devture_systemd_docker_base_systemd_path }}/{{ funkwhale_celery_worker_identifier }}.service"}
     - {src: "{{ role_path }}/templates/systemd/funkwhale-watch-imports.service.j2", dest: "{{ devture_systemd_docker_base_systemd_path }}/{{ funkwhale_watch_imports_identifier }}.service", when: funkwhale_watch_imports_enabled}
 
-- name: Ensure disabled Funkwhale watch imports service is stopped and removed
+- name: Ensure disabled Funkwhale watch imports systemd service is stopped and removed
   when: not funkwhale_watch_imports_enabled
   ansible.builtin.include_tasks: "{{ role_path }}/tasks/remove_service.yml"
   with_items:
