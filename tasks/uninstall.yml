@@ -1,6 +1,6 @@
 ---
 
-- name: Ensure Funkwhale services are stopped and removed
+- name: Ensure Funkwhale systemd services are stopped and removed
   ansible.builtin.include_tasks: "{{ role_path }}/tasks/remove_service.yml"
   with_items:
     - {service: "{{ funkwhale_frontend_identifier }}.service", path: "{{ devture_systemd_docker_base_systemd_path }}/{{ funkwhale_frontend_identifier }}.service"}
