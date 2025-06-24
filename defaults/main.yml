@@ -104,9 +104,11 @@ funkwhale_django_secret_key: ''
 # Must be one of debug, info, warning, error, critical
 funkwhale_loglevel: error
 
-#########
-## API ##
-#########
+########################################################################
+#                                                                      #
+# api                                                                  #
+#                                                                      #
+########################################################################
 
 funkwhale_api_hostname: "{{ funkwhale_hostname }}"
 funkwhale_api_container_labels_traefik_path_prefix: "/api"
@@ -259,9 +261,17 @@ funkwhale_api_process_extra_arguments: "{{ funkwhale_api_process_extra_arguments
 funkwhale_api_process_extra_arguments_auto: []
 funkwhale_api_process_extra_arguments_custom: []
 
-##############
-## FRONTEND ##
-##############
+########################################################################
+#                                                                      #
+# /api                                                                 #
+#                                                                      #
+########################################################################
+
+########################################################################
+#                                                                      #
+# frontend                                                             #
+#                                                                      #
+########################################################################
 
 funkwhale_frontend_hostname: "{{ funkwhale_hostname }}"
 
@@ -413,9 +423,17 @@ funkwhale_frontend_process_extra_arguments: "{{ funkwhale_frontend_process_extra
 funkwhale_frontend_process_extra_arguments_auto: []
 funkwhale_frontend_process_extra_arguments_custom: []
 
-#################
-## CELERY-BEAT ##
-#################
+########################################################################
+#                                                                      #
+# /frontend                                                            #
+#                                                                      #
+########################################################################
+
+########################################################################
+#                                                                      #
+# celery-beat                                                          #
+#                                                                      #
+########################################################################
 
 funkwhale_celery_beat_identifier: "{{ funkwhale_identifier }}-celery-beat"
 
@@ -448,10 +466,17 @@ funkwhale_celery_beat_process_extra_arguments: "{{ funkwhale_celery_beat_process
 funkwhale_celery_beat_process_extra_arguments_auto: []
 funkwhale_celery_beat_process_extra_arguments_custom: []
 
+########################################################################
+#                                                                      #
+# /celery-beat                                                         #
+#                                                                      #
+########################################################################
 
-###################
-## CELERY-WORKER ##
-###################
+########################################################################
+#                                                                      #
+# celery-worker                                                        #
+#                                                                      #
+########################################################################
 
 funkwhale_celery_worker_identifier: "{{ funkwhale_identifier }}-celery-worker"
 
@@ -489,10 +514,17 @@ funkwhale_celery_worker_process_extra_arguments: "{{ funkwhale_celery_worker_pro
 funkwhale_celery_worker_process_extra_arguments_auto: []
 funkwhale_celery_worker_process_extra_arguments_custom: []
 
+########################################################################
+#                                                                      #
+# /celery-worker                                                       #
+#                                                                      #
+########################################################################
 
-###################
-## WATCH-IMPORTS ##
-###################
+########################################################################
+#                                                                      #
+# watch-imports                                                        #
+#                                                                      #
+########################################################################
 
 funkwhale_watch_imports_identifier: "{{ funkwhale_identifier }}-watch-imports"
 
@@ -520,3 +552,9 @@ funkwhale_watch_imports_container_additional_networks_custom: []
 funkwhale_watch_imports_process_extra_arguments: "{{ funkwhale_watch_imports_process_extra_arguments_auto + funkwhale_watch_imports_process_extra_arguments_custom }}"
 funkwhale_watch_imports_process_extra_arguments_auto: []
 funkwhale_watch_imports_process_extra_arguments_custom: []
+
+########################################################################
+#                                                                      #
+# /watch-imports                                                       #
+#                                                                      #
+########################################################################
