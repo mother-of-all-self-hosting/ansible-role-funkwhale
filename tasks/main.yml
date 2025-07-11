@@ -6,44 +6,42 @@
 ---
 
 - name: Perform Funkwhale installation tasks
-  block:
-    - name: Validate Funkwhale configuration
-      when: funkwhale_enabled | bool
-      ansible.builtin.include_tasks: "{{ role_path }}/tasks/validate_config.yml"
-
-    - name: Install Funkwhale
-      when: funkwhale_enabled | bool
-      ansible.builtin.include_tasks: "{{ role_path }}/tasks/install.yml"
+  when: funkwhale_enabled | bool
   tags:
     - setup-all
     - setup-funkwhale
     - install-all
     - install-funkwhale
+  block:
+    - name: Validate Funkwhale configuration
+      ansible.builtin.include_tasks: "{{ role_path }}/tasks/validate_config.yml"
+    - name: Install Funkwhale
+      ansible.builtin.include_tasks: "{{ role_path }}/tasks/install.yml"
 
 - name: Perform Funkwhale uninstallation tasks
-  block:
-    - name: Uninstall Funkwhale
-      when: not funkwhale_enabled | bool
-      ansible.builtin.include_tasks: "{{ role_path }}/tasks/uninstall.yml"
+  when: not funkwhale_enabled | bool
   tags:
     - setup-all
     - setup-funkwhale
+  block:
+    - name: Uninstall Funkwhale
+      ansible.builtin.include_tasks: "{{ role_path }}/tasks/uninstall.yml"
 
 - name: Perform tasks to add users automatically to Funkwhale
-  block:
-    - name: Add users to Funkwhale automatically
-      when: funkwhale_enabled | bool
-      ansible.builtin.include_tasks: "{{ role_path }}/tasks/add_users_auto.yml"
+  when: funkwhale_enabled | bool
   tags:
     - ensure-funkwhale-users-created
     - ensure-users-created
+  block:
+    - name: Add users to Funkwhale automatically
+      ansible.builtin.include_tasks: "{{ role_path }}/tasks/add_users_auto.yml"
 
 - name: Perform tasks to add users manually to Funkwhale
-  block:
-    - name: Add users to Funkwhale manually
-    - when: funkwhale_enabled | bool
-      ansible.builtin.include_tasks: "{{ role_path }}/tasks/add_user_manual.yml"
+  when: funkwhale_enabled | bool
   tags:
     - funkwhale-add-user
     - funkwhale-add-admin
     - funkwhale-add-superuser
+  block:
+    - name: Add users to Funkwhale manually
+      ansible.builtin.include_tasks: "{{ role_path }}/tasks/add_user_manual.yml"
