@@ -17,7 +17,7 @@ This role *implicitly* depends on:
 
 ## Usage
 
-If you wish to boost the perfomance of your pod, you can try tweaking these variables:
+If you wish to boost the performance of your pod, you can try tweaking these variables:
 
 - `funkwhale_frontend_web_workers`: increase to allow more parallel connections of web workers
 - `funkwhale_celery_worker_concurrency`: increase the number of worker processes for background tasks
