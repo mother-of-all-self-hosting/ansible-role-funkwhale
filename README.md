@@ -1,23 +1,23 @@
 <!--
 SPDX-FileCopyrightText: 2023 Julian-Samuel Gebühr
+SPDX-FileCopyrightText: 2023 Slavi Pantaleev
+SPDX-FileCopyrightText: 2025 Suguru Hirahara
 
 SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
-# Funkwhale Ansible Role
+# Funkwhale Ansible role
 
-Funkwhale is a community-driven project that lets you listen and share music and audio within a decentralized, open network. This role helps you to set up Funkwhale:
+This is an [Ansible](https://www.ansible.com/) role which installs [Funkwhale](https://funkwhale.audio/) to run as a [Docker](https://www.docker.com/) container wrapped in a systemd service.
 
-- with everything run in [Docker](https://www.docker.com/) containers
-- powered by [the official Funkwhale container images](https://hub.docker.com/r/funkwhale/)
+This role *implicitly* depends on:
 
+- [`com.devture.ansible.role.playbook_help`](https://github.com/devture/com.devture.ansible.role.playbook_help)
+- [`com.devture.ansible.role.systemd_docker_base`](https://github.com/devture/com.devture.ansible.role.systemd_docker_base)
 
-## Installing
+## Usage
 
-To configure and install Funkwhale on your own server(s), you should use a playbook like [Mother of all self-hosting](https://github.com/mother-of-all-self-hosting/mash-playbook) or write your own.
+If you wish to boost the perfomance of your pod, you can try tweaking these variables:
 
-# Tuning
-
-Have a look at `defaults/main.yml` for configuration options. If you want to boost the perfomance of your pod you might want to tune:
-* `funkwhale_frontend_web_workers`: Number of web workers to start in parallel, increase to allow more parallel connections
-* `funkwhale_celery_worker_concurrency`: Number of worker processes to execute that process background tasks. You might want to increase this if e.g. file imports are slow
+- `funkwhale_frontend_web_workers`: increase to allow more parallel connections of web workers
+- `funkwhale_celery_worker_concurrency`: increase the number of worker processes for background tasks
