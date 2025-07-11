@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2023 Julian-Samuel Gebühr
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 # Funkwhale Ansible Role
 
 Funkwhale is a community-driven project that lets you listen and share music and audio within a decentralized, open network. This role helps you to set up Funkwhale:
