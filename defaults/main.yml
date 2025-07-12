@@ -18,10 +18,8 @@ funkwhale_celery_beat_base_path: "{{ funkwhale_base_path }}/celery-beat"
 funkwhale_celery_worker_base_path: "{{ funkwhale_base_path }}/celery-worker"
 funkwhale_data_path: "{{ funkwhale_base_path }}/data"
 funkwhale_static_path: "{{ funkwhale_data_path }}/static"
-# The `funkwhale_media_path` defines where the media is stored
-funkwhale_media_path: "{{ funkwhale_data_path }}/media"
-# The `funkwhale_music_path` defines a place where you can put music that can then be imported into funkwhale.
-funkwhale_music_path: "{{ funkwhale_data_path }}/music"
+funkwhale_media_path: "{{ funkwhale_data_path }}/media" # Defines where media is stored
+funkwhale_music_path: "{{ funkwhale_data_path }}/music" # Defines where music files to be imported to Funkwhale from
 funkwhale_frontend_static_path: "{{ funkwhale_frontend_base_path }}/appstatic"
 
 # renovate: datasource=docker depName=funkwhale/api
