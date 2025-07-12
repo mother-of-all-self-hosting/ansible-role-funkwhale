@@ -34,7 +34,7 @@ ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} create \
       --mount type=bind,src={{ funkwhale_static_path }},dst={{ funkwhale_api_container_static_path }} \
       --tmpfs=/tmp:rw,noexec,nosuid,size={{ funkwhale_api_tmpfs_size }} \
       --read-only \
-      --env-file={{ funkwhale_api_env_path }} \
+      --env-file={{ funkwhale_api_base_path }}/env \
       {% if funkwhale_api_container_extra_arguments | length > 0 %}
       {{ funkwhale_api_container_extra_arguments | join(' ') }} \
       {% endif %}
