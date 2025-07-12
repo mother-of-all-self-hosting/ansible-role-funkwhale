@@ -3,13 +3,13 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 ---
-
 - name: Check existence of Funkwhale systemd service
   ansible.builtin.stat:
     path: "{{ item.path }}"
   register: funkwhale_service_stat
 
-- when: funkwhale_service_stat.stat.exists | bool
+- name: Uninstall Funkwhale systemd service
+  when: funkwhale_service_stat.stat.exists | bool
   block:
     - name: Ensure Funkwhale systemd service is stopped
       ansible.builtin.service:

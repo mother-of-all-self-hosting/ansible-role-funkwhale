@@ -6,12 +6,11 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 ---
-
 - name: Ensure Funkwhale paths exist
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
-    mode: 0700
+    mode: "0700"
     owner: "{{ funkwhale_uid }}"
     group: "{{ funkwhale_gid }}"
   with_items:
@@ -25,7 +24,7 @@
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
-    mode: 0755
+    mode: "0755"
     owner: "{{ funkwhale_uid }}"
     group: "{{ funkwhale_gid }}"
   with_items:
@@ -42,12 +41,12 @@
   ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
-    mode: 0640
+    mode: "0640"
     owner: "{{ funkwhale_uid }}"
     group: "{{ funkwhale_gid }}"
   with_items:
-    - {src: "{{ role_path }}/templates/labels_frontend.j2", dest: "{{ funkwhale_frontend_base_path }}/labels"}
-    - {src: "{{ role_path }}/templates/labels_api.j2", dest: "{{ funkwhale_api_base_path }}/labels"}
+    - { src: "{{ role_path }}/templates/labels_frontend.j2", dest: "{{ funkwhale_frontend_base_path }}/labels" }
+    - { src: "{{ role_path }}/templates/labels_api.j2", dest: "{{ funkwhale_api_base_path }}/labels" }
 
 - name: Ensure Funkwhale configuration file installed
   ansible.builtin.template:
@@ -55,18 +54,18 @@
     dest: "{{ item.dest }}"
     owner: "{{ funkwhale_uid }}"
     group: "{{ funkwhale_gid }}"
-    mode: 0640
+    mode: "0640"
   with_items:
-    - {src: "{{ role_path }}/templates/env_frontend.j2", dest: "{{ funkwhale_frontend_base_path }}/env"}
-    - {src: "{{ role_path }}/templates/env_api.j2", dest: "{{ funkwhale_api_base_path }}/env"}
+    - { src: "{{ role_path }}/templates/env_frontend.j2", dest: "{{ funkwhale_frontend_base_path }}/env" }
+    - { src: "{{ role_path }}/templates/env_api.j2", dest: "{{ funkwhale_api_base_path }}/env" }
 
 - name: Ensure Funkwhale container image is pulled
   community.docker.docker_image:
     name: "{{ item.image }}"
     source: "{{ 'pull' if ansible_version.major > 2 or ansible_version.minor > 7 else omit }}"
   with_items:
-    - {image: "{{ funkwhale_frontend_container_image }}"}
-    - {image: "{{ funkwhale_api_container_image }}"}
+    - { image: "{{ funkwhale_frontend_container_image }}" }
+    - { image: "{{ funkwhale_api_container_image }}" }
   register: result
   retries: "{{ devture_playbook_help_container_retries_count }}"
   delay: "{{ devture_playbook_help_container_retries_delay }}"
@@ -83,13 +82,19 @@
   ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
-    mode: 0644
+    mode: "0644"
   with_items:
-    - {src: "{{ role_path }}/templates/systemd/funkwhale-frontend.service.j2", dest: "{{ devture_systemd_docker_base_systemd_path }}/{{ funkwhale_frontend_identifier }}.service"}
-    - {src: "{{ role_path }}/templates/systemd/funkwhale-api.service.j2", dest: "{{ devture_systemd_docker_base_systemd_path }}/{{ funkwhale_api_identifier }}.service"}
-    - {src: "{{ role_path }}/templates/systemd/funkwhale-celery-beat.service.j2", dest: "{{ devture_systemd_docker_base_systemd_path }}/{{ funkwhale_celery_beat_identifier }}.service"}
-    - {src: "{{ role_path }}/templates/systemd/funkwhale-celery-worker.service.j2", dest: "{{ devture_systemd_docker_base_systemd_path }}/{{ funkwhale_celery_worker_identifier }}.service"}
-    - {src: "{{ role_path }}/templates/systemd/funkwhale-watch-imports.service.j2", dest: "{{ devture_systemd_docker_base_systemd_path }}/{{ funkwhale_watch_imports_identifier }}.service", when: funkwhale_watch_imports_enabled}
+    - src: "{{ role_path }}/templates/systemd/funkwhale-frontend.service.j2"
+      dest: "{{ devture_systemd_docker_base_systemd_path }}/{{ funkwhale_frontend_identifier }}.service"
+    - src: "{{ role_path }}/templates/systemd/funkwhale-api.service.j2"
+      dest: "{{ devture_systemd_docker_base_systemd_path }}/{{ funkwhale_api_identifier }}.service"
+    - src: "{{ role_path }}/templates/systemd/funkwhale-celery-beat.service.j2"
+      dest: "{{ devture_systemd_docker_base_systemd_path }}/{{ funkwhale_celery_beat_identifier }}.service"
+    - src: "{{ role_path }}/templates/systemd/funkwhale-celery-worker.service.j2"
+      dest: "{{ devture_systemd_docker_base_systemd_path }}/{{ funkwhale_celery_worker_identifier }}.service"
+    - src: "{{ role_path }}/templates/systemd/funkwhale-watch-imports.service.j2"
+      dest: "{{ devture_systemd_docker_base_systemd_path }}/{{ funkwhale_watch_imports_identifier }}.service"
+      when: funkwhale_watch_imports_enabled
 
 - name: Ensure disabled Funkwhale watch imports systemd service is stopped and removed
   when: not funkwhale_watch_imports_enabled

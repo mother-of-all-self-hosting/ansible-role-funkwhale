@@ -4,15 +4,18 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 ---
-
 - name: Ensure Funkwhale systemd services are stopped and removed
   ansible.builtin.include_tasks: "{{ role_path }}/tasks/remove_service.yml"
   with_items:
-    - {service: "{{ funkwhale_frontend_identifier }}.service", path: "{{ devture_systemd_docker_base_systemd_path }}/{{ funkwhale_frontend_identifier }}.service"}
-    - {service: "{{ funkwhale_api_identifier }}.service", path: "{{ devture_systemd_docker_base_systemd_path }}/{{ funkwhale_api_identifier }}.service"}
-    - {service: "{{ funkwhale_celery_worker_identifier }}.service", path: "{{ devture_systemd_docker_base_systemd_path }}/{{ funkwhale_celery_worker_identifier }}.service"}
-    - {service: "{{ funkwhale_celery_beat_identifier }}.service", path: "{{ devture_systemd_docker_base_systemd_path }}/{{ funkwhale_celery_beat_identifier }}.service"}
-    - {service: "{{ funkwhale_watch_imports_identifier }}.service", path: "{{ devture_systemd_docker_base_systemd_path }}/{{ funkwhale_watch_imports_identifier }}.service"}
+    - service: "{{ funkwhale_frontend_identifier }}.service"
+      path: "{{ devture_systemd_docker_base_systemd_path }}/{{ funkwhale_frontend_identifier }}.service"
+    - { service: "{{ funkwhale_api_identifier }}.service", path: "{{ devture_systemd_docker_base_systemd_path }}/{{ funkwhale_api_identifier }}.service" }
+    - service: "{{ funkwhale_celery_worker_identifier }}.service"
+      path: "{{ devture_systemd_docker_base_systemd_path }}/{{ funkwhale_celery_worker_identifier }}.service"
+    - service: "{{ funkwhale_celery_beat_identifier }}.service"
+      path: "{{ devture_systemd_docker_base_systemd_path }}/{{ funkwhale_celery_beat_identifier }}.service"
+    - service: "{{ funkwhale_watch_imports_identifier }}.service"
+      path: "{{ devture_systemd_docker_base_systemd_path }}/{{ funkwhale_watch_imports_identifier }}.service"
 
 - name: Ensure Funkwhale container network does not exist via community.docker.docker_network
   when: devture_systemd_docker_base_container_network_creation_method == 'ansible-module'

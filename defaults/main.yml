@@ -22,7 +22,6 @@ funkwhale_gid: ''
 
 funkwhale_base_path: "/{{ funkwhale_identifier }}"
 
-
 funkwhale_frontend_base_path: "{{ funkwhale_base_path }}/frontend"
 funkwhale_api_base_path: "{{ funkwhale_base_path }}/api"
 funkwhale_celery_beat_base_path: "{{ funkwhale_base_path }}/celery-beat"
@@ -51,7 +50,6 @@ funkwhale_aws_storage_bucket_name: ''
 funkwhale_aws_s3_region_name: ''
 funkwhale_aws_s3_endpoint_url: ''
 funkwhale_aws_location: 'funkwhale'
-
 
 funkwhale_database_hostname: ''
 funkwhale_database_port: 5432
@@ -128,7 +126,6 @@ funkwhale_api_systemd_required_services_list_default: "{{ [devture_systemd_docke
 funkwhale_api_systemd_required_services_list_auto: []
 funkwhale_api_systemd_required_services_list_custom: []
 
-
 funkwhale_api_version: "{{ funkwhale_version }}"
 
 funkwhale_api_container_image: "{{ funkwhale_api_container_image_registry_prefix }}funkwhale/api:{{ funkwhale_api_container_image_tag }}"
@@ -140,7 +137,6 @@ funkwhale_api_container_data_path: "/srv/funkwhale/data"
 funkwhale_api_container_media_path: "{{ funkwhale_api_container_data_path }}/media"
 funkwhale_api_container_music_path: "{{ funkwhale_api_container_data_path }}/music"
 funkwhale_api_container_static_path: "{{ funkwhale_api_container_data_path }}/static"
-
 
 funkwhale_api_container_network: '{{ funkwhale_container_network }}'
 
@@ -161,7 +157,6 @@ funkwhale_api_container_additional_networks: "{{ funkwhale_api_container_additio
 funkwhale_api_container_additional_networks_auto: []
 funkwhale_api_container_additional_networks_custom: []
 
-
 # funkwhale_container_labels_traefik_enabled controls whether labels to assist a Traefik reverse-proxy will be attached to the container.
 # See `roles/custom/funkwhale_funkwhale/templates/labels.j2` for details.
 #
@@ -181,7 +176,6 @@ funkwhale_api_container_labels_traefik_rule: "Host(`{{ funkwhale_api_container_l
 funkwhale_api_container_labels_traefik_additional_request_headers: "{{ funkwhale_api_container_labels_traefik_additional_request_headers_auto | combine(funkwhale_api_container_labels_traefik_additional_request_headers_custom) }}"
 funkwhale_api_container_labels_traefik_additional_request_headers_auto: {}
 funkwhale_api_container_labels_traefik_additional_request_headers_custom: {}
-
 
 # Controls which additional headers to attach to all HTTP responses.
 # To add your own custom response headers, use `funkwhale_container_labels_traefik_additional_response_headers_custom`
@@ -243,7 +237,6 @@ funkwhale_api_floc_optout_enabled: true
 # - https://hstspreload.org/#opt-in
 # See: `funkwhale_http_header_strict_transport_security`
 funkwhale_api_hsts_preload_enabled: false
-
 
 # funkwhale_container_labels_additional_labels contains a multiline string with additional labels to add to the container label file.
 # See `roles/custom/collabora_online/templates/labels.j2` for details.
@@ -344,7 +337,6 @@ funkwhale_frontend_container_labels_traefik_additional_request_headers: "{{ funk
 funkwhale_frontend_container_labels_traefik_additional_request_headers_auto: {}
 funkwhale_frontend_container_labels_traefik_additional_request_headers_custom: {}
 
-
 # Controls which additional headers to attach to all HTTP responses.
 # To add your own custom response headers, use `funkwhale_container_labels_traefik_additional_response_headers_custom`
 funkwhale_frontend_container_labels_traefik_additional_response_headers: "{{ funkwhale_frontend_container_labels_traefik_additional_response_headers_auto | combine(funkwhale_frontend_container_labels_traefik_additional_response_headers_custom) }}"
@@ -405,7 +397,6 @@ funkwhale_frontend_floc_optout_enabled: true
 # - https://hstspreload.org/#opt-in
 # See: `funkwhale_http_header_strict_transport_security`
 funkwhale_frontend_hsts_preload_enabled: false
-
 
 # funkwhale_container_labels_additional_labels contains a multiline string with additional labels to add to the container label file.
 # See `roles/custom/collabora_online/templates/labels.j2` for details.
