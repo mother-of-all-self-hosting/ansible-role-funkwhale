@@ -38,6 +38,7 @@ funkwhale_container_image_registry_prefix: "{{ funkwhale_container_image_registr
 funkwhale_container_image_registry_prefix_upstream: "{{ funkwhale_container_image_registry_prefix_upstream_default }}"
 funkwhale_container_image_registry_prefix_upstream_default: docker.io/
 
+# The base container network. It will be auto-created by this role if it doesn't exist already.
 funkwhale_container_network: '{{ funkwhale_identifier }}'
 
 # Enables automatic in-place import and watching file and metadata changes in the funkwhale_music_path directory.
@@ -129,8 +130,10 @@ funkwhale_api_container_image_force_pull: "{{ funkwhale_api_container_image.ends
 # Takes an "<ip>:<port>" or "<port>" value (e.g. "127.0.0.1:8731"), or empty string to not expose.
 funkwhale_api_container_http_host_bind_port: ""
 
+# The base container network. It will be auto-created by this role if it doesn't exist already.
 funkwhale_api_container_network: '{{ funkwhale_container_network }}'
 
+# The port number in the container
 funkwhale_api_container_port: 5000
 
 # A list of additional container networks that the container would be connected to.
@@ -248,6 +251,7 @@ funkwhale_api_systemd_required_services_list_default: "{{ [devture_systemd_docke
 funkwhale_api_systemd_required_services_list_auto: []
 funkwhale_api_systemd_required_services_list_custom: []
 
+# Additional environment variables.
 funkwhale_api_variables_additional_variables: ''
 
 funkwhale_api_identifier: "{{ funkwhale_identifier }}-api"
@@ -288,8 +292,10 @@ funkwhale_frontend_container_image_force_pull: "{{ funkwhale_frontend_container_
 # Takes an "<ip>:<port>" or "<port>" value (e.g. "127.0.0.1:8731"), or empty string to not expose.
 funkwhale_frontend_container_http_host_bind_port: ""
 
+# The base container network. It will be auto-created by this role if it doesn't exist already.
 funkwhale_frontend_container_network: '{{ funkwhale_container_network }}'
 
+# The port number in the container
 funkwhale_frontend_container_http_port: 80
 
 # A list of additional container networks that the container would be connected to.
@@ -404,6 +410,7 @@ funkwhale_frontend_systemd_required_services_list_default: ['docker.service', '{
 funkwhale_frontend_systemd_required_services_list_auto: []
 funkwhale_frontend_systemd_required_services_list_custom: []
 
+# Additional environment variables.
 funkwhale_frontend_variables_additional_variables: ''
 
 funkwhale_frontend_identifier: "{{ funkwhale_identifier }}-frontend"
@@ -430,6 +437,7 @@ funkwhale_celery_beat_identifier: "{{ funkwhale_identifier }}-celery-beat"
 
 funkwhale_celery_beat_version: "{{ funkwhale_version }}"
 
+# The base container network. It will be auto-created by this role if it doesn't exist already.
 funkwhale_celery_beat_container_network: '{{ funkwhale_container_network }}'
 
 # A list of additional container networks that the container would be connected to.
@@ -453,6 +461,7 @@ funkwhale_celery_beat_systemd_required_services_list_default: |-
 funkwhale_celery_beat_systemd_required_services_list_auto: []
 funkwhale_celery_beat_systemd_required_services_list_custom: []
 
+# Additional environment variables.
 funkwhale_celery_beat_variables_additional_variables: ''
 
 funkwhale_celery_beat_concurrency: 0
@@ -473,6 +482,7 @@ funkwhale_celery_worker_identifier: "{{ funkwhale_identifier }}-celery-worker"
 
 funkwhale_celery_worker_version: "{{ funkwhale_version }}"
 
+# The base container network. It will be auto-created by this role if it doesn't exist already.
 funkwhale_celery_worker_container_network: '{{ funkwhale_container_network }}'
 
 # A list of additional container networks that the container would be connected to.
@@ -496,6 +506,7 @@ funkwhale_celery_worker_systemd_required_services_list_default: |-
 funkwhale_celery_worker_systemd_required_services_list_auto: []
 funkwhale_celery_worker_systemd_required_services_list_custom: []
 
+# Additional environment variables.
 funkwhale_celery_worker_variables_additional_variables: ''
 
 # Number of worker processes to execute. Defaults to 0, in which case it uses your number of CPUs
