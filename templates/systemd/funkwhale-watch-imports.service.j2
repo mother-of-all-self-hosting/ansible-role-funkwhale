@@ -10,7 +10,6 @@ Requires={{ funkwhale_api_identifier }}.service
 After={{ funkwhale_api_identifier }}.service
 DefaultDependencies=no
 
-
 [Service]
 Type=simple
 ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} exec {{ funkwhale_api_identifier }} \
