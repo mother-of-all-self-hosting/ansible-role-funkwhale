@@ -154,13 +154,13 @@ funkwhale_api_container_labels_traefik_tls: "{{ funkwhale_api_container_labels_t
 funkwhale_api_container_labels_traefik_tls_certResolver: default  # noqa var-naming
 
 # Controls which additional headers to attach to all HTTP requests.
-# To add your own custom request headers, use `funkwhale_container_labels_traefik_additional_response_headers_custom`
+# To add your own custom request headers, use `funkwhale_api_container_labels_traefik_additional_request_headers_custom`
 funkwhale_api_container_labels_traefik_additional_request_headers: "{{ funkwhale_api_container_labels_traefik_additional_request_headers_auto | combine(funkwhale_api_container_labels_traefik_additional_request_headers_custom) }}"
 funkwhale_api_container_labels_traefik_additional_request_headers_auto: {}
 funkwhale_api_container_labels_traefik_additional_request_headers_custom: {}
 
 # Controls which additional headers to attach to all HTTP responses.
-# To add your own custom response headers, use `funkwhale_container_labels_traefik_additional_response_headers_custom`
+# To add your own custom response headers, use `funkwhale_api_container_labels_traefik_additional_response_headers_custom`
 funkwhale_api_container_labels_traefik_additional_response_headers: "{{ funkwhale_api_container_labels_traefik_additional_response_headers_auto | combine(funkwhale_api_container_labels_traefik_additional_response_headers_custom) }}"
 funkwhale_api_container_labels_traefik_additional_response_headers_auto: |
   {{
@@ -313,13 +313,13 @@ funkwhale_frontend_container_labels_traefik_tls: "{{ funkwhale_api_container_lab
 funkwhale_frontend_container_labels_traefik_tls_certResolver: default  # noqa var-naming
 
 # Controls which additional headers to attach to all HTTP requests.
-# To add your own custom request headers, use `funkwhale_container_labels_traefik_additional_response_headers_custom`
+# To add your own custom request headers, use `funkwhale_frontend_container_labels_traefik_additional_request_headers_custom`
 funkwhale_frontend_container_labels_traefik_additional_request_headers: "{{ funkwhale_frontend_container_labels_traefik_additional_request_headers_auto | combine(funkwhale_frontend_container_labels_traefik_additional_request_headers_custom) }}"
 funkwhale_frontend_container_labels_traefik_additional_request_headers_auto: {}
 funkwhale_frontend_container_labels_traefik_additional_request_headers_custom: {}
 
 # Controls which additional headers to attach to all HTTP responses.
-# To add your own custom response headers, use `funkwhale_container_labels_traefik_additional_response_headers_custom`
+# To add your own custom response headers, use `funkwhale_frontend_container_labels_traefik_additional_response_headers_custom`
 funkwhale_frontend_container_labels_traefik_additional_response_headers: "{{ funkwhale_frontend_container_labels_traefik_additional_response_headers_auto | combine(funkwhale_frontend_container_labels_traefik_additional_response_headers_custom) }}"
 funkwhale_frontend_container_labels_traefik_additional_response_headers_auto: |
   {{
