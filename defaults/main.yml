@@ -58,10 +58,10 @@ funkwhale_database_password: ''
 # By default, we expect a local container (without SSL), so attempting SSL connections is not necessary.
 funkwhale_database_sslmode: disable
 
-funkwhale_config_redis_hostname: ''
-funkwhale_config_redis_port: 6379
-funkwhale_config_redis_database: 0
-funkwhale_config_redis_url: "redis://{{ funkwhale_config_redis_hostname }}:{{ funkwhale_config_redis_port }}/{{ funkwhale_config_redis_database }}"
+funkwhale_redis_hostname: ''
+funkwhale_redis_port: 6379
+funkwhale_redis_database: 0
+funkwhale_redis_url: "redis://{{ funkwhale_redis_hostname }}:{{ funkwhale_redis_port }}/{{ funkwhale_redis_database }}"
 
 # Can be one of `consolemail://`, `dummymail://`, `smtp://`, `smtp+ssl://` and `smtp+tls://`
 # the default outputs e-mail in the console (journalctl -fu mash-funkwhale-api)
