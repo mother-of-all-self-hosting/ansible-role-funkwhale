@@ -28,6 +28,7 @@ funkwhale_version: 1.4.1
 funkwhale_uid: ""
 funkwhale_gid: ""
 
+# The hostname at which Funkwhale is served.
 funkwhale_hostname: ""
 
 funkwhale_container_image_registry_prefix: "{{ funkwhale_container_image_registry_prefix_upstream }}"
