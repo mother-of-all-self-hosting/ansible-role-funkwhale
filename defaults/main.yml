@@ -180,11 +180,11 @@ funkwhale_api_container_labels_traefik_additional_response_headers_custom: {}
 #
 # Example:
 # funkwhale_api_container_labels_additional_labels_custom: |
-#   my.label=1
-#   another.label="here"
-funkwhale_api_container_labels_additional_labels: "{{ funkwhale_api_container_labels_additional_labels_auto | combine(funkwhale_api_container_labels_additional_labels_custom) }}"
-funkwhale_api_container_labels_additional_labels_auto: {}
-funkwhale_api_container_labels_additional_labels_custom: {}
+#   - my.label=1
+#   - another.label="here"
+funkwhale_api_container_labels_additional_labels: "{{ funkwhale_api_container_labels_additional_labels_auto + funkwhale_api_container_labels_additional_labels_custom }}"
+funkwhale_api_container_labels_additional_labels_auto: []
+funkwhale_api_container_labels_additional_labels_custom: []
 
 # A list of extra arguments to pass to the Funkwhale API container (run) statement
 # To mount a library to the funkwhale/music directory use: ["--mount type=bind,src=LIBRARY_PATH,dst=/srv/funkwhale/data/music,ro"]
@@ -342,11 +342,11 @@ funkwhale_frontend_container_labels_traefik_additional_response_headers_custom: 
 #
 # Example:
 # funkwhale_frontend_container_labels_additional_labels_custom: |
-#   my.label=1
-#   another.label="here"
-funkwhale_frontend_container_labels_additional_labels: "{{ funkwhale_frontend_container_labels_additional_labels_auto | combine(funkwhale_frontend_container_labels_additional_labels_custom) }}"
-funkwhale_frontend_container_labels_additional_labels_auto: {}
-funkwhale_frontend_container_labels_additional_labels_custom: {}
+#   - my.label=1
+#   - another.label="here"
+funkwhale_frontend_container_labels_additional_labels: "{{ funkwhale_frontend_container_labels_additional_labels_auto + funkwhale_frontend_container_labels_additional_labels_custom }}"
+funkwhale_frontend_container_labels_additional_labels_auto: []
+funkwhale_frontend_container_labels_additional_labels_custom: []
 
 # A list of extra arguments to pass to the Funkwhale frontend container (run) statement
 # To mount a library to the funkwhale/music directory use: ["--mount type=bind,src=LIBRARY_PATH,dst=/srv/funkwhale/data/music,ro"]
