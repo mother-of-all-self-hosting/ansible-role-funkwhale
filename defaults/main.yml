@@ -182,7 +182,7 @@ funkwhale_api_container_labels_traefik_additional_response_headers_custom: {}
 # See `../templates/labels_api.j2` for details.
 #
 # Example:
-# funkwhale_api_container_labels_additional_labels_custom: |
+# funkwhale_api_container_labels_additional_labels_custom:
 #   - my.label=1
 #   - another.label="here"
 funkwhale_api_container_labels_additional_labels: "{{ funkwhale_api_container_labels_additional_labels_auto + funkwhale_api_container_labels_additional_labels_custom }}"
@@ -344,7 +344,7 @@ funkwhale_frontend_container_labels_traefik_additional_response_headers_custom: 
 # See `../templates/labels_frontend.j2` for details.
 #
 # Example:
-# funkwhale_frontend_container_labels_additional_labels_custom: |
+# funkwhale_frontend_container_labels_additional_labels_custom:
 #   - my.label=1
 #   - another.label="here"
 funkwhale_frontend_container_labels_additional_labels: "{{ funkwhale_frontend_container_labels_additional_labels_auto + funkwhale_frontend_container_labels_additional_labels_custom }}"
