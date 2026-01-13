@@ -36,7 +36,7 @@ funkwhale_container_image_registry_prefix_upstream: "{{ funkwhale_container_imag
 funkwhale_container_image_registry_prefix_upstream_default: docker.io/
 
 # The base container network. It will be auto-created by this role if it doesn't exist already.
-funkwhale_container_network: '{{ funkwhale_identifier }}'
+funkwhale_container_network: "{{ funkwhale_identifier }}"
 
 # Enables automatic in-place import and watching file and metadata changes in the funkwhale_music_path directory.
 # Needs the first 8 characters of the library ID after creating a library in the web UI. If your library ID is "769a2bc3-eb1d-4aff-9f84-2c4d80d5c2d1", provide "769a2bc3".
