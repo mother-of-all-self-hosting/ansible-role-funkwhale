@@ -146,7 +146,7 @@ funkwhale_api_container_additional_networks_custom: []
 # funkwhale_container_labels_traefik_enabled controls whether labels to assist a Traefik reverse-proxy will be attached to the container.
 # See `../templates/labels_api.j2` for details.
 #
-# To inject your own other container labels, see `funkwhale_container_labels_additional_labels`.
+# To inject your own other container labels, see `funkwhale_container_labels_additional_labels_custom`.
 funkwhale_api_container_labels_traefik_enabled: false
 funkwhale_api_container_labels_traefik_docker_network: ""
 funkwhale_api_container_labels_traefik_hostname: "{{ funkwhale_hostname }}"
@@ -311,7 +311,7 @@ funkwhale_frontend_container_additional_networks_custom: []
 # funkwhale_container_labels_traefik_enabled controls whether labels to assist a Traefik reverse-proxy will be attached to the container.
 # See `../templates/labels_frontend.j2` for details.
 #
-# To inject your own other container labels, see `funkwhale_container_labels_additional_labels`.
+# To inject your own other container labels, see `funkwhale_container_labels_additional_labels_custom`.
 funkwhale_frontend_container_labels_traefik_enabled: false
 funkwhale_frontend_container_labels_traefik_docker_network: ""
 funkwhale_frontend_container_labels_traefik_entrypoints: web-secure
