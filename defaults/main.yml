@@ -111,6 +111,8 @@ funkwhale_environment_variables_tz: UTC
 #                                                                      #
 ########################################################################
 
+funkwhale_api_identifier: "{{ funkwhale_identifier }}-api"
+
 funkwhale_api_container_data_path: "/srv/funkwhale/data"
 funkwhale_api_container_media_path: "{{ funkwhale_api_container_data_path }}/media"
 funkwhale_api_container_music_path: "{{ funkwhale_api_container_data_path }}/music"
@@ -189,6 +191,10 @@ funkwhale_api_container_labels_additional_labels: "{{ funkwhale_api_container_la
 funkwhale_api_container_labels_additional_labels_auto: []
 funkwhale_api_container_labels_additional_labels_custom: []
 
+# Specify the size of the container's tmpfs volume
+# Increase this if you want to upload a lot of audio files via the web GUI and get "Can't upload file, ensure it's not to big"
+funkwhale_api_container_tmpfs_tmp_size : 5000m
+
 # A list of extra arguments to pass to the Funkwhale API container (run) statement
 # To mount a library to the funkwhale/music directory use: ["--mount type=bind,src=LIBRARY_PATH,dst=/srv/funkwhale/data/music,ro"]
 funkwhale_api_container_extra_arguments: "{{ funkwhale_api_container_extra_arguments_auto + funkwhale_api_container_extra_arguments_custom }}"
@@ -257,12 +263,6 @@ funkwhale_api_systemd_required_services_list_custom: []
 # Additional environment variables.
 funkwhale_api_variables_additional_variables: ""
 
-funkwhale_api_identifier: "{{ funkwhale_identifier }}-api"
-
-# Specify the size of the container's tmpfs volume
-# Increase this if you want to upload a lot of audio files via the web GUI and get "Can't upload file, ensure it's not to big"
-funkwhale_api_container_tmpfs_tmp_size : 5000m
-
 ########################################################################
 #                                                                      #
 # /api                                                                 #
@@ -274,6 +274,8 @@ funkwhale_api_container_tmpfs_tmp_size : 5000m
 # frontend                                                             #
 #                                                                      #
 ########################################################################
+
+funkwhale_frontend_identifier: "{{ funkwhale_identifier }}-frontend"
 
 funkwhale_frontend_container_media_path: "/srv/funkwhale/data/media"
 funkwhale_frontend_container_music_path: "/srv/funkwhale/data/music"
@@ -419,8 +421,6 @@ funkwhale_frontend_systemd_required_services_list_custom: []
 
 # Additional environment variables.
 funkwhale_frontend_variables_additional_variables: ""
-
-funkwhale_frontend_identifier: "{{ funkwhale_identifier }}-frontend"
 
 # The number of web workers to start in parallel. Higher means you can handle
 # more concurrent requests, but also leads to higher CPU/Memory usage
