@@ -259,8 +259,9 @@ funkwhale_api_variables_additional_variables: ""
 
 funkwhale_api_identifier: "{{ funkwhale_identifier }}-api"
 
+# Specify the size of the container's tmpfs volume
 # Increase this if you want to upload a lot of audio files via the web GUI and get "Can't upload file, ensure it's not to big"
-funkwhale_api_tmpfs_size: 5000m
+funkwhale_api_container_tmpfs_tmp_size : 5000m
 
 ########################################################################
 #                                                                      #
