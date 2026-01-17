@@ -193,7 +193,7 @@ funkwhale_api_container_labels_additional_labels_custom: []
 
 # Specify the size of the container's tmpfs volume
 # Increase this if you want to upload a lot of audio files via the web GUI and get "Can't upload file, ensure it's not to big"
-funkwhale_api_container_tmpfs_tmp_size : 5000m
+funkwhale_api_container_tmpfs_tmp_size: 5000m
 
 # A list of extra arguments to pass to the Funkwhale API container (run) statement
 # To mount a library to the funkwhale/music directory use: ["--mount type=bind,src=LIBRARY_PATH,dst=/srv/funkwhale/data/music,ro"]
