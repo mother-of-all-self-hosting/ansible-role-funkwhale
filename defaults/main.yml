@@ -127,13 +127,13 @@ funkwhale_api_container_image_registry_prefix: "{{ funkwhale_container_image_reg
 funkwhale_api_container_image_tag: "{{ funkwhale_api_version }}"
 funkwhale_api_container_image_force_pull: "{{ funkwhale_api_container_image.endswith(':latest') }}"
 
+# The base container network. It will be auto-created by this role if it doesn't exist already.
+funkwhale_api_container_network: "{{ funkwhale_container_network }}"
+
 # Controls whether the Funkwhale container exposes its HTTP port (as defined by `funkwhale_container_http_port`).
 #
 # Takes an "<ip>:<port>" or "<port>" value (e.g. "127.0.0.1:2586"), or empty string to not expose.
 funkwhale_api_container_http_host_bind_port: ""
-
-# The base container network. It will be auto-created by this role if it doesn't exist already.
-funkwhale_api_container_network: "{{ funkwhale_container_network }}"
 
 # The port number in the container
 funkwhale_api_container_port: 5000
@@ -293,13 +293,13 @@ funkwhale_frontend_container_image_registry_prefix: "{{ funkwhale_container_imag
 funkwhale_frontend_container_image_tag: "{{ funkwhale_frontend_version }}"
 funkwhale_frontend_container_image_force_pull: "{{ funkwhale_frontend_container_image.endswith(':latest') }}"
 
+# The base container network. It will be auto-created by this role if it doesn't exist already.
+funkwhale_frontend_container_network: "{{ funkwhale_container_network }}"
+
 # Controls whether the Funkwhale container exposes its HTTP port (as defined by `funkwhale_container_http_port`).
 #
 # Takes an "<ip>:<port>" or "<port>" value (e.g. "127.0.0.1:2586"), or empty string to not expose.
 funkwhale_frontend_container_http_host_bind_port: ""
-
-# The base container network. It will be auto-created by this role if it doesn't exist already.
-funkwhale_frontend_container_network: "{{ funkwhale_container_network }}"
 
 # The port number in the container
 funkwhale_frontend_container_http_port: 80
