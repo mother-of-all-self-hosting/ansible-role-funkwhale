@@ -133,7 +133,7 @@ funkwhale_api_container_image_force_pull: "{{ funkwhale_api_container_image.ends
 funkwhale_api_container_http_host_bind_port: ""
 
 # The base container network. It will be auto-created by this role if it doesn't exist already.
-funkwhale_api_container_network: '{{ funkwhale_container_network }}'
+funkwhale_api_container_network: "{{ funkwhale_container_network }}"
 
 # The port number in the container
 funkwhale_api_container_port: 5000
@@ -299,7 +299,7 @@ funkwhale_frontend_container_image_force_pull: "{{ funkwhale_frontend_container_
 funkwhale_frontend_container_http_host_bind_port: ""
 
 # The base container network. It will be auto-created by this role if it doesn't exist already.
-funkwhale_frontend_container_network: '{{ funkwhale_container_network }}'
+funkwhale_frontend_container_network: "{{ funkwhale_container_network }}"
 
 # The port number in the container
 funkwhale_frontend_container_http_port: 80
@@ -445,7 +445,7 @@ funkwhale_celery_beat_identifier: "{{ funkwhale_identifier }}-celery-beat"
 funkwhale_celery_beat_version: "{{ funkwhale_version }}"
 
 # The base container network. It will be auto-created by this role if it doesn't exist already.
-funkwhale_celery_beat_container_network: '{{ funkwhale_container_network }}'
+funkwhale_celery_beat_container_network: "{{ funkwhale_container_network }}"
 
 # A list of additional container networks that the container would be connected to.
 # The role does not create these networks, so make sure they already exist.
@@ -490,7 +490,7 @@ funkwhale_celery_worker_identifier: "{{ funkwhale_identifier }}-celery-worker"
 funkwhale_celery_worker_version: "{{ funkwhale_version }}"
 
 # The base container network. It will be auto-created by this role if it doesn't exist already.
-funkwhale_celery_worker_container_network: '{{ funkwhale_container_network }}'
+funkwhale_celery_worker_container_network: "{{ funkwhale_container_network }}"
 
 # A list of additional container networks that the container would be connected to.
 # The role does not create these networks, so make sure they already exist.
@@ -537,7 +537,7 @@ funkwhale_celery_worker_concurrency: 0
 
 funkwhale_watch_imports_identifier: "{{ funkwhale_identifier }}-watch-imports"
 
-funkwhale_watch_imports_container_network: '{{ funkwhale_container_network }}'
+funkwhale_watch_imports_container_network: "{{ funkwhale_container_network }}"
 
 # A list of additional container networks that the container would be connected to.
 # The role does not create these networks, so make sure they already exist.
