@@ -23,8 +23,8 @@ ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} create \
       --name={{ funkwhale_frontend_identifier }} \
       --log-driver=none \
       --cap-drop=ALL \
-      --cap-add=DAC_OVERRIDE \
       --cap-add=CHOWN \
+      --cap-add=DAC_OVERRIDE \
       --cap-add=SETGID \
       --cap-add=SETUID \
       {% if funkwhale_frontend_container_http_host_bind_port %}
