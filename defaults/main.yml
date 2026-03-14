@@ -67,17 +67,6 @@ funkwhale_redis_port: 6379
 funkwhale_redis_database: 0
 funkwhale_redis_url: "redis://{{ funkwhale_redis_hostname }}:{{ funkwhale_redis_port }}/{{ funkwhale_redis_database }}"
 
-# Can be one of `consolemail://`, `dummymail://`, `smtp://`, `smtp+ssl://` and `smtp+tls://`
-# the default outputs e-mail in the console (journalctl -fu mash-funkwhale-api)
-funkwhale_email_protocol: "consolemail://"
-funkwhale_email_host: ""
-funkwhale_email_port: ""
-funkwhale_email_username: ""
-funkwhale_email_password: ""
-funkwhale_email_from: "noreply@{{ funkwhale_hostname }}"
-
-funkwhale_account_email_verification_enforce: false
-
 # This var holds the list of users that should be created automatically by playbooks/roles/group vars,
 # To add your own users for specific host, use `funkwhale_users_additional`
 # funkwhale_users_auto:
@@ -303,6 +292,21 @@ funkwhale_api_container_cleanup_command: |
   done;
   echo "Failed to remove stale container {{ funkwhale_api_identifier }} after {{ funkwhale_api_container_cleanup_timeout_seconds }} attempts" >&2;
   exit 1
+
+# Valid values: consolemail://, dummymail://, smtp://, smtp+ssl://, smtp+tls://
+funkwhale_api_environment_variables_email_config_protocol: "consolemail://"
+
+# Specify SMTP server configuration
+funkwhale_api_environment_variables_email_config_host: ""
+funkwhale_api_environment_variables_email_config_port: ""
+funkwhale_api_environment_variables_email_config_username: ""
+funkwhale_api_environment_variables_email_config_password: ""
+
+funkwhale_api_environment_variables_email_config: "{{ funkwhale_api_environment_variables_email_config_protocol }}{{ funkwhale_api_environment_variables_email_config_username }}:{{ funkwhale_api_environment_variables_email_config_password }}@{{ funkwhale_api_environment_variables_email_config_host }}:{{ funkwhale_api_environment_variables_email_config_port }}"
+
+funkwhale_api_environment_variables_account_email_verification_enforce: false
+
+funkwhale_api_environment_variables_email_config_from: "noreply@{{ funkwhale_hostname }}"
 
 # Additional environment variables.
 funkwhale_api_variables_additional_variables: ""

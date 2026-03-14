@@ -19,6 +19,13 @@
     - { "old": "funkwhale_frontend_env_path", "new": "<Removed>" }
     - { "old": "funkwhale_api_http_header_content_permission_policy", "new": "funkwhale_api_http_header_permissions_policy" }
     - { "old": "funkwhale_frontend_http_header_content_permission_policy", "new": "funkwhale_frontend_http_header_permissions_policy" }
+    - { "old": "funkwhale_email_protocol", "new": "funkwhale_api_environment_variables_email_config_protocol" }
+    - { "old": "funkwhale_email_host", "new": "funkwhale_api_environment_variables_email_config_host" }
+    - { "old": "funkwhale_email_port", "new": "funkwhale_api_environment_variables_email_config_port" }
+    - { "old": "funkwhale_email_username", "new": "funkwhale_api_environment_variables_email_config_username" }
+    - { "old": "funkwhale_email_password", "new": "funkwhale_api_environment_variables_email_config_password" }
+    - { "old": "funkwhale_email_from", "new": "funkwhale_api_environment_variables_email_config_from" }
+    - { "old": "funkwhale_account_email_verification_enforce", "new": "funkwhale_api_environment_variables_account_email_verification_enforce" }
 
 - name: Fail if required Funkwhale settings not defined
   ansible.builtin.fail:
