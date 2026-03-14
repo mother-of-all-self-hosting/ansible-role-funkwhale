@@ -33,7 +33,11 @@
       You need to define a required configuration setting (`{{ item }}`).
   when: "lookup('vars', item, default='') | string | length == 0"
   with_items:
+    - funkwhale_uid
+    - funkwhale_gid
     - funkwhale_hostname
+    - funkwhale_path_prefix
+    - funkwhale_container_network
     - funkwhale_database_hostname
     - funkwhale_database_username
     - funkwhale_database_password
