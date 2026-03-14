@@ -40,7 +40,7 @@
   tags:
     - create-user-funkwhale
     - funkwhale-add-admin
-    - funkwhale-add-superuser
+    - create-superuser-funkwhale
   block:
     - name: Add users to Funkwhale manually
       ansible.builtin.include_tasks: "{{ role_path }}/tasks/add_user_manual.yml"

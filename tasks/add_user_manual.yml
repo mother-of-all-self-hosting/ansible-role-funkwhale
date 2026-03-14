@@ -25,11 +25,11 @@
   tags:
     - create-user-funkwhale
 
-- name: Set the initial role to 'admin' when running 'funkwhale-add-superuser' or 'funkwhale-add-admin'
+- name: Set the initial role to 'admin' when running 'create-superuser-funkwhale' or 'funkwhale-add-admin'
   ansible.builtin.set_fact:
     initial_role: admin
   tags:
-    - funkwhale-add-superuser
+    - create-superuser-funkwhale
     - funkwhale-add-admin
 
 - name: Set user details
