@@ -39,7 +39,7 @@
   when: funkwhale_enabled | bool
   tags:
     - create-user-funkwhale
-    - funkwhale-add-admin
+    - create-admin-funkwhale
     - create-superuser-funkwhale
   block:
     - name: Add users to Funkwhale manually
