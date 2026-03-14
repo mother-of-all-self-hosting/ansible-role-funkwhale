@@ -38,7 +38,7 @@
 - name: Perform tasks to add users manually to Funkwhale
   when: funkwhale_enabled | bool
   tags:
-    - funkwhale-add-user
+    - create-user-funkwhale
     - funkwhale-add-admin
     - funkwhale-add-superuser
   block:
