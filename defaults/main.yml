@@ -60,14 +60,16 @@ funkwhale_aws_s3_region_name: ""
 funkwhale_aws_s3_endpoint_url: ""
 funkwhale_aws_location: 'funkwhale'
 
+# Specify database configuration
 funkwhale_database_hostname: ""
 funkwhale_database_port: 5432
-funkwhale_database_name: funkwhale
 funkwhale_database_username: ""
 funkwhale_database_password: ""
-# Use this to set the sslmode parameter of the SSL connection
+# Specify SSL mode for Postgres database server
 # By default, we expect a local container (without SSL), so attempting SSL connections is not necessary.
+# Valid values: see https://www.postgresql.org/docs/11/libpq-ssl.html#LIBPQ-SSL-SSLMODE-STATEMENTS
 funkwhale_database_sslmode: disable
+funkwhale_database_name: funkwhale
 
 funkwhale_redis_hostname: ""
 funkwhale_redis_port: 6379
