@@ -91,10 +91,40 @@ funkwhale_environment_variables_database_url: |-
 #                                                                      #
 ########################################################################
 
+########################################################################
+#                                                                      #
+# redis                                                                #
+#                                                                      #
+########################################################################
+
+# Specify Redis configuration
 funkwhale_redis_hostname: ""
 funkwhale_redis_port: 6379
-funkwhale_redis_database: 0
-funkwhale_redis_url: "redis://{{ funkwhale_redis_hostname }}:{{ funkwhale_redis_port }}/{{ funkwhale_redis_database }}"
+funkwhale_redis_password: ""
+funkwhale_redis_database: "0"
+
+# Control if the connection to Redis is made via a Unix socket
+funkwhale_redis_socket_enabled: false
+
+# Specify the path to the Redis Unix socket path inside the Funkwhale container
+funkwhale_redis_socket_path_container: /run-valkey
+funkwhale_redis_socket_path: /valkey.sock
+
+# Specify the path to the Redis Unix socket path on the host (bind-mount source)
+funkwhale_redis_socket_path_host: ""
+
+funkwhale_redis_url: |-
+  {% if funkwhale_redis_socket_enabled %}
+  unix://{{ funkwhale_redis_socket_path_container }}{{ funkwhale_redis_socket_path }}?db={{ funkwhale_redis_database }}{{ '&password=' + funkwhale_redis_password if funkwhale_redis_password }}
+  {% else %}
+  redis://:{{ funkwhale_redis_password }}@{{ funkwhale_redis_hostname }}:{{ funkwhale_redis_port }}/{{ funkwhale_redis_database }}
+  {%- endif -%}
+
+########################################################################
+#                                                                      #
+# /redis                                                               #
+#                                                                      #
+########################################################################
 
 # Enables automatic in-place import and watching file and metadata changes in the funkwhale_music_path directory.
 # Needs the first 8 characters of the library ID after creating a library in the web UI. If your library ID is "769a2bc3-eb1d-4aff-9f84-2c4d80d5c2d1", provide "769a2bc3".
