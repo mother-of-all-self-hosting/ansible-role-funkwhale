@@ -19,13 +19,6 @@ Check [`defaults/main.yml`](defaults/main.yml) for the full list of supported op
 
 💡 For an Ansible playbook which integrates this role and makes it easier to use, see the [Mother-of-All-Self-Hosting Ansible playbook](https://github.com/mother-of-all-self-hosting/mash-playbook).
 
-## Usage
-
-If you wish to boost the performance of your pod, you can try tweaking these variables:
-
-- `funkwhale_frontend_web_workers`: increase to allow more parallel connections of web workers
-- `funkwhale_celery_worker_concurrency`: increase the number of worker processes for background tasks
-
 ## Development
 
 You can optionally install [pre-commit](https://pre-commit.com/) so that simple mistakes are checked and noticed before changes are pushed to a remote branch. See [`.pre-commit-config.yaml`](./.pre-commit-config.yaml) for which hooks are to be executed.

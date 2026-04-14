@@ -10,7 +10,11 @@ SPDX-FileCopyrightText: 2022 Julian Foad
 SPDX-FileCopyrightText: 2022 Warren Bailey
 SPDX-FileCopyrightText: 2023 Antonis Christofides
 SPDX-FileCopyrightText: 2023 Felix Stupp
+SPDX-FileCopyrightText: 2023 Julian-Samuel Gebühr
 SPDX-FileCopyrightText: 2023 Pierre 'McFly' Marty
+SPDX-FileCopyrightText: 2023-2025 MASH project contributors
+SPDX-FileCopyrightText: 2024 Thomas Miceli
+SPDX-FileCopyrightText: 2024 noah
 SPDX-FileCopyrightText: 2024-2026 Suguru Hirahara
 
 SPDX-License-Identifier: AGPL-3.0-or-later
@@ -18,14 +22,11 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 # Setting up Funkwhale
 
-This is an [Ansible](https://www.ansible.com/) role which installs [Funkwhale](https://github.com/funkwhaleio/funkwhale) to run as a [Docker](https://www.docker.com/) container wrapped in a systemd service.
+This is an [Ansible](https://www.ansible.com/) role which installs [Funkwhale](https://funkwhale.audio/) to run as a [Docker](https://www.docker.com/) container wrapped in a systemd service.
 
-Funkwhale is a no-code platform for managing databases using a spreadsheet-like interface.
+Funkwhale is a community-driven project that lets you listen and share music and audio within a decentralized, open network.
 
-See the project's [documentation](https://help.funkwhale.ai/en/about) to learn what Funkwhale does and why it might be useful to you.
-
->[!NOTE]
-> This role is configured to use the container image which includes only functions available under the AGPL-3.0 license.
+See the project's [documentation](https://docs.funkwhale.audio) to learn what Apache Answer does and why it might be useful to you.
 
 ## Prerequisites
 
@@ -72,7 +73,7 @@ After adjusting the hostname, make sure to adjust your DNS records to point the 
 You also need to set a random secure string. To do so, add the following configuration to your `vars.yml` file. The value can be generated with `pwgen -s 64 1` or in another way.
 
 ```yaml
-funkwhale_environment_variables_secret_key: YOUR_SECRET_KEY_HERE
+funkwhale_django_secret_key: YOUR_SECRET_KEY_HERE
 ```
 
 ### Configure a Redis database
@@ -96,7 +97,7 @@ Take a look at:
 
 - [`defaults/main.yml`](../defaults/main.yml) for some variables that you can customize via your `vars.yml` file. You can override settings (even those that don't have dedicated playbook variables) using the `funkwhale_environment_variables_additional_variables` variable
 
-See [this page](https://help.funkwhale.ai/en/deploy/env) on the documentation for a complete list of Funkwhale's config options that you could put in `funkwhale_environment_variables_additional_variables`.
+See [this page](https://docs.funkwhale.audio/administrator/configuration/env-file.html) on the documentation for a complete list of Funkwhale's config options that you could put in `funkwhale_environment_variables_additional_variables`.
 
 ## Installing
 
@@ -112,7 +113,48 @@ If you use the MASH playbook, the shortcut commands with the [`just` program](ht
 
 After running the command for installation, Funkwhale becomes available at the specified hostname like `https://example.com`.
 
-To get started, open the URL with a web browser, and register the account. **Note that the first registered user becomes an administrator automatically.**
+To get started, create an administrator user first and open the URL with a web browser to log in to the instance. You can create one by running the commands below.
+
+### Creating users
+
+#### Creating a user manually
+
+You can create a user by running the command below:
+
+```sh
+ansible-playbook -i inventory/hosts setup.yml --tags=create-user-funkwhale -e username=USERNAME_HERE -e password=PASSWORD_HERE -e email=EMAIL_ADDRESS_HERE
+```
+
+Run `create-admin-funkwhale` to create an administrator.
+
+#### Creating users automatically
+
+It is also possible to create muitiple users specified with `funkwhale_users_additional` on your `vars.yml` file by running the command below:
+
+```sh
+ansible-playbook -i inventory/hosts setup.yml --tags=ensure-funkwhale-users-created
+```
+
+Those users can be specified like below:
+
+```yaml
+funkwhale_users_additional:
+  - username: admin
+    initial_email: admin@example.com
+    initial_password: password
+    initial_type: admin
+  - username: user
+    initial_email: user@example.com
+    initial_password: password
+    initial_type: user
+```
+
+### Adjusting workers
+
+If you wish to boost the performance of your pod, you can try tweaking these variables:
+
+- `funkwhale_frontend_web_workers`: increase to allow more parallel connections of web workers
+- `funkwhale_celery_worker_concurrency`: increase the number of worker processes for background tasks
 
 ## Troubleshooting
 
