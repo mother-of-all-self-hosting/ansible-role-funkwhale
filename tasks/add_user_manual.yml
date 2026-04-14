@@ -6,18 +6,11 @@
 ---
 - name: Fail if playbook called incorrectly
   ansible.builtin.fail:
-    msg: "The `username` variable needs to be provided to this playbook, via --extra-vars"
-  when: "username is not defined or username == '<username>'"
-
-- name: Fail if playbook called incorrectly
-  ansible.builtin.fail:
-    msg: "The `email` variable needs to be provided to this playbook, via --extra-vars"
-  when: "email is not defined or email == '<email>'"
-
-- name: Fail if playbook called incorrectly
-  ansible.builtin.fail:
-    msg: "The `password` variable needs to be provided to this playbook, via --extra-vars"
-  when: "password is not defined or password == '<password>'"
+    msg: "The `username`, `password`, and `email` variables need to be provided via --extra-vars"
+  when: >-
+    username is not defined or username == '<username>' or
+    email is not defined or email == '<email>' or
+    password is not defined or password == '<password>'
 
 - name: Set the initial role to 'user' when running 'create-user-funkwhale'
   ansible.builtin.set_fact:
