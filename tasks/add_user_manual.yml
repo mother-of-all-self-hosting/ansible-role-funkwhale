@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 ---
-- name: Fail if playbook called incorrectly
+- name: Fail if playbook called incorrectly for Funkwhale
   ansible.builtin.fail:
     msg: "The `username`, `password`, and `email` variables need to be provided via --extra-vars"
   when: >-
