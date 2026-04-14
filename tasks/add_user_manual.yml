@@ -12,20 +12,20 @@
     email is not defined or email == 'EMAIL_ADDRESS_HERE' or
     password is not defined or password == 'PASSWORD_HERE'
 
-- name: Set the initial role to 'user' when running 'create-user-funkwhale'
+- name: Set the initial role to 'user' when running 'create-user-funkwhale' for Funkwhale
   ansible.builtin.set_fact:
     initial_role: user
   tags:
     - create-user-funkwhale
 
-- name: Set the initial role to 'admin' when running 'create-superuser-funkwhale' or 'create-admin-funkwhale'
+- name: Set the initial role to 'admin' when running 'create-superuser-funkwhale' or 'create-admin-funkwhale' for Funkwhale
   ansible.builtin.set_fact:
     initial_role: admin
   tags:
     - create-superuser-funkwhale
     - create-admin-funkwhale
 
-- name: Set user details
+- name: Set user details for Funkwhale
   ansible.builtin.set_fact:
     user:
       username: "{{ username }}"
