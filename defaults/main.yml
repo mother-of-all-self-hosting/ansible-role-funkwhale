@@ -3,6 +3,7 @@
 # SPDX-FileCopyrightText: 2023, 2025 MASH project contributors
 # SPDX-FileCopyrightText: 2023-2025 Slavi Pantaleev
 # SPDX-FileCopyrightText: 2024 Sergio Durigan Junior
+# SPDX-FileCopyrightText: 2024 noah
 # SPDX-FileCopyrightText: 2025, 2026 Suguru Hirahara
 #
 # SPDX-License-Identifier: AGPL-3.0-or-later
@@ -138,27 +139,22 @@ funkwhale_aws_s3_region_name: ""
 funkwhale_aws_s3_endpoint_url: ""
 funkwhale_aws_location: 'funkwhale'
 
-# This var holds the list of users that should be created automatically by playbooks/roles/group vars,
+# funkwhale_users contains a list of users that should be created automatically
 # To add your own users for specific host, use `funkwhale_users_additional`
-# funkwhale_users_auto:
-# - username: admin
-#   initial_email: admin@example.com
-#   initial_password: password
-#   initial_type: admin
-# - username: user
-#   initial_email: admin@example.com
-#   initial_password: password
-#   initial_type: user
-funkwhale_users_auto: []
-# This var holds the list of users that should be created automatically by specific host (using host's vars.yml) instead of playbook/role/group vars
+#
+# Example:
 # funkwhale_users_additional:
-# - username: rssbot
-#   initial_email: bots@example.com
-#   initial_password: password
-#   initial_type: user
-funkwhale_users_additional: []
-# Use funkwhale_users_auto and funkwhale_users_additional to define users that should be created automatically.
+#   - username: admin
+#     initial_email: admin@example.com
+#     initial_password: password
+#     initial_type: admin
+#   - username: user
+#     initial_email: user@example.com
+#     initial_password: password
+#     initial_type: user
 funkwhale_users: "{{ funkwhale_users_auto + funkwhale_users_additional }}"
+funkwhale_users_auto: []
+funkwhale_users_additional: []
 
 funkwhale_django_secret_key: ""
 
