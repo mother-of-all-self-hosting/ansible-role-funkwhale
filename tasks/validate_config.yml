@@ -27,6 +27,7 @@
     - { "old": "funkwhale_email_password", "new": "funkwhale_api_environment_variables_email_config_password" }
     - { "old": "funkwhale_email_from", "new": "funkwhale_api_environment_variables_email_config_from" }
     - { "old": "funkwhale_account_email_verification_enforce", "new": "funkwhale_api_environment_variables_account_email_verification_enforce" }
+    - { "old": "funkwhale_loglevel", "new": "funkwhale_environment_variables_loglevel" }
 
 - name: Fail if required Funkwhale settings not defined
   ansible.builtin.fail:

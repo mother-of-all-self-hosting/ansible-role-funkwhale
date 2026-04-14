@@ -159,7 +159,7 @@ funkwhale_users_additional: []
 funkwhale_django_secret_key: ""
 
 # Must be one of debug, info, warning, error, critical
-funkwhale_loglevel: error
+funkwhale_environment_variables_loglevel: error
 
 # Specify the timezone
 funkwhale_environment_variables_tz: UTC
