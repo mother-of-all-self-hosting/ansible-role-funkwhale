@@ -8,9 +8,9 @@
   ansible.builtin.fail:
     msg: "The `username`, `password`, and `email` variables need to be provided via --extra-vars"
   when: >-
-    username is not defined or username == '<username>' or
-    email is not defined or email == '<email>' or
-    password is not defined or password == '<password>'
+    username is not defined or username == 'USERNAME_HERE' or
+    email is not defined or email == 'EMAIL_ADDRESS_HERE' or
+    password is not defined or password == 'PASSWORD_HERE'
 
 - name: Set the initial role to 'user' when running 'create-user-funkwhale'
   ansible.builtin.set_fact:
