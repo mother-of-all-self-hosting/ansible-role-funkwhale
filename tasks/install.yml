@@ -45,10 +45,10 @@
     owner: "{{ funkwhale_uid }}"
     group: "{{ funkwhale_gid }}"
   with_items:
-    - { src: "{{ role_path }}/templates/labels_frontend.j2", dest: "{{ funkwhale_frontend_base_path }}/labels" }
+    - { src: "{{ role_path }}/templates/env_api.j2", dest: "{{ funkwhale_api_base_path }}/env" }
     - { src: "{{ role_path }}/templates/labels_api.j2", dest: "{{ funkwhale_api_base_path }}/labels" }
     - { src: "{{ role_path }}/templates/env_frontend.j2", dest: "{{ funkwhale_frontend_base_path }}/env" }
-    - { src: "{{ role_path }}/templates/env_api.j2", dest: "{{ funkwhale_api_base_path }}/env" }
+    - { src: "{{ role_path }}/templates/labels_frontend.j2", dest: "{{ funkwhale_frontend_base_path }}/labels" }
   register: funkwhale_support_files_result
 
 - name: Ensure Funkwhale container images are pulled

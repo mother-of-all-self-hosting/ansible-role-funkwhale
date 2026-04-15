@@ -15,15 +15,15 @@ funkwhale_enabled: true
 
 funkwhale_identifier: funkwhale
 funkwhale_base_path: "/{{ funkwhale_identifier }}"
-funkwhale_frontend_base_path: "{{ funkwhale_base_path }}/frontend"
 funkwhale_api_base_path: "{{ funkwhale_base_path }}/api"
 funkwhale_celery_beat_base_path: "{{ funkwhale_base_path }}/celery-beat"
 funkwhale_celery_worker_base_path: "{{ funkwhale_base_path }}/celery-worker"
+funkwhale_frontend_base_path: "{{ funkwhale_base_path }}/frontend"
+funkwhale_frontend_static_path: "{{ funkwhale_frontend_base_path }}/appstatic"
 funkwhale_data_path: "{{ funkwhale_base_path }}/data"
 funkwhale_static_path: "{{ funkwhale_data_path }}/static"
 funkwhale_media_path: "{{ funkwhale_data_path }}/media" # Defines where media is stored
 funkwhale_music_path: "{{ funkwhale_data_path }}/music" # Defines where music files to be imported to Funkwhale from
-funkwhale_frontend_static_path: "{{ funkwhale_frontend_base_path }}/appstatic"
 
 # renovate: datasource=docker depName=funkwhale/api
 funkwhale_version: 1.4.1
