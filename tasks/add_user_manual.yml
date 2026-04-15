@@ -15,15 +15,14 @@
 - name: Set the initial role to 'user' when running 'create-user-funkwhale' for Funkwhale
   ansible.builtin.set_fact:
     initial_role: user
-  tags:
-    - create-user-funkwhale
+  when: "'create-user-funkwhale' in ansible_run_tags"
 
 - name: Set the initial role to 'admin' when running 'create-superuser-funkwhale' or 'create-admin-funkwhale' for Funkwhale
   ansible.builtin.set_fact:
     initial_role: admin
-  tags:
-    - create-superuser-funkwhale
-    - create-admin-funkwhale
+  when: >-
+    'create-admin-funkwhale' in ansible_run_tags or
+    'create-superuser-funkwhale' in ansible_run_tags
 
 - name: Set user details for Funkwhale
   ansible.builtin.set_fact:
