@@ -48,7 +48,7 @@
 
 - name: Ensure Funkwhale local paths except data path do not exist
   ansible.builtin.file:
-    path: "{{ item}}"
+    path: "{{ item }}"
     state: absent
   with_items:
     - "{{ funkwhale_api_base_path }}"
