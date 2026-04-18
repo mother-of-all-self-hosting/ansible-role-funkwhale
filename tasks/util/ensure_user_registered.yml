@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 ---
-- name: "Ensure Funkwhale user registered - {{ user.username }}"
+- name: "Ensure Funkwhale user registered — {{ user.username }}"
   ansible.builtin.command:
     cmd: |-
       {{ devture_systemd_docker_base_host_command_docker }} exec {{ funkwhale_api_identifier }}
