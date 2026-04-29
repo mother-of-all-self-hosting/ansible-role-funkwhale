@@ -26,7 +26,7 @@ funkwhale_media_path: "{{ funkwhale_data_path }}/media" # Defines where media is
 funkwhale_music_path: "{{ funkwhale_data_path }}/music" # Defines where music files to be imported to Funkwhale from
 
 # renovate: datasource=docker depName=funkwhale/api
-funkwhale_version: 1.4.1
+funkwhale_version: 2.0.2
 
 funkwhale_uid: ""
 funkwhale_gid: ""
