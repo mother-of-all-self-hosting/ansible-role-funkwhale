@@ -28,6 +28,8 @@
     - { "old": "funkwhale_email_from", "new": "funkwhale_api_environment_variables_email_config_from" }
     - { "old": "funkwhale_account_email_verification_enforce", "new": "funkwhale_api_environment_variables_account_email_verification_enforce" }
     - { "old": "funkwhale_loglevel", "new": "funkwhale_environment_variables_loglevel" }
+    - { "old": "funkwhale_api_container_image_force_pull", "new": "<removed> (the new community.docker.docker_image_pull module handles this natively)" }
+    - { "old": "funkwhale_frontend_container_image_force_pull", "new": "<removed> (the new community.docker.docker_image_pull module handles this natively)" }
 
 - name: Fail if required Funkwhale settings not defined
   ansible.builtin.fail:

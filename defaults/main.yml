@@ -194,7 +194,6 @@ funkwhale_api_hostname: "{{ funkwhale_hostname }}"
 funkwhale_api_container_image: "{{ funkwhale_api_container_image_registry_prefix }}funkwhale/api:{{ funkwhale_api_container_image_tag }}"
 funkwhale_api_container_image_registry_prefix: "{{ funkwhale_container_image_registry_prefix }}"
 funkwhale_api_container_image_tag: "{{ funkwhale_api_version }}"
-funkwhale_api_container_image_force_pull: "{{ funkwhale_api_container_image.endswith(':latest') }}"
 
 # The base container network. It will be auto-created by this role if it doesn't exist already.
 funkwhale_api_container_network: "{{ funkwhale_container_network }}"
@@ -407,7 +406,6 @@ funkwhale_frontend_hostname: "{{ funkwhale_hostname }}"
 funkwhale_frontend_container_image: "{{ funkwhale_frontend_container_image_registry_prefix }}funkwhale/front:{{ funkwhale_frontend_container_image_tag }}"
 funkwhale_frontend_container_image_registry_prefix: "{{ funkwhale_container_image_registry_prefix }}"
 funkwhale_frontend_container_image_tag: "{{ funkwhale_frontend_version }}"
-funkwhale_frontend_container_image_force_pull: "{{ funkwhale_frontend_container_image.endswith(':latest') }}"
 
 # The base container network. It will be auto-created by this role if it doesn't exist already.
 funkwhale_frontend_container_network: "{{ funkwhale_container_network }}"
