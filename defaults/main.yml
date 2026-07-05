@@ -574,6 +574,12 @@ funkwhale_frontend_container_cleanup_command: |
   echo "Failed to remove stale container {{ funkwhale_frontend_identifier }} after {{ funkwhale_frontend_container_cleanup_timeout_seconds }} attempts" >&2;
   exit 1
 
+# Specify the hostname of the Funkwhale API instance
+funkwhale_frontend_variables_funkwhale_api_host: "{{ funkwhale_api_identifier }}"
+
+# Specify the port number of the Funkwhale API instance
+funkwhale_frontend_variables_funkwhale_api_port: "{{ funkwhale_api_container_http_port }}"
+
 # Additional environment variables.
 funkwhale_frontend_variables_additional_variables: ""
 
