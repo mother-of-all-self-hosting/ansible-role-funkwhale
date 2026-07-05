@@ -430,7 +430,9 @@ funkwhale_frontend_container_additional_networks_custom: []
 #
 # To inject your own other container labels, see `funkwhale_container_labels_additional_labels_custom`.
 funkwhale_frontend_container_labels_traefik_enabled: true
-funkwhale_frontend_container_labels_traefik_docker_network: "{{ funkwhale_frontend_network }}"
+funkwhale_frontend_container_labels_traefik_docker_network: "{{ funkwhale_frontend_container_network }}"
+funkwhale_frontend_container_labels_traefik_hostname: "{{ funkwhale_frontend_hostname }}"
+funkwhale_frontend_container_labels_traefik_rule: "Host(`{{ funkwhale_frontend_container_labels_traefik_hostname }}`)"
 funkwhale_frontend_container_labels_traefik_priority: 0
 funkwhale_frontend_container_labels_traefik_entrypoints: web-secure
 funkwhale_frontend_container_labels_traefik_tls: "{{ funkwhale_frontend_container_labels_traefik_entrypoints != 'web' }}"
