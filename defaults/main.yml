@@ -31,6 +31,9 @@ funkwhale_version: 1.4.1
 funkwhale_uid: ""
 funkwhale_gid: ""
 
+# The scheme used for serving Funkwhale.
+funkwhale_scheme: https
+
 # The hostname at which Funkwhale is served.
 funkwhale_hostname: ""
 
