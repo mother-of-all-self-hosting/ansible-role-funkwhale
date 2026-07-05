@@ -198,13 +198,13 @@ funkwhale_api_container_image_tag: "{{ funkwhale_api_version }}"
 # The base container network. It will be auto-created by this role if it doesn't exist already.
 funkwhale_api_container_network: "{{ funkwhale_container_network }}"
 
-# Specify how the API container publishes its HTTP port (as defined by `funkwhale_api_container_port`).
+# Specify how the API container publishes its HTTP port (as defined by `funkwhale_api_container_http_port`).
 #
 # Takes an "<ip>:<port>" or "<port>" value (e.g. "127.0.0.1:2586"), or empty string to not expose.
 funkwhale_api_container_http_host_bind_port: ""
 
 # The port number in the container
-funkwhale_api_container_port: 5000
+funkwhale_api_container_http_port: 5000
 
 # A list of additional container networks that the container would be connected to.
 # The role does not create these networks, so make sure they already exist.

@@ -18,6 +18,7 @@
     - { "old": "funkwhale_config_redis_database", "new": "funkwhale_redis_database" }
     - { "old": "funkwhale_config_redis_url", "new": "funkwhale_redis_url" }
     - { "old": "funkwhale_frontend_env_path", "new": "<Removed>" }
+    - { "old": "funkwhale_api_container_port", "new": "funkwhale_api_container_http_port" }
     - { "old": "funkwhale_api_http_header_content_permission_policy", "new": "funkwhale_api_http_header_permissions_policy" }
     - { "old": "funkwhale_frontend_http_header_content_permission_policy", "new": "funkwhale_frontend_http_header_permissions_policy" }
     - { "old": "funkwhale_email_protocol", "new": "funkwhale_api_environment_variables_email_config_protocol" }
