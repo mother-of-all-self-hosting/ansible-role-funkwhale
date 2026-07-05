@@ -332,6 +332,12 @@ funkwhale_api_systemd_required_services_list_default: "{{ [devture_systemd_docke
 funkwhale_api_systemd_required_services_list_auto: []
 funkwhale_api_systemd_required_services_list_custom: []
 
+# List of systemd services that the Funkwhale API systemd service wants
+funkwhale_api_systemd_wanted_services_list: "{{ funkwhale_api_systemd_wanted_services_list_default + funkwhale_api_systemd_wanted_services_list_auto + funkwhale_api_systemd_wanted_services_list_custom }}"
+funkwhale_api_systemd_wanted_services_list_default: []
+funkwhale_api_systemd_wanted_services_list_auto: []
+funkwhale_api_systemd_wanted_services_list_custom: []
+
 # Controls how long to wait for the container to stop gracefully before killing it.
 funkwhale_api_container_stop_grace_time_seconds: "{{ devture_systemd_docker_base_container_stop_grace_time_seconds }}"
 
@@ -542,6 +548,12 @@ funkwhale_frontend_systemd_required_services_list_default: |
   }}
 funkwhale_frontend_systemd_required_services_list_auto: []
 funkwhale_frontend_systemd_required_services_list_custom: []
+
+# List of systemd services that the Funkwhale frontend systemd service wants
+funkwhale_frontend_systemd_wanted_services_list: "{{ funkwhale_frontend_systemd_wanted_services_list_default + funkwhale_frontend_systemd_wanted_services_list_auto + funkwhale_frontend_systemd_wanted_services_list_custom }}"
+funkwhale_frontend_systemd_wanted_services_list_default: []
+funkwhale_frontend_systemd_wanted_services_list_auto: []
+funkwhale_frontend_systemd_wanted_services_list_custom: []
 
 # Controls how long to wait for the container to stop gracefully before killing it.
 funkwhale_frontend_container_stop_grace_time_seconds: "{{ devture_systemd_docker_base_container_stop_grace_time_seconds }}"
