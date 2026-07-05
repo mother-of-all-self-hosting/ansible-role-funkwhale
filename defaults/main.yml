@@ -217,7 +217,7 @@ funkwhale_api_container_additional_networks_custom: []
 # See `../templates/labels_api.j2` for details.
 #
 # To inject your own other container labels, see `funkwhale_container_labels_additional_labels_custom`.
-funkwhale_api_container_labels_traefik_enabled: true
+funkwhale_api_container_labels_traefik_enabled: false
 funkwhale_api_container_labels_traefik_docker_network: "{{ funkwhale_container_network }}"
 funkwhale_api_container_labels_traefik_hostname: "{{ funkwhale_hostname }}"
 # The path prefix must either be `/` or not end with a slash (e.g. `/api`).
