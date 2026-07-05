@@ -53,11 +53,11 @@
 
 - name: Ensure Funkwhale container images are pulled
   community.docker.docker_image_pull:
-    name: "{{ item.image }}"
+    name: "{{ item }}"
     pull: always
   with_items:
-    - { image: "{{ funkwhale_frontend_container_image }}" }
-    - { image: "{{ funkwhale_api_container_image }}" }
+    - "{{ funkwhale_frontend_container_image }}"
+    - "{{ funkwhale_api_container_image }}"
   register: funkwhale_container_images_pull_result
   retries: "{{ devture_playbook_help_container_retries_count }}"
   delay: "{{ devture_playbook_help_container_retries_delay }}"
