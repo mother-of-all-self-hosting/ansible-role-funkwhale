@@ -1,0 +1,110 @@
+# SPDX-FileCopyrightText: 2026 Suguru Hirahara
+# SPDX-FileCopyrightText: 2026 spatterlight
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+---
+- name: Verify Funkwhale systemd service
+  hosts: all
+  become: true
+  gather_facts: false
+  tasks:
+    - name: Wait for Funkwhale API service to become active (up to 180s)
+      ansible.builtin.systemd:
+        name: funkwhale-api.service
+      register: funkwhale_service_api
+      until: funkwhale_service_api.status.ActiveState == 'active'
+      retries: 36
+      delay: 5
+
+    - name: Assert Funkwhale API service is active
+      ansible.builtin.assert:
+        that: funkwhale_service_api.status.ActiveState == 'active'
+        fail_msg: "funkwhale-api.service not active ({{ funkwhale_service_api.status.ActiveState }})"
+        success_msg: "funkwhale-api.service is active"
+
+    - name: Wait for Funkwhale frontend service to become active (up to 180s)
+      ansible.builtin.systemd:
+        name: funkwhale-frontend.service
+      register: funkwhale_service_frontend
+      until: funkwhale_service_frontend.status.ActiveState == 'active'
+      retries: 36
+      delay: 5
+
+    - name: Assert Funkwhale frontend service is active
+      ansible.builtin.assert:
+        that: funkwhale_service_frontend.status.ActiveState == 'active'
+        fail_msg: "funkwhale-frontend.service not active ({{ funkwhale_service_frontend.status.ActiveState }})"
+        success_msg: "funkwhale-frontend.service is active"
+
+    - name: Wait for Funkwhale celerly beat service to become active (up to 180s)
+      ansible.builtin.systemd:
+        name: funkwhale-celery-beat.service
+      register: funkwhale_service_celery_beat
+      until: funkwhale_service_celery_beat.status.ActiveState == 'active'
+      retries: 36
+      delay: 5
+
+    - name: Assert Funkwhale celerly beat service is active
+      ansible.builtin.assert:
+        that: funkwhale_service_celery_beat.status.ActiveState == 'active'
+        fail_msg: "funkwhale-celery-beat.service not active ({{ funkwhale_service_celery_beat.status.ActiveState }})"
+        success_msg: "funkwhale-celery-beat.service is active"
+
+    - name: Wait for Funkwhale celerly worker service to become active (up to 180s)
+      ansible.builtin.systemd:
+        name: funkwhale-celery-worker.service
+      register: funkwhale_service_celery_worker
+      until: funkwhale_service_celery_worker.status.ActiveState == 'active'
+      retries: 36
+      delay: 5
+
+    - name: Assert Funkwhale celerly worker service is active
+      ansible.builtin.assert:
+        that: funkwhale_service_celery_worker.status.ActiveState == 'active'
+        fail_msg: "funkwhale-celery-worker.service not active ({{ funkwhale_service_celery_worker.status.ActiveState }})"
+        success_msg: "funkwhale-celery-worker.service is active"
+
+    - name: Run if watch imports systemd service is enabled
+      when: funkwhale_watch_imports_enabled
+      block:
+        - name: Wait for Funkwhale watch imports service to become active (up to 180s)
+          ansible.builtin.systemd:
+            name: funkwhale-watch-imports.service
+          register: funkwhale_service_watch_imports
+          until: funkwhale_service_watch_imports.status.ActiveState == 'active'
+          retries: 36
+          delay: 5
+
+        - name: Assert Funkwhale watch imports service is active
+          ansible.builtin.assert:
+            that: funkwhale_service_watch_imports.status.ActiveState == 'active'
+            fail_msg: "funkwhale-watch-imports.service not active ({{ funkwhale_service_watch_imports.status.ActiveState }})"
+            success_msg: "funkwhale-watch-imports.service is active"
+
+    - name: Wait for Funkwhale HTTP endpoint to respond (up to 10m)
+      ansible.builtin.uri:
+        url: "http://localhost:80/"
+        method: GET
+        status_code: [200, 302]
+        follow_redirects: none
+      register: funkwhale_endpoint
+      until: funkwhale_endpoint.status in [200, 302]
+      retries: 120
+      delay: 5
+
+    - name: Assert Funkwhale HTTP endpoint responds
+      ansible.builtin.assert:
+        that: funkwhale_endpoint.status in [200, 302]
+        fail_msg: "Funkwhale did not respond as expected ({{ funkwhale_endpoint.status | default('no response') }})"
+        success_msg: "Funkwhale responded with {{ funkwhale_endpoint.status }}"
+
+    - name: Show Funkwhale systemd services status summary
+      ansible.builtin.debug:
+        msg:
+          - "Funkwhale API systemd: {{ funkwhale_service_api.status.ActiveState }}"
+          - "Funkwhale frontend systemd: {{ funkwhale_service_frontend.status.ActiveState }}"
+          - "Funkwhale celery beat systemd: {{ funkwhale_service_celery_beat.status.ActiveState }}"
+          - "Funkwhale celery worker systemd: {{ funkwhale_service_celery_worker.status.ActiveState }}"
+          - "Funkwhale watch imports systemd: {{ funkwhale_service_watch_imports.status.ActiveState if funkwhale_watch_imports_enabled else 'disabled' }}"
+          - "Funkwhale HTTP: {{ funkwhale_endpoint.status }}"
