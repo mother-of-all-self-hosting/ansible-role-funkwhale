@@ -30,7 +30,8 @@ provisioner:
         # Variables for Funkwhale
         funkwhale_uid: 1000
         funkwhale_gid: 1000
-        funkwhale_hostname: funkwhale
+        funkwhale_scheme: http
+        funkwhale_hostname: localhost
         funkwhale_frontend_container_http_host_bind_port: 80
         funkwhale_frontend_container_labels_traefik_enabled: false
         funkwhale_django_secret_key: secret
