@@ -23,6 +23,12 @@
         fail_msg: "funkwhale-api.service not active ({{ funkwhale_service_api.status.ActiveState }})"
         success_msg: "funkwhale-api.service is active"
 
+    - name: Retrieve Funkwhale API service log for debugging
+      when: funkwhale_debug_service_enabled | bool
+      ansible.builtin.command:
+        cmd: journalctl -xeu funkwhale-api.service
+      changed_when: false
+
     - name: Wait for Funkwhale frontend service to become active (up to 180s)
       ansible.builtin.systemd:
         name: funkwhale-frontend.service
@@ -37,6 +43,12 @@
         fail_msg: "funkwhale-frontend.service not active ({{ funkwhale_service_frontend.status.ActiveState }})"
         success_msg: "funkwhale-frontend.service is active"
 
+    - name: Retrieve Funkwhale frontend service log for debugging
+      when: funkwhale_debug_service_enabled | bool
+      ansible.builtin.command:
+        cmd: journalctl -xeu funkwhale-frontend.service
+      changed_when: false
+
     - name: Wait for Funkwhale celerly beat service to become active (up to 180s)
       ansible.builtin.systemd:
         name: funkwhale-celery-beat.service
@@ -50,6 +62,12 @@
         that: funkwhale_service_celery_beat.status.ActiveState == 'active'
         fail_msg: "funkwhale-celery-beat.service not active ({{ funkwhale_service_celery_beat.status.ActiveState }})"
         success_msg: "funkwhale-celery-beat.service is active"
+
+    - name: Retrieve Funkwhale celerly beat service log for debugging
+      when: funkwhale_debug_service_enabled | bool
+      ansible.builtin.command:
+        cmd: journalctl -xeu funkwhale-celery-beat.service
+      changed_when: false
 
     - name: Wait for Funkwhale celerly worker service to become active (up to 180s)
       ansible.builtin.systemd:
@@ -81,6 +99,12 @@
             that: funkwhale_service_watch_imports.status.ActiveState == 'active'
             fail_msg: "funkwhale-watch-imports.service not active ({{ funkwhale_service_watch_imports.status.ActiveState }})"
             success_msg: "funkwhale-watch-imports.service is active"
+
+        - name: Retrieve Funkwhale watch imports service log for debugging
+          when: funkwhale_debug_service_enabled | bool
+          ansible.builtin.command:
+            cmd: journalctl -xeu funkwhale-watch-imports.service
+          changed_when: false
 
     - name: Wait for Funkwhale HTTP endpoint to respond (up to 10m)
       ansible.builtin.uri:

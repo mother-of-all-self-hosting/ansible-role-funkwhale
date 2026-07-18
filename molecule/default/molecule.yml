@@ -27,6 +27,9 @@ provisioner:
   inventory:
     group_vars:
       all:
+        # Helper variables
+        funkwhale_debug_service_enabled: false
+
         # Variables for Funkwhale
         funkwhale_uid: 1000
         funkwhale_gid: 1000
