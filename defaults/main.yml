@@ -25,7 +25,7 @@ funkwhale_static_path: "{{ funkwhale_data_path }}/static"
 funkwhale_media_path: "{{ funkwhale_data_path }}/media" # Defines where media is stored
 funkwhale_music_path: "{{ funkwhale_data_path }}/music" # Defines where music files to be imported to Funkwhale from
 
-# renovate: datasource=docker depName=funkwhale/api
+# renovate: datasource=docker depName=funkwhale/api versioning=semver
 funkwhale_version: 1.4.1
 
 funkwhale_uid: ""
