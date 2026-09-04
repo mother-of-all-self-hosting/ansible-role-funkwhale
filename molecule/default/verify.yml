@@ -522,7 +522,7 @@
           Both containers run {{ funkwhale_defaults.funkwhale_version }}:
           {{ funkwhale_verify_api.Config.Image }} and {{ funkwhale_verify_frontend.Config.Image }}
 
-    - name: Show Funkwhale verification summary
+    - name: Show the Funkwhale verification summary
       ansible.builtin.debug:
         msg:
           - "Funkwhale API systemd: {{ funkwhale_service_api.status.ActiveState }}"
