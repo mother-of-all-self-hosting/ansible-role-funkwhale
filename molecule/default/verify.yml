@@ -32,12 +32,10 @@
       -d {{ funkwhale_database_name | quote }} -tAc
 
   tasks:
-    # Role defaults are not in scope in a verify play, but the version that
-    # Renovate bumps lives in them and is what the running Funkwhale is checked
-    # against below. Only leaf literals may be read out of this namespace -
-    # `funkwhale_api_identifier` and friends are defined in terms of
-    # `funkwhale_identifier` and would resolve against an empty namespace.
-    - name: Load the Funkwhale role defaults
+    # The role is not included in this playbook, so its defaults are not in
+    # scope. Reading defaults/main.yml directly ties the version assertion
+    # below.
+    - name: Load the role defaults
       ansible.builtin.include_vars:
         file: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') }}/defaults/main.yml"
         name: funkwhale_defaults
