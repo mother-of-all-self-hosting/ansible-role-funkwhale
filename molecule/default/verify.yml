@@ -152,20 +152,12 @@
           changed_when: false
 
     # An active unit is a weak statement for every one of these services.
-    # `funkwhale-api.service` goes active the moment `docker start` attaches,
-    # while the container is still running `funkwhale-manage collectstatic` and
-    # `funkwhale-manage migrate` from its entrypoint. The Celery units are
-    # weaker still: they are `docker exec` calls into the API container, so
-    # they stay active as long as that exec lives, even while Celery is failing
-    # to reach its broker. Everything below therefore talks to the running
-    # application instead of to systemd.
+    # Everything below therefore talks to the running application instead of to systemd.
     #
     # The frontend is where the trap is. Its image is nginx serving a pre-built
     # Vue bundle, so `GET /` answers 200 with the full SPA shell out of the
     # image itself - no API call, no database, nothing this role configured.
-    # Verified against a stack whose Postgres had been stopped: `/` kept
-    # answering 200 with an identical 3493-byte body. It is checked here
-    # because the SPA being served is worth knowing, but it is deliberately not
+    # Verified against a stack whose Postgres had been stopped: `/` is deliberately not
     # the readiness gate.
     - name: Retrieve the Funkwhale single-page application shell
       ansible.builtin.uri:
@@ -186,17 +178,10 @@
         fail_msg: "The frontend did not serve the Funkwhale SPA shell (HTTP {{ funkwhale_spa.status }})"
         success_msg: "The frontend serves the Funkwhale single-page application"
 
-    # This is the readiness gate, and the one endpoint here that cannot lie.
+    # This is the readiness gate.
     # `/api/v1/instance/settings/` renders the `dynamic_preferences` tables, so
     # it opens a database connection on every request and cannot be answered
-    # before `funkwhale-manage migrate` has finished. Against a stack whose
-    # Postgres had been stopped it answered 500 while `/` still answered 200.
-    #
-    # Reaching it at all also proves three separate pieces of wiring: nginx
-    # resolved and proxied to the API container (`FUNKWHALE_API_HOST` and
-    # `FUNKWHALE_API_PORT` from `templates/env_frontend.j2`), and the API
-    # reached Postgres over the Unix socket this scenario bind-mounts
-    # (`DATABASE_URL` from `templates/env_api.j2`).
+    # before `funkwhale-manage migrate` has finished.
     - name: Wait for the Funkwhale instance settings to be served from the database (up to 10m)
       ansible.builtin.uri:
         url: "{{ funkwhale_verify_base_url }}/api/v1/instance/settings/"
@@ -221,12 +206,8 @@
           Funkwhale serves {{ funkwhale_settings.json | length }} instance settings out of its
           database, so its schema is migrated and its database wiring works
 
-    # Nodeinfo reports the version of the running application, which is what
-    # ties this scenario to the value Renovate bumps: a bump to an image that
-    # cannot boot or migrate cannot get this far.
-    #
-    # Note that nodeinfo is NOT a readiness gate, even though it looks like the
-    # obvious one. Funkwhale caches the rendered document in Valkey, and it was
+    # Nodeinfo reports the version of the running application. Note that
+    # it is NOT a readiness gate. Funkwhale caches the rendered document in Valkey, and it was
     # observed answering 200 with a complete, correct-looking payload while
     # Postgres was stopped. It is only read here after the settings endpoint
     # above has already established that the database is live.
