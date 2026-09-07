@@ -479,11 +479,11 @@
 
     - name: Assert both Funkwhale containers run the images this role installs
       vars:
-        funkwhale_verify_containers: "{{ funkwhale_container_inspection.stdout | from_json }}"
+        funkwhale_containers: "{{ funkwhale_container_inspection.stdout | from_json }}"
         funkwhale_verify_api: >-
-          {{ funkwhale_verify_containers | selectattr('Name', 'equalto', '/' ~ funkwhale_verify_api_container) | first }}
+          {{ funkwhale_containers | selectattr('Name', 'equalto', '/' ~ funkwhale_verify_api_container) | first }}
         funkwhale_verify_frontend: >-
-          {{ funkwhale_verify_containers | selectattr('Name', 'equalto', '/' ~ funkwhale_verify_frontend_container) | first }}
+          {{ funkwhale_containers | selectattr('Name', 'equalto', '/' ~ funkwhale_verify_frontend_container) | first }}
       ansible.builtin.assert:
         that:
           - funkwhale_verify_api.State.Running
