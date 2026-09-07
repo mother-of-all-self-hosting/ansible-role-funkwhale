@@ -474,12 +474,12 @@
     - name: Inspect the Funkwhale containers
       ansible.builtin.command:
         cmd: "docker container inspect {{ funkwhale_verify_api_container }} {{ funkwhale_verify_frontend_container }}"
-      register: funkwhale_container_inspection
+      register: funkwhale_container_raw
       changed_when: false
 
     - name: Assert both Funkwhale containers run the images this role installs
       vars:
-        funkwhale_containers: "{{ funkwhale_container_inspection.stdout | from_json }}"
+        funkwhale_containers: "{{ funkwhale_container_raw.stdout | from_json }}"
         funkwhale_verify_api: >-
           {{ funkwhale_containers | selectattr('Name', 'equalto', '/' ~ funkwhale_verify_api_container) | first }}
         funkwhale_verify_frontend: >-
