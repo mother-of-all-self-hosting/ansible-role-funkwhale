@@ -48,81 +48,87 @@
         funkwhale_verify_api_container: "{{ funkwhale_defaults.funkwhale_identifier }}-api"
         funkwhale_verify_frontend_container: "{{ funkwhale_defaults.funkwhale_identifier }}-frontend"
 
-    - name: Wait for Funkwhale API service to become active (up to 180s)
-      ansible.builtin.systemd:
+    - name: Wait for the Funkwhale API systemd service to become active (up to 180s)
+      ansible.builtin.systemd_service:
         name: funkwhale-api.service
       register: funkwhale_service_api
       until: funkwhale_service_api.status.ActiveState == 'active'
       retries: 36
       delay: 5
+      # So that giving up is reported by the assertion below rather than as a
+      # wall of systemd unit properties.
+      failed_when: false
 
-    - name: Assert Funkwhale API service is active
+    # `Restart=always` in the systemd unit means that even a container which crashes
+    # and gets restarted reads as active here, so this is a precondition rather than
+    # a result.
+    - name: Assert the Funkwhale API systemd service is active
       ansible.builtin.assert:
         that: funkwhale_service_api.status.ActiveState == 'active'
-        fail_msg: "funkwhale-api.service not active ({{ funkwhale_service_api.status.ActiveState }})"
+        fail_msg: "funkwhale-api.service is not active {{ funkwhale_service_api.status.ActiveState }})"
         success_msg: "funkwhale-api.service is active"
 
-    - name: Retrieve Funkwhale API service log for debugging
+    - name: Retrieve the Funkwhale API systemd service log for debugging
       when: funkwhale_debug_service_enabled | bool
       ansible.builtin.command:
         cmd: journalctl -xeu funkwhale-api.service
       changed_when: false
 
-    - name: Wait for Funkwhale frontend service to become active (up to 180s)
-      ansible.builtin.systemd:
+    - name: Wait for the Funkwhale frontend systemd service to become active (up to 180s)
+      ansible.builtin.systemd_service:
         name: funkwhale-frontend.service
       register: funkwhale_service_frontend
       until: funkwhale_service_frontend.status.ActiveState == 'active'
       retries: 36
       delay: 5
 
-    - name: Assert Funkwhale frontend service is active
+    - name: Assert the Funkwhale frontend systemd service is active
       ansible.builtin.assert:
         that: funkwhale_service_frontend.status.ActiveState == 'active'
-        fail_msg: "funkwhale-frontend.service not active ({{ funkwhale_service_frontend.status.ActiveState }})"
+        fail_msg: "funkwhale-frontend.service is not active {{ funkwhale_service_frontend.status.ActiveState }})"
         success_msg: "funkwhale-frontend.service is active"
 
-    - name: Retrieve Funkwhale frontend service log for debugging
+    - name: Retrieve the Funkwhale frontend systemd service log for debugging
       when: funkwhale_debug_service_enabled | bool
       ansible.builtin.command:
         cmd: journalctl -xeu funkwhale-frontend.service
       changed_when: false
 
-    - name: Wait for Funkwhale celery beat service to become active (up to 180s)
-      ansible.builtin.systemd:
+    - name: Wait for the Funkwhale celery beat systemd service to become active (up to 180s)
+      ansible.builtin.systemd_service:
         name: funkwhale-celery-beat.service
       register: funkwhale_service_celery_beat
       until: funkwhale_service_celery_beat.status.ActiveState == 'active'
       retries: 36
       delay: 5
 
-    - name: Assert Funkwhale celery beat service is active
+    - name: Assert the Funkwhale celery beat systemd service is active
       ansible.builtin.assert:
         that: funkwhale_service_celery_beat.status.ActiveState == 'active'
-        fail_msg: "funkwhale-celery-beat.service not active ({{ funkwhale_service_celery_beat.status.ActiveState }})"
+        fail_msg: "funkwhale-celery-beat.service is not active {{ funkwhale_service_celery_beat.status.ActiveState }})"
         success_msg: "funkwhale-celery-beat.service is active"
 
-    - name: Retrieve Funkwhale celery beat service log for debugging
+    - name: Retrieve the Funkwhale celery beat systemd service log for debugging
       when: funkwhale_debug_service_enabled | bool
       ansible.builtin.command:
         cmd: journalctl -xeu funkwhale-celery-beat.service
       changed_when: false
 
-    - name: Wait for Funkwhale celery worker service to become active (up to 180s)
-      ansible.builtin.systemd:
+    - name: Wait for the Funkwhale celery worker systemd service to become active (up to 180s)
+      ansible.builtin.systemd_service:
         name: funkwhale-celery-worker.service
       register: funkwhale_service_celery_worker
       until: funkwhale_service_celery_worker.status.ActiveState == 'active'
       retries: 36
       delay: 5
 
-    - name: Assert Funkwhale celery worker service is active
+    - name: Assert the Funkwhale celery worker systemd service is active
       ansible.builtin.assert:
         that: funkwhale_service_celery_worker.status.ActiveState == 'active'
-        fail_msg: "funkwhale-celery-worker.service not active ({{ funkwhale_service_celery_worker.status.ActiveState }})"
+        fail_msg: "funkwhale-celery-worker.service is not active {{ funkwhale_service_celery_worker.status.ActiveState }})"
         success_msg: "funkwhale-celery-worker.service is active"
 
-    - name: Retrieve Funkwhale celery worker service log for debugging
+    - name: Retrieve the Funkwhale celery worker systemd service log for debugging
       when: funkwhale_debug_service_enabled | bool
       ansible.builtin.command:
         cmd: journalctl -xeu funkwhale-celery-worker.service
@@ -131,21 +137,21 @@
     - name: Run if watch imports systemd service is enabled
       when: funkwhale_watch_imports_enabled
       block:
-        - name: Wait for Funkwhale watch imports service to become active (up to 180s)
-          ansible.builtin.systemd:
+        - name: Wait for the Funkwhale watch imports systemd service to become active (up to 180s)
+          ansible.builtin.systemd_service:
             name: funkwhale-watch-imports.service
           register: funkwhale_service_watch_imports
           until: funkwhale_service_watch_imports.status.ActiveState == 'active'
           retries: 36
           delay: 5
 
-        - name: Assert Funkwhale watch imports service is active
+        - name: Assert the Funkwhale watch imports systemd service is active
           ansible.builtin.assert:
             that: funkwhale_service_watch_imports.status.ActiveState == 'active'
-            fail_msg: "funkwhale-watch-imports.service not active ({{ funkwhale_service_watch_imports.status.ActiveState }})"
+            fail_msg: "funkwhale-watch-imports.service is not active {{ funkwhale_service_watch_imports.status.ActiveState }})"
             success_msg: "funkwhale-watch-imports.service is active"
 
-        - name: Retrieve Funkwhale watch imports service log for debugging
+        - name: Retrieve the Funkwhale watch imports systemd service log for debugging
           when: funkwhale_debug_service_enabled | bool
           ansible.builtin.command:
             cmd: journalctl -xeu funkwhale-watch-imports.service
