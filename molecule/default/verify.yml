@@ -243,11 +243,8 @@
         that:
           - funkwhale_nodeinfo.json.software.name == 'funkwhale'
           - funkwhale_nodeinfo.json.software.version == funkwhale_defaults.funkwhale_version | string
-        fail_msg: >-
-          The running Funkwhale reports
-          {{ funkwhale_nodeinfo.json.software.version | default('no version at all') }},
-          but this role installs {{ funkwhale_defaults.funkwhale_version }}
-        success_msg: "The running Funkwhale reports {{ funkwhale_nodeinfo.json.software.version }}"
+        fail_msg: "Funkwhale reports {{ funkwhale_nodeinfo.json.software.version | default('none') }}, expected {{ funkwhale_defaults.funkwhale_version }}"
+        success_msg: "Funkwhale reports {{ funkwhale_nodeinfo.json.software.version }}"
 
     # `FUNKWHALE_HOSTNAME` from `templates/env_api.j2` is what Funkwhale builds
     # its federation identity out of. An API started without it names its
