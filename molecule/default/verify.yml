@@ -71,7 +71,7 @@
     - name: Retrieve the Funkwhale API systemd service log for debugging
       when: funkwhale_debug_service_enabled | bool
       ansible.builtin.command:
-        cmd: journalctl -xeu funkwhale-api.service
+        cmd: journalctl --no-pager --output=cat --unit=funkwhale-api.service
       changed_when: false
 
     - name: Wait for the Funkwhale frontend systemd service to become active (up to 180s)
@@ -91,7 +91,7 @@
     - name: Retrieve the Funkwhale frontend systemd service log for debugging
       when: funkwhale_debug_service_enabled | bool
       ansible.builtin.command:
-        cmd: journalctl -xeu funkwhale-frontend.service
+        cmd: journalctl --no-pager --output=cat --unit=funkwhale-frontend.service
       changed_when: false
 
     - name: Wait for the Funkwhale celery beat systemd service to become active (up to 180s)
@@ -111,7 +111,7 @@
     - name: Retrieve the Funkwhale celery beat systemd service log for debugging
       when: funkwhale_debug_service_enabled | bool
       ansible.builtin.command:
-        cmd: journalctl -xeu funkwhale-celery-beat.service
+        cmd: journalctl --no-pager --output=cat --unit=funkwhale-celery-beat.service
       changed_when: false
 
     - name: Wait for the Funkwhale celery worker systemd service to become active (up to 180s)
@@ -131,7 +131,7 @@
     - name: Retrieve the Funkwhale celery worker systemd service log for debugging
       when: funkwhale_debug_service_enabled | bool
       ansible.builtin.command:
-        cmd: journalctl -xeu funkwhale-celery-worker.service
+        cmd: journalctl --no-pager --output=cat --unit=funkwhale-celery-worker.service
       changed_when: false
 
     - name: Run if watch imports systemd service is enabled
@@ -154,7 +154,7 @@
         - name: Retrieve the Funkwhale watch imports systemd service log for debugging
           when: funkwhale_debug_service_enabled | bool
           ansible.builtin.command:
-            cmd: journalctl -xeu funkwhale-watch-imports.service
+            cmd: journalctl --no-pager --output=cat --unit=funkwhale-watch-imports.service
           changed_when: false
 
     # An active unit is a weak statement for every one of these services.
