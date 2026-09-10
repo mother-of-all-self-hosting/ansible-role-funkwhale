@@ -40,14 +40,6 @@
         file: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') }}/defaults/main.yml"
         name: funkwhale_defaults
 
-    # Composed from the leaf `funkwhale_identifier` the same way
-    # defaults/main.yml composes them, rather than read from the Jinja-derived
-    # variables that carry them there.
-    - name: Name the Funkwhale containers this scenario started
-      ansible.builtin.set_fact:
-        funkwhale_verify_api_container: "{{ funkwhale_defaults.funkwhale_identifier }}-api"
-        funkwhale_verify_frontend_container: "{{ funkwhale_defaults.funkwhale_identifier }}-frontend"
-
     - name: Wait for the Funkwhale API systemd service to become active (up to 180s)
       ansible.builtin.systemd_service:
         name: funkwhale-api.service
@@ -254,7 +246,7 @@
     - name: Create a Funkwhale superuser
       ansible.builtin.command:
         cmd: >-
-          docker exec {{ funkwhale_verify_api_container }}
+          docker exec funkwhale-api
           bash -c 'funkwhale-manage fw users create
           --username {{ funkwhale_verify_username | quote }}
           --email {{ funkwhale_verify_email | quote }}
@@ -284,7 +276,7 @@
         argv:
           - docker
           - exec
-          - "{{ funkwhale_verify_api_container }}"
+          - funkwhale-api
           - funkwhale-manage
           - shell
           - -c
@@ -455,7 +447,7 @@
     - name: Wait for the Funkwhale Celery worker to answer a ping through Valkey (up to 5m)
       ansible.builtin.command:
         cmd: >-
-          docker exec {{ funkwhale_verify_api_container }}
+          docker exec funkwhale-api
           celery --app=funkwhale_api.taskapp inspect ping --timeout 20
       register: funkwhale_celery_ping
       until: funkwhale_celery_ping.rc == 0 and 'pong' in funkwhale_celery_ping.stdout
@@ -479,7 +471,7 @@
     # started rather than something left behind.
     - name: Inspect the Funkwhale containers
       ansible.builtin.command:
-        cmd: "docker container inspect {{ funkwhale_verify_api_container }} {{ funkwhale_verify_frontend_container }}"
+        cmd: "docker container inspect funkwhale-api funkwhale-frontend"
       register: funkwhale_container_raw
       changed_when: false
 
@@ -487,9 +479,9 @@
       vars:
         funkwhale_containers: "{{ funkwhale_container_raw.stdout | from_json }}"
         funkwhale_verify_api: >-
-          {{ funkwhale_containers | selectattr('Name', 'equalto', '/' ~ funkwhale_verify_api_container) | first }}
+          {{ funkwhale_containers | selectattr('Name', 'equalto', '/' ~ 'funkwhale-api') | first }}
         funkwhale_verify_frontend: >-
-          {{ funkwhale_containers | selectattr('Name', 'equalto', '/' ~ funkwhale_verify_frontend_container) | first }}
+          {{ funkwhale_containers | selectattr('Name', 'equalto', '/' ~ 'funkwhale-frontend') | first }}
       ansible.builtin.assert:
         that:
           - funkwhale_verify_api.State.Running
