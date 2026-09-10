@@ -32,6 +32,8 @@
       -d {{ funkwhale_database_name | quote }} -tAc
 
   tasks:
+    - name: Verify that Funkwhale works
+      block:
     # The role is not included in this playbook, so its defaults are not in
     # scope. Reading defaults/main.yml directly ties the version assertion
     # below.
@@ -512,3 +514,30 @@
           - "Library in Postgres: {{ funkwhale_db_library_row.stdout | trim }}"
           - "Postgres tables: {{ funkwhale_db_tables.stdout | trim }}"
           - "Celery worker: {{ funkwhale_celery_ping.stdout_lines | select('search', 'node online') | join(' ') }}"
+
+      rescue:
+        # Whatever went wrong, the reason is almost always in the systemd service log.
+        - name: Retrieve the Funkwhale API systemd service log
+          ansible.builtin.command:
+            cmd: journalctl --no-pager --output=cat --unit=funkwhale-api.service
+          register: funkwhale_api_service_log
+          changed_when: false
+
+        - name: Show the Funkwhale API systemd service log
+          ansible.builtin.debug:
+            var: funkwhale_api_service_log.stdout_lines
+
+        # Whatever went wrong, the reason is almost always in the systemd service log.
+        - name: Retrieve the Funkwhale frontend systemd service log
+          ansible.builtin.command:
+            cmd: journalctl --no-pager --output=cat --unit=funkwhale-frontend.service
+          register: funkwhale_frontend_service_log
+          changed_when: false
+
+        - name: Show the Funkwhale systemd service log
+          ansible.builtin.debug:
+            var: funkwhale_frontend_service_log.stdout_lines
+
+        - name: Fail because verification did not pass
+          ansible.builtin.fail:
+            msg: "Funkwhale verification failed. The systemd service log is printed above."
