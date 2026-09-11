@@ -31,6 +31,14 @@
       psql -U {{ funkwhale_database_username | quote }}
       -d {{ funkwhale_database_name | quote }} -tAc
 
+    funkwhale_verify_units:
+      - funkwhale-api.service
+      - funkwhale-frontend.service
+      - funkwhale-celery-beat.service
+      - funkwhale-celery-worker.service
+      - postgres.service
+      - valkey.service
+
   tasks:
     - name: Verify that Funkwhale works
       block:
@@ -42,13 +50,14 @@
             file: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') }}/defaults/main.yml"
             name: funkwhale_defaults
 
-        - name: Wait for the Funkwhale API systemd service to become active (up to 180s)
+        - name: Wait for the Funkwhale systemd services to become active (up to 180s each)
           ansible.builtin.systemd_service:
-            name: funkwhale-api.service
-          register: funkwhale_service_api
-          until: funkwhale_service_api.status.ActiveState == 'active'
+            name: "{{ item }}"
+          register: funkwhale_services
+          until: funkwhale_services.status.ActiveState == 'active'
           retries: 36
           delay: 5
+          loop: "{{ funkwhale_verify_units }}"
           # So that giving up is reported by the assertion below rather than as a
           # wall of systemd unit properties.
           failed_when: false
@@ -56,100 +65,20 @@
         # `Restart=always` in the systemd unit means that even a container which crashes
         # and gets restarted reads as active here, so this is a precondition rather than
         # a result.
-        - name: Assert the Funkwhale API systemd service is active
+        - name: Assert the Funkwhale systemd services are active
           ansible.builtin.assert:
-            that: funkwhale_service_api.status.ActiveState == 'active'
-            fail_msg: "funkwhale-api.service is not active {{ funkwhale_service_api.status.ActiveState }})"
-            success_msg: "funkwhale-api.service is active"
+            that: funkwhale_services.results | map(attribute='status.ActiveState') | unique | list == ['active']
+            fail_msg: >-
+              Not every service is active:
+              {{ dict(funkwhale_verify_units | zip(funkwhale_services.results | map(attribute='status.ActiveState'))) }}
+            success_msg: "Funkwhale systemd service is active"
 
-        - name: Retrieve the Funkwhale API systemd service log for debugging
+        - name: Retrieve the Funkwhale systemd services log for debugging
           when: funkwhale_debug_service_enabled | bool
           ansible.builtin.command:
-            cmd: journalctl --no-pager --output=cat --unit=funkwhale-api.service
+            cmd: "journalctl --no-pager --output=cat --unit={{ item }}"
           changed_when: false
-
-        - name: Wait for the Funkwhale frontend systemd service to become active (up to 180s)
-          ansible.builtin.systemd_service:
-            name: funkwhale-frontend.service
-          register: funkwhale_service_frontend
-          until: funkwhale_service_frontend.status.ActiveState == 'active'
-          retries: 36
-          delay: 5
-
-        - name: Assert the Funkwhale frontend systemd service is active
-          ansible.builtin.assert:
-            that: funkwhale_service_frontend.status.ActiveState == 'active'
-            fail_msg: "funkwhale-frontend.service is not active {{ funkwhale_service_frontend.status.ActiveState }})"
-            success_msg: "funkwhale-frontend.service is active"
-
-        - name: Retrieve the Funkwhale frontend systemd service log for debugging
-          when: funkwhale_debug_service_enabled | bool
-          ansible.builtin.command:
-            cmd: journalctl --no-pager --output=cat --unit=funkwhale-frontend.service
-          changed_when: false
-
-        - name: Wait for the Funkwhale celery beat systemd service to become active (up to 180s)
-          ansible.builtin.systemd_service:
-            name: funkwhale-celery-beat.service
-          register: funkwhale_service_celery_beat
-          until: funkwhale_service_celery_beat.status.ActiveState == 'active'
-          retries: 36
-          delay: 5
-
-        - name: Assert the Funkwhale celery beat systemd service is active
-          ansible.builtin.assert:
-            that: funkwhale_service_celery_beat.status.ActiveState == 'active'
-            fail_msg: "funkwhale-celery-beat.service is not active {{ funkwhale_service_celery_beat.status.ActiveState }})"
-            success_msg: "funkwhale-celery-beat.service is active"
-
-        - name: Retrieve the Funkwhale celery beat systemd service log for debugging
-          when: funkwhale_debug_service_enabled | bool
-          ansible.builtin.command:
-            cmd: journalctl --no-pager --output=cat --unit=funkwhale-celery-beat.service
-          changed_when: false
-
-        - name: Wait for the Funkwhale celery worker systemd service to become active (up to 180s)
-          ansible.builtin.systemd_service:
-            name: funkwhale-celery-worker.service
-          register: funkwhale_service_celery_worker
-          until: funkwhale_service_celery_worker.status.ActiveState == 'active'
-          retries: 36
-          delay: 5
-
-        - name: Assert the Funkwhale celery worker systemd service is active
-          ansible.builtin.assert:
-            that: funkwhale_service_celery_worker.status.ActiveState == 'active'
-            fail_msg: "funkwhale-celery-worker.service is not active {{ funkwhale_service_celery_worker.status.ActiveState }})"
-            success_msg: "funkwhale-celery-worker.service is active"
-
-        - name: Retrieve the Funkwhale celery worker systemd service log for debugging
-          when: funkwhale_debug_service_enabled | bool
-          ansible.builtin.command:
-            cmd: journalctl --no-pager --output=cat --unit=funkwhale-celery-worker.service
-          changed_when: false
-
-        - name: Run if watch imports systemd service is enabled
-          when: funkwhale_watch_imports_enabled
-          block:
-            - name: Wait for the Funkwhale watch imports systemd service to become active (up to 180s)
-              ansible.builtin.systemd_service:
-                name: funkwhale-watch-imports.service
-              register: funkwhale_service_watch_imports
-              until: funkwhale_service_watch_imports.status.ActiveState == 'active'
-              retries: 36
-              delay: 5
-
-            - name: Assert the Funkwhale watch imports systemd service is active
-              ansible.builtin.assert:
-                that: funkwhale_service_watch_imports.status.ActiveState == 'active'
-                fail_msg: "funkwhale-watch-imports.service is not active {{ funkwhale_service_watch_imports.status.ActiveState }})"
-                success_msg: "funkwhale-watch-imports.service is active"
-
-            - name: Retrieve the Funkwhale watch imports systemd service log for debugging
-              when: funkwhale_debug_service_enabled | bool
-              ansible.builtin.command:
-                cmd: journalctl --no-pager --output=cat --unit=funkwhale-watch-imports.service
-              changed_when: false
+          loop: "{{ funkwhale_verify_units }}"
 
         # An active unit is a weak statement for every one of these services.
         # Everything below therefore talks to the running application instead of to systemd.
@@ -501,11 +430,7 @@
         - name: Show the Funkwhale verification summary
           ansible.builtin.debug:
             msg:
-              - "Funkwhale API systemd: {{ funkwhale_service_api.status.ActiveState }}"
-              - "Funkwhale frontend systemd: {{ funkwhale_service_frontend.status.ActiveState }}"
-              - "Funkwhale celery beat systemd: {{ funkwhale_service_celery_beat.status.ActiveState }}"
-              - "Funkwhale celery worker systemd: {{ funkwhale_service_celery_worker.status.ActiveState }}"
-              - "Funkwhale watch imports systemd: {{ funkwhale_service_watch_imports.status.ActiveState if funkwhale_watch_imports_enabled else 'disabled' }}"
+              - "Funkwhale systemd: {% for unit, state in funkwhale_verify_units | zip(funkwhale_services.results | map(attribute='status.ActiveState')) %}{{ unit }} ({{ state }}){% if not loop.last %}, {% endif %}{% endfor %}"
               - "Instance settings served from the database: {{ funkwhale_settings.json | length }}"
               - "Version: {{ funkwhale_nodeinfo.json.software.version }} (role installs {{ funkwhale_defaults.funkwhale_version }})"
               - "Federation service actor: {{ funkwhale_nodeinfo.json.metadata.actorId }}"
