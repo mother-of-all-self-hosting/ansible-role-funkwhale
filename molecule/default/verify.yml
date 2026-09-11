@@ -431,14 +431,14 @@
           ansible.builtin.debug:
             msg:
               - "Funkwhale systemd: {% for unit, state in funkwhale_verify_units | zip(funkwhale_services.results | map(attribute='status.ActiveState')) %}{{ unit }} ({{ state }}){% if not loop.last %}, {% endif %}{% endfor %}"
-              - "Instance settings served from the database: {{ funkwhale_settings.json | length }}"
-              - "Version: {{ funkwhale_nodeinfo.json.software.version }} (role installs {{ funkwhale_defaults.funkwhale_version }})"
-              - "Federation service actor: {{ funkwhale_nodeinfo.json.metadata.actorId }}"
-              - "Account: {{ funkwhale_me.json.full_username }} (superuser: {{ funkwhale_me.json.is_superuser }})"
-              - "Library over the API: {{ funkwhale_library_created.json.name }} ({{ funkwhale_library_created.json.uuid }})"
-              - "Library in Postgres: {{ funkwhale_db_library_row.stdout | trim }}"
+              - "Funkwhale instance settings served from the database: {{ funkwhale_settings.json | length }}"
+              - "Funkwhale version: {{ funkwhale_nodeinfo.json.software.version }}"
+              - "Funkwhale federation service actor: {{ funkwhale_nodeinfo.json.metadata.actorId }}"
+              - "Funkwhale account: {{ funkwhale_me.json.full_username }} (superuser: {{ funkwhale_me.json.is_superuser }})"
+              - "Funkwhale library over the API: {{ funkwhale_library_created.json.name }} ({{ funkwhale_library_created.json.uuid }})"
+              - "Funkwhale library in Postgres: {{ funkwhale_db_library_row.stdout | trim }}"
+              - "Funkwhale Celery worker: {{ funkwhale_celery_ping.stdout_lines | select('search', 'node online') | join(' ') }}"
               - "Postgres tables: {{ funkwhale_db_tables.stdout | trim }}"
-              - "Celery worker: {{ funkwhale_celery_ping.stdout_lines | select('search', 'node online') | join(' ') }}"
 
       rescue:
         # Whatever went wrong, the reason is almost always in the systemd service log.
