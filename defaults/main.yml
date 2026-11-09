@@ -82,7 +82,7 @@ funkwhale_database_socket_path_host: ""
 
 # cf. https://django-environ.readthedocs.io/en/latest/index.html
 funkwhale_environment_variables_database_url: |-
-  postgres://{{ funkwhale_database_username }}:{{ funkwhale_database_password }}@
+  postgres://{{ funkwhale_database_username | urlencode | replace('/', '%2F') }}:{{ funkwhale_database_password | urlencode | replace('/', '%2F') }}@
   {%- if funkwhale_database_socket_enabled -%}
   /{{ funkwhale_database_name }}
   {%- else -%}
@@ -119,9 +119,9 @@ funkwhale_redis_socket_path_host: ""
 
 funkwhale_redis_url: |-
   {% if funkwhale_redis_socket_enabled %}
-  unix://{{ funkwhale_redis_socket_path_container }}{{ funkwhale_redis_socket_path }}?db={{ funkwhale_redis_database }}{{ '&password=' + funkwhale_redis_password if funkwhale_redis_password }}
+  unix://{{ funkwhale_redis_socket_path_container }}{{ funkwhale_redis_socket_path }}?db={{ funkwhale_redis_database }}{{ '&password=' + (funkwhale_redis_password | urlencode | replace('/', '%2F')) if funkwhale_redis_password }}
   {% else %}
-  redis://:{{ funkwhale_redis_password }}@{{ funkwhale_redis_hostname }}:{{ funkwhale_redis_port }}/{{ funkwhale_redis_database }}
+  redis://:{{ funkwhale_redis_password | urlencode | replace('/', '%2F') }}@{{ funkwhale_redis_hostname }}:{{ funkwhale_redis_port }}/{{ funkwhale_redis_database }}
   {%- endif -%}
 
 ########################################################################
@@ -379,7 +379,7 @@ funkwhale_api_environment_variables_email_config_port: ""
 funkwhale_api_environment_variables_email_config_username: ""
 funkwhale_api_environment_variables_email_config_password: ""
 
-funkwhale_api_environment_variables_email_config: "{{ funkwhale_api_environment_variables_email_config_protocol }}{{ funkwhale_api_environment_variables_email_config_username }}:{{ funkwhale_api_environment_variables_email_config_password }}@{{ funkwhale_api_environment_variables_email_config_host }}:{{ funkwhale_api_environment_variables_email_config_port }}"
+funkwhale_api_environment_variables_email_config: "{{ funkwhale_api_environment_variables_email_config_protocol }}{{ funkwhale_api_environment_variables_email_config_username | urlencode | replace('/', '%2F') }}:{{ funkwhale_api_environment_variables_email_config_password | urlencode | replace('/', '%2F') }}@{{ funkwhale_api_environment_variables_email_config_host }}:{{ funkwhale_api_environment_variables_email_config_port }}"
 
 funkwhale_api_environment_variables_account_email_verification_enforce: false
 
