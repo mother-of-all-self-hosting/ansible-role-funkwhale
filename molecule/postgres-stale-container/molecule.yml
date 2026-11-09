@@ -53,8 +53,8 @@ provisioner:
         funkwhale_watch_imports_enabled: false # Default value
 
         # Variables required for Funkwhale to connect to the Postgres database (via Unix socket)
-        funkwhale_database_username: my_database_username
-        funkwhale_database_password: my_database_password
+        funkwhale_database_username: /#@my_database_username?%
+        funkwhale_database_password: /#@my_database_password?%
         funkwhale_database_sslmode: disable
         funkwhale_database_name: funkwhale
         funkwhale_database_socket_enabled: true
