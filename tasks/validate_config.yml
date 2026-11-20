@@ -40,9 +40,6 @@
   with_items:
     - { "name": "funkwhale_uid", when: true }
     - { "name": "funkwhale_gid", when: true }
-    - { "name": "funkwhale_hostname", when: true }
-    - { "name": "funkwhale_path_prefix", when: true }
-    - { "name": "funkwhale_container_network", when: true }
     - { "name": "funkwhale_database_socket_path_host", when: "{{ funkwhale_database_socket_enabled }}" }
     - { "name": "funkwhale_database_hostname", when: "{{ not funkwhale_database_socket_enabled }}" }
     - { "name": "funkwhale_database_password", when: true }
