@@ -63,12 +63,29 @@
   delay: "{{ devture_playbook_help_container_retries_delay }}"
   until: funkwhale_container_images_pull_result is not failed
 
-- name: Ensure Funkwhale container network is created
-  community.docker.docker_network:
-    enable_ipv6: "{{ devture_systemd_docker_base_ipv6_enabled }}"
-    name: "{{ funkwhale_container_network }}"
-    driver: bridge
-    driver_options: "{{ devture_systemd_docker_base_container_networks_driver_options }}"
+- name: Run if 'host' network is not specified to be used
+  when: funkwhale_container_network != 'host'
+  block:
+    - name: Ensure Funkwhale container network is created via community.docker.docker_network
+      when: devture_systemd_docker_base_container_network_creation_method == 'ansible-module'
+      community.docker.docker_network:
+        enable_ipv6: "{{ devture_systemd_docker_base_ipv6_enabled }}"
+        name: "{{ funkwhale_container_network }}"
+        driver: bridge
+        driver_options: "{{ devture_systemd_docker_base_container_networks_driver_options }}"
+      register: funkwhale_network_creation_result
+
+    - name: Ensure Funkwhale container network is created via ansible.builtin.command
+      when: devture_systemd_docker_base_container_network_creation_method == 'command'
+      ansible.builtin.command:
+        cmd: >-
+          {{ devture_systemd_docker_base_host_command_docker }} network create
+          {% if devture_systemd_docker_base_ipv6_enabled %}--ipv6{% endif %}
+          {{ devture_systemd_docker_base_container_networks_driver_options_string }}
+          {{ funkwhale_container_network }}
+      register: funkwhale_network_creation_result
+      changed_when: funkwhale_network_creation_result.rc == 0
+      failed_when: funkwhale_network_creation_result.rc != 0 and 'already exists' not in funkwhale_network_creation_result.stderr
 
 - name: Ensure Funkwhale systemd services are present
   ansible.builtin.template:

@@ -18,7 +18,7 @@
       path: "{{ devture_systemd_docker_base_systemd_path }}/{{ funkwhale_watch_imports_identifier }}.service"
 
 - name: Ensure Funkwhale container network does not exist
-  when: funkwhale_container_network_deletion_enabled
+  when: funkwhale_container_network_deletion_enabled and funkwhale_container_network != 'host'
   block:
     - name: Ensure Funkwhale container network does not exist via community.docker.docker_network
       when: devture_systemd_docker_base_container_network_creation_method == 'ansible-module'
